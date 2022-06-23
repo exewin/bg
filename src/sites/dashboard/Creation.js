@@ -5,7 +5,7 @@ import {ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material';
 import { Portrait } from '../../components/Portrait';
 import { selectPortrait } from '../../utils/portraitController';
 import { createCharacterDB, userExistsDB } from '../../firebase';
-import { useAuth } from "../../AuthContext"
+import { useAuth } from "../../contexts/AuthContext"
 import { useNavigate } from 'react-router-dom';
 import { CenteredLoading } from '../../components/CenteredLoading';
 import { Background } from '../../components/Background';

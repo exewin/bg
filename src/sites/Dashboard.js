@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAuth } from "../AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 import {Button} from "@mui/material"
 import { LogoutButton } from '../components/LogoutButton'
 import { Outlet, useNavigate } from 'react-router-dom'

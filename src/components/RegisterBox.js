@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import {useNavigate} from "react-router-dom"
 import {Box, Button, TextField, Alert, Typography} from '@mui/material'
-import { useAuth } from "../AuthContext"
+import { useAuth } from "../contexts/AuthContext"
 
 export const RegisterBox = () => {
 

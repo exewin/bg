@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAuth } from '../../../AuthContext'
+import { useAuth } from '../../../contexts/AuthContext'
 import { CenteredLoading } from '../../../components/CenteredLoading'
 import { Portrait } from '../../../components/Portrait'
 import { addStatDB, getUserInfoDB, userExistsDB } from '../../../firebase'
