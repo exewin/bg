@@ -21,7 +21,7 @@ padding: 5px;
 const SelectedMenu = styled.div` 
 border-right: 0.5em solid antiquewhite;
 background-color: gray;
-padding: 5px;
+padding: 2px;
 `
 
 const Color = styled.span`

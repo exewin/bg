@@ -6,6 +6,8 @@ import { addStatDB, getUserInfoDB, userExistsDB } from '../../../firebase'
 import {AddBox} from '@mui/icons-material';
 import styled from 'styled-components'
 import { Xpbar } from '../../../components/Xpbar'
+import { Background } from '../../../components/Background'
+import Bonfire from "../../../assets/bgs/Bonfire.jpg"
 
 const AddButton = styled.button` 
 `
@@ -14,6 +16,8 @@ const StatGrid = styled.div`
 display: grid;
 grid-template-columns: 5em 5em 3em;
 font-family: 'Joan', serif;
+color: white;
+text-shadow: 1px 1px black;
 `
 
 
@@ -45,7 +49,7 @@ export const Character = () => {
 
     return (
         <>
-            {character ? <>
+            {character ? <Background img={Bonfire}>
                 <Portrait index={character?.information?.portrait} charClass={character?.information?.charClass} name={character?.information?.name}/>
                 <Xpbar xp={character?.stats?.xp} maxXp={character?.stats?.maxXp} />
                 <StatGrid>
@@ -76,7 +80,7 @@ export const Character = () => {
                 </StatGrid>
                 <div>Gold: {character?.stats?.money}</div>
                 {error}
-            </> : <CenteredLoading/> 
+            </Background> : <CenteredLoading/> 
             }
         </>
     )

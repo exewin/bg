@@ -1,7 +1,11 @@
 import React from 'react'
+import backgroundImage from "../../../assets/bgs/Redsky.jpg"
+import { Background } from '../../../components/Background'
 
 export const Mission = () => {
   return (
-    <div>Mission</div>
+    <Background img={backgroundImage}>
+
+    </Background>
   )
 }

@@ -8,6 +8,8 @@ import { createCharacterDB, userExistsDB } from '../../firebase';
 import { useAuth } from "../../AuthContext"
 import { useNavigate } from 'react-router-dom';
 import { CenteredLoading } from '../../components/CenteredLoading';
+import { Background } from '../../components/Background';
+import Ship from "../../assets/bgs/Ship.jpg"
 
 
 const PortraitBox = styled.div`
@@ -43,6 +45,7 @@ export const Creation = () => {
 
 
     return (
+        <Background img={Ship}>
         <Box
         sx={{
             borderRadius: '5px',
@@ -97,5 +100,6 @@ export const Creation = () => {
             </>
             }
         </Box>
+        </Background>
     )
 }
