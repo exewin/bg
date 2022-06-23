@@ -4,8 +4,11 @@ import { AuthProvider } from "./AuthContext"
 import {Login} from "./sites/Login"
 import {Dashboard} from "./sites/Dashboard"
 import {Creation} from "./sites/dashboard/Creation"
-import { Character } from "./sites/dashboard/gamescreen/Character"
 import { Gamescreen } from "./sites/dashboard/Gamescreen"
+import { Character } from "./sites/dashboard/gamescreen/Character"
+import { Mission } from "./sites/dashboard/gamescreen/Mission"
+import { Chat } from "./sites/dashboard/gamescreen/Chat"
+import { Work } from "./sites/dashboard/gamescreen/Work"
 
 export const App = () => {
   return(
@@ -17,8 +20,9 @@ export const App = () => {
               <Route path="creation" element={<Creation/>}/>
               <Route path="gamescreen" element={<Gamescreen/>}>
                 <Route path="character" element={<Character/>}/>
-                <Route path="gamescreen" element={<Gamescreen/>}/>
-                <Route path="gamescreen" element={<Gamescreen/>}/>
+                <Route path="mission" element={<Mission/>}/>
+                <Route path="chat" element={<Chat/>}/>
+                <Route path="work" element={<Work/>}/>
               </Route>
             </Route>
           </Routes>

@@ -30,14 +30,15 @@ color: ${props=>props.light === props.match ? 'yellow' : 'white'};
 
 export const Gamescreen = () => {
 
-  const location = useLocation().pathname.split("/")
+  const location = useLocation().pathname.split("/")[3]
 
   return (
     <Container>
         <SideMenu>
-        <Link to={"character"}><Button variant="contained" size="large"><Color light={location[3]} match="character">Character</Color></Button></Link>
-            <Button variant="contained" size="large">Mission</Button>
-            <Button variant="contained" size="large">Chat</Button>
+          <Link to={"character"}><Button variant="contained" size="large"><Color light={location} match="character">Character</Color></Button></Link>
+          <Link to={"mission"}><Button variant="contained" size="large"><Color light={location} match="mission">Mission</Color></Button></Link>
+          <Link to={"work"}><Button variant="contained" size="large"><Color light={location} match="work">Work</Color></Button></Link>
+          <Link to={"chat"}><Button variant="contained" size="large"><Color light={location} match="chat">Chat</Color></Button></Link>
         </SideMenu>
         <SelectedMenu>
             <Outlet/>
