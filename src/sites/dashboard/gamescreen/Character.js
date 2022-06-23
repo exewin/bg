@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { Xpbar } from '../../../components/Xpbar'
 import { Background } from '../../../components/Background'
 import Bonfire from "../../../assets/bgs/Bonfire.jpg"
+import { useCharacter } from '../../../contexts/CharacterContext'
 
 const AddButton = styled.button` 
 `
@@ -22,30 +23,8 @@ text-shadow: 1px 1px black;
 
 
 export const Character = () => {
-    const [character, setCharacter] = useState(null)
-    const [error, setError] = useState("")
-    const {user} = useAuth()
 
-    console.log(character)
-
-    useEffect(()=>{
-        if(user?.uid)
-            userExistsDB(user.uid).then(response =>{
-                if(response)
-                    getUserInfoDB(user.uid).then(response => setCharacter(response))
-        })
-    },[user])
-
-    const addPoint = async (statName) => {
-        const response = await addStatDB(user.uid, statName)
-        if(typeof response === 'string')
-            return setError(response)
-        
-        if(typeof response === 'object')
-            return setCharacter(response)
-
-        return setError('unknown error')
-    }
+    const {character, addPoint, error} = useCharacter()
 
     return (
         <>

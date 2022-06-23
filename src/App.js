@@ -9,24 +9,27 @@ import { Character } from "./sites/dashboard/gamescreen/Character"
 import { Mission } from "./sites/dashboard/gamescreen/Mission"
 import { Chat } from "./sites/dashboard/gamescreen/Chat"
 import { Work } from "./sites/dashboard/gamescreen/Work"
+import { CharacterProvider } from "./contexts/CharacterContext"
 
 export const App = () => {
   return(
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route index element={<Login/>}/>
-            <Route path="dashboard" element={<Dashboard/>}>
-              <Route path="creation" element={<Creation/>}/>
-              <Route path="gamescreen" element={<Gamescreen/>}>
-                <Route path="character" element={<Character/>}/>
-                <Route path="mission" element={<Mission/>}/>
-                <Route path="chat" element={<Chat/>}/>
-                <Route path="work" element={<Work/>}/>
+        <CharacterProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route index element={<Login/>}/>
+              <Route path="dashboard" element={<Dashboard/>}>
+                <Route path="creation" element={<Creation/>}/>
+                <Route path="gamescreen" element={<Gamescreen/>}>
+                  <Route path="character" element={<Character/>}/>
+                  <Route path="mission" element={<Mission/>}/>
+                  <Route path="chat" element={<Chat/>}/>
+                  <Route path="work" element={<Work/>}/>
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
+            </Routes>
+          </BrowserRouter>
+        </CharacterProvider>
       </AuthProvider>
   )
 }
