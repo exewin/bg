@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import {getAuth} from "firebase/auth"
-import {doc, getDoc, getFirestore, setDoc} from "firebase/firestore"
+import {collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, setDoc} from "firebase/firestore"
 
 const app = initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,13 +22,15 @@ export const userExistsDB = async (uid) => {
 }
 
 export const createCharacterDB = async (uid, character) => {
-    const characterBase = await getDoc(doc(firestore, `configuration/character`))
-    const data = characterBase.data()
+    const query = await getDocs(collection(firestore, `character_start_variables`))
+    let obj = {}
+    query.forEach((doc) => {
+        obj = {[doc.id]: doc.data(), ...obj}
+    })
     const newCharacter = {
         information: character,
-        stats: data,
+        ...obj
     }
-    console.log(newCharacter)
     await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
 }
 
@@ -40,6 +42,14 @@ export const getUserInfoDB = async (uid) => {
     }
     else return null
 }
+
+const timeStamptest = async() => {
+        // const dbDoc = await getDoc(doc(firestore, `configuration/timestamp test`))
+        // const docData = dbDoc.data()
+        // await setDoc(doc(firestore, `configuration/timestamp test`), {ne: serverTimestamp()}, {merge:true})
+        // console.log(docData.t1-docData.t2)       
+}
+
 
 export const addStatDB = async (uid, name) => {
     const character = await getDoc(doc(firestore, `users/${uid}`))
