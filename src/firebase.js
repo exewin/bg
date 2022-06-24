@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import {getAuth} from "firebase/auth"
-import {collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, setDoc} from "firebase/firestore"
+import {collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, setDoc, Timestamp} from "firebase/firestore"
 
 const app = initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -14,6 +14,7 @@ const app = initializeApp({
 const firestore = getFirestore()
 
 export const userExistsDB = async (uid) => {
+    console.log("user exists?")
     const dbDoc = await getDoc(doc(firestore, `users/${uid}`))
     if(dbDoc.exists()){
         return true
@@ -22,6 +23,7 @@ export const userExistsDB = async (uid) => {
 }
 
 export const createCharacterDB = async (uid, character) => {
+    console.log("create character")
     const query = await getDocs(collection(firestore, `character_start_variables`))
     let obj = {}
     query.forEach((doc) => {
@@ -35,6 +37,7 @@ export const createCharacterDB = async (uid, character) => {
 }
 
 export const getUserInfoDB = async (uid) => {
+    console.log("get user info")
     const dbDoc = await getDoc(doc(firestore, `users/${uid}`))
     if(dbDoc.exists()){
         const docData = dbDoc.data()
@@ -43,15 +46,54 @@ export const getUserInfoDB = async (uid) => {
     else return null
 }
 
-const timeStamptest = async() => {
+
         // const dbDoc = await getDoc(doc(firestore, `configuration/timestamp test`))
         // const docData = dbDoc.data()
         // await setDoc(doc(firestore, `configuration/timestamp test`), {ne: serverTimestamp()}, {merge:true})
         // console.log(docData.t1-docData.t2)       
+
+export const currentTimeDB = async() => {
+    let date = new Date()
+    await fetch("http://worldtimeapi.org/api/timezone/Europe/Warsaw").
+    then(response=>response.json()).
+    then(data=>date=new Date(data.utc_datetime))
+    return date.valueOf()/1000
+}
+
+export const startTaskDB = async(uid, taskId) => {
+    console.log("start task")
+    const character = await getDoc(doc(firestore, `users/${uid}`))
+    const characterData = character.data() 
+
+    if(characterData.progress.busy) return "You are already doing other task."
+
+    const task = await getDoc(doc(firestore, `missions/${taskId}`))
+    const taskData = task.data()
+
+    const addToTimestamp = Timestamp.now().toDate()
+    addToTimestamp.setSeconds(addToTimestamp.getSeconds() + taskData.time);
+    characterData.progress.taskEnd = Timestamp.fromDate(addToTimestamp)
+    characterData.progress.taskStart = Timestamp.now().toDate()
+    characterData.progress.busy = true
+    characterData.progress.task = task.data()
+
+    await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+    return getUserInfoDB(uid)
+}
+
+export const endTaskDB = async(uid) => {
+    console.log("end task")
+    const character = await getDoc(doc(firestore, `users/${uid}`))
+    const characterData = character.data()
+    characterData.progress.taskEnd = null
+    characterData.progress.taskStart = null
+    characterData.progress.busy = false
+    characterData.progress.task = null
 }
 
 
 export const addStatDB = async (uid, name) => {
+    console.log("add stat")
     const character = await getDoc(doc(firestore, `users/${uid}`))
     const characterData = character.data() 
     switch(name){
