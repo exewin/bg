@@ -30,14 +30,14 @@ font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 user-select: none;
 `
 
-export const Xpbar = ({xp, maxXp}) => {
+export const Bar = ({value, maxValue,length=200, }) => {
 
-    const bar = xp/maxXp*200
+    const bar = value/maxValue*length
 
   return (
     <Div>
         <Filled length={bar}/>
-        <Text>{`${xp} / ${maxXp}`}</Text>
+        <Text>{`${value} / ${maxValue}`}</Text>
     </Div>
   )
 }
