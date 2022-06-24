@@ -2,6 +2,7 @@ import {Button } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
 import { Outlet, Link, useLocation } from 'react-router-dom'
+import { useCharacter } from '../../contexts/CharacterContext'
 
 const Container = styled.div` 
 background-color: antiquewhite;
@@ -31,6 +32,8 @@ color: ${props=>props.light === props.match ? 'yellow' : 'white'};
 export const Gamescreen = () => {
 
   const location = useLocation().pathname.split("/")[3]
+  const {getInfo} = useCharacter()
+  getInfo()
 
   return (
     <Container>

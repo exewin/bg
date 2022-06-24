@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useAuth } from '../../../contexts/AuthContext'
+import React from 'react'
 import { CenteredLoading } from '../../../components/CenteredLoading'
 import { Portrait } from '../../../components/Portrait'
-import { addStatDB, getUserInfoDB, userExistsDB } from '../../../firebase'
 import {AddBox} from '@mui/icons-material';
 import styled from 'styled-components'
-import { Xpbar } from '../../../components/Xpbar'
 import { Background } from '../../../components/Background'
 import Bonfire from "../../../assets/bgs/Bonfire.jpg"
 import { useCharacter } from '../../../contexts/CharacterContext'
+import { Bar } from '../../../components/Bar';
 
 const AddButton = styled.button` 
 `
@@ -30,7 +28,7 @@ export const Character = () => {
         <>
             {character ? <Background img={Bonfire}>
                 <Portrait index={character?.information?.portrait} charClass={character?.information?.charClass} name={character?.information?.name}/>
-                <Xpbar xp={character?.stats?.xp} maxXp={character?.stats?.maxXp} />
+                <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp} />
                 <StatGrid>
                     <div>Strength:</div> <div>{character?.stats?.strength} </div>
                     <AddButton 
