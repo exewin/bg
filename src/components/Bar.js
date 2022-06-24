@@ -6,15 +6,14 @@ const Div = styled.div`
 border: 3px solid #709;
 background-color: #82a;
 border-radius: 5px;
-width: 200px;
-position: relative;
+width: ${props=>`${props.length}px`};
 height: 22px;
 margin-bottom: 5px;
+${props=>props.css};
 `
 
 const Filled = styled.div` 
-background: rgb(131,58,180);
-background: linear-gradient(90deg, rgba(131,58,180,1) 45%, rgba(161,48,198,1) 85%);
+background: rgb(231,58,180);
 width: ${props=>`${props.length}px`};
 height: 22px;
 position: absolute;
@@ -22,7 +21,7 @@ position: absolute;
 
 const Text = styled.div`
 position: absolute;
-width: 200px;
+width: ${props=>`${props.length}px`};
 text-align: center;
 color: #eee;
 text-shadow: 1px 1px #a4a;
@@ -30,14 +29,14 @@ font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 user-select: none;
 `
 
-export const Bar = ({value, maxValue,length=200, }) => {
+export const Bar = ({value, maxValue, lengthPx=200, css, children}) => {
 
-    const bar = value/maxValue*length
+    const bar = value/maxValue*lengthPx
 
   return (
-    <Div>
+    <Div length={lengthPx} css={css}>
         <Filled length={bar}/>
-        <Text>{`${value} / ${maxValue}`}</Text>
+        <Text length={lengthPx}>{children}</Text>
     </Div>
   )
 }

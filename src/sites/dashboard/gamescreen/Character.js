@@ -23,12 +23,13 @@ text-shadow: 1px 1px black;
 export const Character = () => {
 
     const {character, addPoint, error} = useCharacter()
+    console.log("asd")
 
     return (
         <>
             {character ? <Background img={Bonfire}>
                 <Portrait index={character?.information?.portrait} charClass={character?.information?.charClass} name={character?.information?.name}/>
-                <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp} />
+                <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
                 <StatGrid>
                     <div>Strength:</div> <div>{character?.stats?.strength} </div>
                     <AddButton 
