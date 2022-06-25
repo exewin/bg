@@ -23,7 +23,6 @@ text-shadow: 1px 1px black;
 export const Character = () => {
 
     const {character, addPoint, error} = useCharacter()
-    console.log("asd")
 
     return (
         <>
