@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import {getAuth} from "firebase/auth"
-import {collection, doc, getDoc, getDocs, getFirestore, serverTimestamp, setDoc, Timestamp} from "firebase/firestore"
+import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc, Timestamp} from "firebase/firestore"
 
 const app = initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -44,13 +44,7 @@ export const getUserInfoDB = async (uid) => {
         return docData
     }
     else return null
-}
-
-
-        // const dbDoc = await getDoc(doc(firestore, `configuration/timestamp test`))
-        // const docData = dbDoc.data()
-        // await setDoc(doc(firestore, `configuration/timestamp test`), {ne: serverTimestamp()}, {merge:true})
-        // console.log(docData.t1-docData.t2)       
+}   
 
 export const currentTimeDB = async() => {
     let date = new Date()
@@ -78,7 +72,6 @@ export const startTaskDB = async(uid, taskId) => {
     characterData.progress.task = task.data()
 
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
-    return getUserInfoDB(uid)
 }
 
 export const endTaskDB = async(uid) => {
@@ -87,8 +80,11 @@ export const endTaskDB = async(uid) => {
     const characterData = character.data()
     characterData.progress.taskEnd = null
     characterData.progress.taskStart = null
+    characterData.stats.money += characterData.progress.task.reward
     characterData.progress.busy = false
     characterData.progress.task = null
+
+    await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
 
 
@@ -122,8 +118,20 @@ export const addStatDB = async (uid, name) => {
             return "Unknown error"
     }
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
-    return getUserInfoDB(uid)
 }
+
+let subscription;
+
+export const listenToCharacterChange = (uid, setCharacter) => {
+    subscription = onSnapshot(doc(firestore, `users/${uid}`), (docSnapshot) => {
+        if(docSnapshot.exists()) {
+            const docData = docSnapshot.data()
+            setCharacter(docData)
+        }
+    })
+}
+
+export const cancelListenToCharacterChange = () => subscription()
 
 export const auth = getAuth(app)
 export {app}

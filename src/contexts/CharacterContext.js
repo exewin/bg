@@ -1,5 +1,5 @@
-import React, {useContext, useState, useEffect} from "react"
-import { addStatDB, getUserInfoDB, startTaskDB, userExistsDB } from "../firebase"
+import React, {useContext, useState} from "react"
+import { addStatDB, endTaskDB, startTaskDB } from "../firebase"
 import { useAuth } from "./AuthContext"
 
 const CharacterContext = React.createContext()
@@ -18,34 +18,22 @@ export const CharacterProvider = ({children}) => {
         const response = await addStatDB(user.uid, statName)
         if(typeof response === 'string')
             return setError(response)
-        
-        if(typeof response === 'object')
-            return setCharacter(response)
-
-        return setError('unknown error')
     }
 
     const startTask = async() => {
         const response = await startTaskDB(user.uid, "a")
         if(typeof response === 'string')
             return setError(response)
-        
-        if(typeof response === 'object')
-            return setCharacter(response)
-
-        return setError('unknown error')
     }
 
-    const getInfo = () => {
-        if(user?.uid)
-            userExistsDB(user.uid).then(response =>{
-                if(response)
-                    getUserInfoDB(user.uid).then(response => setCharacter(response))
-        })
+    const endTask = async() => {
+        const response = await endTaskDB(user.uid)
+        if(typeof response === 'string')
+            return setError(response)
     }
 
     return(
-        <CharacterContext.Provider value={{character, addPoint, error, startTask, getInfo}}>
+        <CharacterContext.Provider value={{character, addPoint, error, startTask, setCharacter, endTask}}>
             {children}
         </CharacterContext.Provider>
     )

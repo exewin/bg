@@ -23,10 +23,10 @@ const Title = styled.h1`
 export const Work = () => {
 
   const time = useTime(1000)
-  const {startTask, character} = useCharacter()
-  const timeLeft = Math.ceil(character?.progress?.taskEnd?.seconds - time)
-  const endTime = new Date(character?.progress?.taskEnd.toDate())
-  const displayEndTime = `End: ${endTime.getHours()}:${endTime.getMinutes()}:${endTime.getSeconds()}`
+  const {startTask, character, endTask} = useCharacter()
+  const timeLeft = time ? Math.ceil(character?.progress?.taskEnd?.seconds - time) : 0
+  const endTime = new Date(character?.progress?.taskEnd?.toDate()).toLocaleTimeString('en-us', {})
+  const displayEndTime = endTime
 
   return (
     <Background img={backgroundImage}>
@@ -34,7 +34,7 @@ export const Work = () => {
         timeLeft > 0 ?
           <Main>
             <Title>You are currently working...</Title>
-            {character?.progress?.taskId} 
+            {character?.progress?.task.name} 
             <Bar 
               value={time ? character?.progress?.taskEnd?.seconds - time : 0} 
               maxValue={time ? character?.progress?.taskEnd?.seconds - character?.progress?.taskStart?.seconds : 1}
@@ -47,7 +47,8 @@ export const Work = () => {
         :
           <Main>
             <Title>You have finished your work.</Title>
-            {character?.progress?.taskId} 
+            {character?.progress?.task.name} 
+            <button onClick={endTask}>Claim reward</button>
           </Main>
         }
     </Background>

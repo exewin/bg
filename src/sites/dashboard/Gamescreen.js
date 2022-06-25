@@ -1,8 +1,10 @@
 import {Button } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useCharacter } from '../../contexts/CharacterContext'
+import { cancelListenToCharacterChange, listenToCharacterChange } from '../../firebase'
+import { useAuth } from '../../contexts/AuthContext'
 
 const Container = styled.div` 
 background-color: antiquewhite;
@@ -32,8 +34,18 @@ color: ${props=>props.light === props.match ? 'yellow' : 'white'};
 export const Gamescreen = () => {
 
   const location = useLocation().pathname.split("/")[3]
-  const {getInfo} = useCharacter()
-  getInfo()
+
+  const {user} = useAuth()
+  const {setCharacter} = useCharacter()
+
+
+  useEffect(()=>{
+    listenToCharacterChange(user.uid, setCharacter)
+    return () => {
+      cancelListenToCharacterChange()
+    }
+  },[])
+
 
   return (
     <Container>
