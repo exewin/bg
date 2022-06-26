@@ -17,6 +17,7 @@ background: rgb(231,58,180);
 width: ${props=>`${props.length}px`};
 height: 22px;
 position: absolute;
+transition: width 0.5s;
 `
 
 const Text = styled.div`
