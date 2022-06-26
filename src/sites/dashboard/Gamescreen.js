@@ -38,7 +38,7 @@ export const Gamescreen = () => {
   const location = useLocation().pathname.split("/")[3]
   
   const {user} = useAuth()
-  const {setCharacter} = useCharacter()
+  const {setCharacter, error} = useCharacter()
 
   useEffect(()=>{
     listenToCharacterChange(user.uid, setCharacter)
@@ -65,6 +65,7 @@ export const Gamescreen = () => {
           <Link to={"mission"}><Button variant="contained" size="large"><Color light={location} match="mission">Mission</Color></Button></Link>
           <Link to={"work"}><Button variant="contained" size="large"><Color light={location} match="work">Work</Color></Button></Link>
           <Link to={"chat"}><Button variant="contained" size="large"><Color light={location} match="chat">Chat</Color></Button></Link>
+          {error}
         </SideMenu>
         <SelectedMenu>
             <Outlet/>
