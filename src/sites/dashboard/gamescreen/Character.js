@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CenteredLoading } from '../../../components/CenteredLoading'
 import { Portrait } from '../../../components/Portrait'
 import {AddBox} from '@mui/icons-material'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
-import Bonfire from "../../../assets/bgs/Bonfire.jpg"
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { Bar } from '../../../components/Bar'
+import { bgs } from '../../../utils/backgroundController'
 
 const AddButton = styled.button` 
 `
@@ -26,7 +26,7 @@ export const Character = () => {
 
     return (
         <>
-            {character ? <Background img={Bonfire}>
+            {character ? <Background img={bgs[2]}>
                 <Portrait index={character?.information?.portrait} charClass={character?.information?.charClass} name={character?.information?.name}/>
                 <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
                 <StatGrid>

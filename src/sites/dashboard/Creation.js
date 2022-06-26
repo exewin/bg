@@ -1,15 +1,15 @@
 import { Box, Button, ButtonGroup, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material';
-import { Portrait } from '../../components/Portrait';
-import { selectPortrait } from '../../utils/portraitController';
-import { createCharacterDB, userExistsDB } from '../../firebase/firestore';
+import {ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material'
+import { Portrait } from '../../components/Portrait'
+import { selectPortrait } from '../../utils/portraitController'
+import { createCharacterDB, userExistsDB } from '../../firebase/firestore'
 import { useAuth } from "../../contexts/AuthContext"
-import { useNavigate } from 'react-router-dom';
-import { CenteredLoading } from '../../components/CenteredLoading';
-import { Background } from '../../components/Background';
-import Ship from "../../assets/bgs/Ship.jpg"
+import { useNavigate } from 'react-router-dom'
+import { CenteredLoading } from '../../components/CenteredLoading'
+import { Background } from '../../components/Background'
+import { bgs } from '../../utils/backgroundController'
 
 
 const PortraitBox = styled.div`
@@ -45,7 +45,7 @@ export const Creation = () => {
 
 
     return (
-        <Background img={Ship}>
+        <Background img={bgs[3]}>
         <Box
         sx={{
             borderRadius: '5px',
