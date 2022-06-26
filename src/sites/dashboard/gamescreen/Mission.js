@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import backgroundImage from "../../../assets/bgs/Redsky.jpg"
 import { Background } from '../../../components/Background'
 import { Bar } from '../../../components/Bar'
-import { CenteredLoading } from '../../../components/CenteredLoading'
+import { MissionBox } from '../../../components/MissionBox'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { useTime } from '../../../hooks/useTime'
 import { taskTimes } from '../../../logic/TaskLogic'
+import { bgs } from '../../../utils/backgroundController'
 
 const Main = styled.main` 
 color:white;
@@ -18,8 +18,10 @@ width:100%;
 height: 100%;
 `
 
-const Title = styled.h1`
-`
+const Title = styled.h1``
+const Grid = styled.div` 
+display:grid;
+grid-template-columns: 1fr 1fr 1fr;`
 
 
 export const Mission = () => {
@@ -36,10 +38,29 @@ export const Mission = () => {
       setEndTime(response.endTime)
   })
 
+
   return (
-    <Background img={backgroundImage}>
+    <Background img={bgs[0]}>
       {
-        character?.progress?.busy === false ? <button onClick={()=>startTask("0", "mission")}>Start mission</button> : 
+        character?.progress?.busy === false ? 
+        <Main>
+          <Title>Select mission that suits you the most</Title>
+          <Grid>
+          {character.missions && Object.keys(character.missions).map((keyName, i) => (
+            <>
+              <MissionBox 
+                key={i} 
+                name={character?.missions[keyName].name} 
+                description={character?.missions[keyName].description} 
+                xp={character?.missions[keyName].xp} 
+                gold={character?.missions[keyName].gold} 
+                click={()=>startTask(`${keyName}`, "mission")}
+              />
+            </>
+          ))}
+          </Grid>
+        </Main>
+        : 
           character?.progress?.task?.type==="mission" ?
             timeLeft > 0 ?
               <Main>
