@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { currentTimeDB } from '../firebase'
+import { currentTimeDB } from '../firebase/firestore'
 
 export const useTime = (refresh) => {
     const [time, setTime] = useState(null)
