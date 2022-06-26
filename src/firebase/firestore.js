@@ -1,4 +1,5 @@
 import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc, Timestamp} from "firebase/firestore"
+import { AddPoint } from "../logic/AddPoint"
 import { taskTimes } from "../logic/TaskLogic"
 
 const firestore = getFirestore()
@@ -75,48 +76,41 @@ export const endTaskDB = async(uid) => {
     const character = await getDoc(doc(firestore, `users/${uid}`))
     const characterData = character.data()
 
-    const {timeLeft} = taskTimes(characterData)
+    const {timeLeft} = await taskTimes(characterData)
+    if(timeLeft > 0) return "You haven't finished task yet."
 
     characterData.progress.taskEnd = null
     characterData.progress.taskStart = null
     characterData.stats.money += characterData.progress.task.gold
+    characterData.stats.xp += characterData.progress.task.xp
     characterData.progress.busy = false
     characterData.progress.task = null
-
+    await setMissions(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+}
+
+const setMissions = async(character) => {
+    console.log("set Missions")
+    const query = await getDocs(collection(firestore, `missions`))
+    query.forEach((doc) => {
+        character.missions = {
+            [doc.id]: doc.data(),
+            ...character.missions
+        }
+    })
+    //await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
 }
 
 
 export const addStatDB = async (uid, name) => {
     console.log("add stat")
     const character = await getDoc(doc(firestore, `users/${uid}`))
-    const characterData = character.data() 
-    switch(name){
-        case "strength":
-            if(characterData.stats.money < characterData.stats.strCost)
-                return "Not enough money"
-            characterData.stats.money-=characterData.stats.strCost
-            characterData.stats.strCost+=1
-            characterData.stats.strength+=1
-        break;
-        case "dexterity":
-            if(characterData.stats.money < characterData.stats.dexCost)
-                return "Not enough money"
-            characterData.stats.money-=characterData.stats.dexCost
-            characterData.stats.dexCost+=1
-            characterData.stats.dexterity+=1
-        break;
-        case "endurance":
-            if(characterData.stats.money < characterData.stats.endCost)
-                return "Not enough money"
-            characterData.stats.money-=characterData.stats.endCost
-            characterData.stats.endCost+=1
-            characterData.stats.endurance+=1
-        break;
-        default:
-            return "Unknown error"
-    }
-    await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+    let characterData = character.data() 
+    characterData = AddPoint(characterData, name)
+    if(characterData)
+        await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+    else
+        return "error"
 }
 
 let subscription;
