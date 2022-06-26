@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CenteredLoading } from '../../../components/CenteredLoading'
 import { Portrait } from '../../../components/Portrait'
-import {AddBox} from '@mui/icons-material';
+import {AddBox} from '@mui/icons-material'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
 import Bonfire from "../../../assets/bgs/Bonfire.jpg"
 import { useCharacter } from '../../../contexts/CharacterContext'
-import { Bar } from '../../../components/Bar';
+import { Bar } from '../../../components/Bar'
 
 const AddButton = styled.button` 
 `

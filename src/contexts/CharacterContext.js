@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react"
-import { addStatDB, endTaskDB, startTaskDB } from "../firebase"
+import { addStatDB, endTaskDB, startTaskDB } from "../firebase/firestore"
 import { useAuth } from "./AuthContext"
 
 const CharacterContext = React.createContext()
@@ -20,8 +20,8 @@ export const CharacterProvider = ({children}) => {
             return setError(response)
     }
 
-    const startTask = async() => {
-        const response = await startTaskDB(user.uid, "a")
+    const startTask = async(taskId, type) => {
+        const response = await startTaskDB(user.uid, taskId, type)
         if(typeof response === 'string')
             return setError(response)
     }

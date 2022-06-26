@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthContext"
 import {Button} from "@mui/material"
 import { LogoutButton } from '../components/LogoutButton'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { userExistsDB } from '../firebase'
+import { userExistsDB } from '../firebase/firestore'
 import styled from 'styled-components'
 import {Logout, Settings} from '@mui/icons-material'
 import { CenteredLoading } from '../components/CenteredLoading'
