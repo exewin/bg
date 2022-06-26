@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import backgroundImage from "../../../assets/bgs/Blacksmith.jpg"
 import { Background } from '../../../components/Background'
 import { Bar } from '../../../components/Bar'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { useTime } from '../../../hooks/useTime'
 import { CenteredLoading } from "../../../components/CenteredLoading"
+import { bgs } from '../../../utils/backgroundController'
+import { taskTimes } from '../../../logic/TaskLogic'
 
 const Main = styled.main` 
 color:white;
@@ -22,15 +23,21 @@ const Title = styled.h1`
 
 export const Work = () => {
 
-  const time = useTime(1000)
+  const [timeLeft, setTimeLeft] = useState(0)
+  const [endTime, setEndTime] = useState(0)
   const {startTask, character, endTask} = useCharacter()
-  const timeLeft = time ? Math.ceil(character?.progress?.taskEnd?.seconds - time) : 0
-  const endTime = new Date(character?.progress?.taskEnd?.toDate()).toLocaleTimeString('en-us', {})
-  const displayEndTime = endTime
+  const time = useTime(1000) //force slow rerender
+  
+
+  if(character?.progress?.busy)
+    taskTimes(character).then(response=>{
+      setTimeLeft(response.timeLeft)
+      setEndTime(response.endTime)
+  })
 
   return (
-    <Background img={backgroundImage}>
-      {timeLeft !== 0 ?
+    <Background img={bgs[1]}>
+      {
         character?.progress?.busy === false ? <button onClick={()=>startTask("0", "work")}>Start working in blacksmith</button> : 
           character?.progress?.task?.type==="work" ?
             timeLeft > 0 ?
@@ -43,7 +50,7 @@ export const Work = () => {
                   lengthPx={800}
                   css={{marginTop: 'auto'}}
                 >
-                  {time ? `${timeLeft} (${displayEndTime})` : "..."}
+                  {time ? `${timeLeft} (${endTime})` : "..."}
                 </Bar>
               </Main>
             :
@@ -56,8 +63,6 @@ export const Work = () => {
           <Main>
             <Title>You are doing other task</Title>    
           </Main> 
-        :
-          <CenteredLoading/>
         }
     </Background>
   )
