@@ -24,6 +24,7 @@ export const createCharacterDB = async (uid, character) => {
         information: character,
         ...obj
     }
+    setMissions(character)
     await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
 }
 
@@ -52,21 +53,22 @@ export const startTaskDB = async(uid, taskId, type) => {
 
     if(characterData.progress.busy) return "You are already doing other task."
 
-    let task;
-    if(type === "work")
+    let task
+    let taskData
+    if(type === "work"){
         task = await getDoc(doc(firestore, `works/${taskId}`))
+        taskData = task.data()
+    }
     else if(type === "mission")
-        task = await getDoc(doc(firestore, `missions/${taskId}`))
-
-    
-    const taskData = task.data()
+        taskData = Object.values(characterData.missions)[taskId]
+    else return "type error"
 
     const addToTimestamp = Timestamp.now().toDate()
     addToTimestamp.setSeconds(addToTimestamp.getSeconds() + taskData.time);
     characterData.progress.taskEnd = Timestamp.fromDate(addToTimestamp)
     characterData.progress.taskStart = Timestamp.now().toDate()
     characterData.progress.busy = true
-    characterData.progress.task = task.data()
+    characterData.progress.task = taskData
     characterData.progress.task.type = type
 
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
