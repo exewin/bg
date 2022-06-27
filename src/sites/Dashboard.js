@@ -9,6 +9,8 @@ import {Logout, Settings} from '@mui/icons-material'
 import { CenteredLoading } from '../components/CenteredLoading'
 import { Footer } from '../components/Footer'
 
+import { MissionInjector } from '../adminTool/MissionInjector'
+
 const Container = styled.div`
 background-color: azure;
 height: 100vh;
@@ -64,6 +66,7 @@ export const Dashboard = () => {
                 <>
                     <Nav>
                         Account: {user.email}
+                        <MissionInjector/>
                         <Button variant="contained"><Settings/></Button>
                         <LogoutButton><Logout/></LogoutButton>
                     </Nav>
