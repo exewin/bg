@@ -39,9 +39,9 @@ export const getUserInfoDB = async (uid) => {
 
 export const currentTimeDB = async() => {
     let date = new Date()
-    await fetch("http://worldtimeapi.org/api/timezone/Europe/Warsaw").
-    then(response=>response.json()).
-    then(data=>date=new Date(data.utc_datetime))
+    await fetch("http://worldtimeapi.org/api/timezone/Europe/Warsaw")
+    .then(response=>response.json())
+    .then(data=>date=new Date(data.utc_datetime))
     return date.valueOf()/1000
 }
 
@@ -67,6 +67,7 @@ export const startTaskDB = async(uid, taskId, type) => {
     characterData.progress.taskStart = Timestamp.now().toDate()
     characterData.progress.busy = true
     characterData.progress.task = task.data()
+    characterData.progress.task.type = type
 
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
@@ -89,16 +90,31 @@ export const endTaskDB = async(uid) => {
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
 
+export const addMissionDB = (mission, id) => {
+    console.log("add mission", id, mission)
+    setDoc(doc(firestore, `missions`, id), mission, {merge:true})
+}
+
 const setMissions = async(character) => {
     console.log("set Missions")
+    let shuffledMissions
     const query = await getDocs(collection(firestore, `missions`))
     query.forEach((doc) => {
-        character.missions = {
+        shuffledMissions = {
             [doc.id]: doc.data(),
-            ...character.missions
+            ...shuffledMissions
         }
     })
-    //await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
+    shuffledMissions = Object.values(shuffledMissions)
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+    
+    character.missions = {
+        0: shuffledMissions[0],
+        1: shuffledMissions[1],
+        2: shuffledMissions[2],
+    }
 }
 
 
