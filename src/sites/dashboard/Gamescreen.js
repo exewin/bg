@@ -5,7 +5,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useCharacter } from '../../contexts/CharacterContext'
 import { cancelListenToCharacterChange, listenToCharacterChange } from '../../firebase/firestore'
 import { useAuth } from '../../contexts/AuthContext'
-import { playSound } from '../../utils/soundController'
+import { playSound, stopAll } from '../../utils/soundController'
 
 
 const Container = styled.div` 
@@ -25,7 +25,7 @@ padding: 5px;
 
 const SelectedMenu = styled.div` 
 border-right: 0.5em solid antiquewhite;
-background-color: gray;
+background-color: black;
 padding: 2px;
 `
 
@@ -38,7 +38,7 @@ export const Gamescreen = () => {
   const location = useLocation().pathname.split("/")[3]
   
   const {user} = useAuth()
-  const {setCharacter, error} = useCharacter()
+  const {character, setCharacter, error} = useCharacter()
 
   useEffect(()=>{
     listenToCharacterChange(user.uid, setCharacter)
@@ -50,12 +50,12 @@ export const Gamescreen = () => {
   useEffect(()=> {
     switch(location){
       case "character":{ playSound(0); break }
-      case "mission":{ playSound(1); break }
+      case "mission":{ character?.progress?.task?.type!=="mission" ? playSound(1) : stopAll(); break }
       case "work":{ playSound(2); break }
       case "chat":{ playSound(3); break }
       default:{}
     }
-  },[location])
+  },[location, character])
 
 
   return (
