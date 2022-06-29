@@ -1,5 +1,6 @@
 import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc, Timestamp} from "firebase/firestore"
 import { AddPoint } from "../logic/AddPoint"
+import { levelUp } from "../logic/CharacterLevelUp"
 import { taskTimes } from "../logic/TaskLogic"
 
 const firestore = getFirestore()
@@ -24,7 +25,7 @@ export const createCharacterDB = async (uid, character) => {
         information: character,
         ...obj
     }
-    setMissions(character)
+    await setMissions(newCharacter)
     await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
 }
 
@@ -88,6 +89,7 @@ export const endTaskDB = async(uid) => {
     characterData.stats.xp += characterData.progress.task.xp
     characterData.progress.busy = false
     characterData.progress.task = null
+    levelUp(characterData)
     await setMissions(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
