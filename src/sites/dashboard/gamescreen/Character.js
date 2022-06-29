@@ -1,61 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CenteredLoading } from '../../../components/CenteredLoading'
 import { Portrait } from '../../../components/Portrait'
-import {AddBox} from '@mui/icons-material'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { Bar } from '../../../components/Bar'
 import { bgs } from '../../../utils/backgroundController'
+import bag from "../../../assets/icons/bag.png"
+import { StatRow } from '../../../components/StatRow'
 
-const AddButton = styled.button` 
-`
 
 const StatGrid = styled.div` 
 display: grid;
-grid-template-columns: 5em 5em 3em;
+grid-template-rows: 1fr 1fr 1fr;
 font-family: 'Joan', serif;
 color: white;
+gap:5px;
 text-shadow: 1px 1px black;
+`
+
+const Detail = styled.div` 
+display:grid;
+grid-template-columns: 70px 50px 48px 50px;
+align-items: center;
+`
+
+const Number = styled.span` 
+color:white;
+font-family: 'Zen Kaku Gothic New', sans-serif;
+text-align: right;
+padding-right: 2px;
+`
+
+const Img = styled.img` 
+width:${props=>props.w}px;
 `
 
 
 export const Character = () => {
 
     const {character, addPoint, error} = useCharacter()
+    const [hover, setHover] = useState(false)
 
     return (
         <>
             {character ? <Background img={bgs[2]}>
-                <Portrait index={character?.information?.portrait} charClass={character?.information?.charClass} name={character?.information?.name}/>
+                <Portrait 
+                    index={character?.information?.portrait} 
+                    charClass={character?.information?.charClass} 
+                    name={character?.information?.name}
+                    level={character?.stats?.level}
+                />
                 <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
                 <StatGrid>
-                    <div>Strength:</div> <div>{character?.stats?.strength} </div>
-                    <AddButton 
-                        disabled={character?.stats?.money<character?.stats?.strCost}
-                        onClick={()=>addPoint("strength")} 
-                        title={`cost: ${character?.stats?.strCost}`}
-                    >
-                        <AddBox/>
-                    </AddButton>
-                    <div>Dexterity:</div> <div>{character?.stats?.dexterity} </div>
-                    <AddButton 
-                        disabled={character?.stats?.money<character?.stats?.dexCost}
-                        onClick={()=>addPoint("dexterity")} 
-                        title={`cost: ${character?.stats?.dexCost}`}
-                    >
-                        <AddBox/>
-                    </AddButton>
-                    <div>Endurance:</div> <div>{character?.stats?.endurance} </div>
-                    <AddButton 
-                        disabled={character?.stats?.money<character?.stats?.endCost}
-                        onClick={()=>addPoint("endurance")} 
-                        title={`cost: ${character?.stats?.endCost}`}
-                    >
-                        <AddBox/>
-                    </AddButton>
+
+                    <StatRow 
+                        name={"strength"}
+                        stat={character?.stats?.strength} 
+                        cost={character?.stats?.strCost} 
+                        money={character?.stats?.money} 
+                        hover={hover} 
+                        setHover={setHover} 
+                        addPoint={addPoint}
+                    />
+                    <StatRow 
+                        name={"dexterity"}
+                        stat={character?.stats?.dexterity} 
+                        cost={character?.stats?.dexCost} 
+                        money={character?.stats?.money} 
+                        hover={hover} 
+                        setHover={setHover} 
+                        addPoint={addPoint}
+                    />
+                    <StatRow 
+                        name={"endurance"}
+                        stat={character?.stats?.endurance} 
+                        cost={character?.stats?.endCost} 
+                        money={character?.stats?.money} 
+                        hover={hover} 
+                        setHover={setHover} 
+                        addPoint={addPoint}
+                    />
+
                 </StatGrid>
-                <div>Gold: {character?.stats?.money}</div>
+                <Detail><Img src={bag} w={32}/> <Number>{character?.stats?.money}</Number></Detail>
                 {error}
             </Background> : <CenteredLoading/> 
             }
