@@ -19,6 +19,8 @@ height: 100%;
 `
 
 const Title = styled.h1`
+color:yellow;
+text-shadow: 1px 1px black;
 `
 
 export const Work = () => {
