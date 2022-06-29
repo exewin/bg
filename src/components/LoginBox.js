@@ -1,7 +1,36 @@
 import React, { useState } from "react"
 import {useNavigate} from "react-router-dom"
-import {Box, Button, TextField, Alert, Typography} from '@mui/material'
+import styled from "styled-components"
 import { useAuth } from "../contexts/AuthContext"
+import card from "../assets/ui/missionCard.png"
+import { Button } from "./Button"
+
+const Box = styled.div` 
+background-image: url(${props=>props.bg});
+background-size: cover;
+height: 456px;
+width: 318px;
+text-align: center;
+padding: 24px 54px;
+box-sizing: border-box;
+display:flex;
+flex-direction: column;
+font-family: 'Joan', serif;
+color:white;
+text-shadow: 1px 1px black;
+gap: 5px;
+flex-wrap: wrap;
+`
+
+const Title = styled.h3``
+const Description = styled.p`
+text-align: left;
+font-size: 0.8em;
+`
+
+const Input = styled.input` 
+height:25px;
+`
 
 export const LoginBox = () => {
 
@@ -22,42 +51,31 @@ export const LoginBox = () => {
     }
 
     return(
-        <Box
-        sx={{
-            borderRadius: '5px',
-            padding: '10px',
-            width: 300,
-            height: 400,
-            backgroundColor: 'rgba(122,199,255,0.9)',
-        }}>
-            <Typography variant="subtitle1">
-                Login:
-            </Typography>
-            <form onSubmit={handleSubmit} noValidate>
-                <TextField 
-                    onChange={(e)=>setEmail(e.target.value)} 
-                    value={email}
-                    name="email"
-                    label="E-mail" 
-                    type="email" 
-                    size="small" 
-                    variant="filled"
-                />
-                <TextField 
-                    onChange={(e)=>setPassword(e.target.value)} 
-                    value={password}
-                    label="Password" 
-                    type="password"
-                    size="small" 
-                    variant="filled" 
-                />
-                <div><Button sx={{ mt: 1 }} onClick={handleSubmit} variant="contained">Submit</Button></div>
-            </form>
-            {
-            error && 
-                <Alert sx={{ mt: 1 }} severity="error">{error}</Alert>
-            }
-        
-        </Box>
+        <form onSubmit={handleSubmit} noValidate>
+            <Box bg={card}>
+                <Title>
+                    Login:
+                </Title>
+                
+                    <Input 
+                        onChange={(e)=>setEmail(e.target.value)} 
+                        value={email}
+                        name="email"
+                        placeholder="E-mail" 
+                        type="email" 
+                    />
+                    <Input
+                        onChange={(e)=>setPassword(e.target.value)} 
+                        value={password}
+                        placeholder="Password" 
+                        type="password"
+                    />
+                    <Button onClick={handleSubmit} variant="contained">Submit</Button>
+                {
+                    error && 
+                    <Description>{error}</Description>
+                }
+            </Box>
+        </form>
     )
 }

@@ -1,7 +1,36 @@
 import React, { useState } from "react"
 import {useNavigate} from "react-router-dom"
-import {Box, Button, TextField, Alert, Typography} from '@mui/material'
 import { useAuth } from "../contexts/AuthContext"
+import styled from "styled-components"
+import { Button } from "./Button"
+import card from "../assets/ui/missionCard.png"
+
+const Box = styled.div` 
+background-image: url(${props=>props.bg});
+background-size: cover;
+height: 456px;
+width: 318px;
+text-align: center;
+padding: 24px 54px;
+box-sizing: border-box;
+display:flex;
+flex-direction: column;
+font-family: 'Joan', serif;
+color:white;
+text-shadow: 1px 1px black;
+gap: 5px;
+flex-wrap: wrap;
+`
+
+const Title = styled.h3``
+const Description = styled.p`
+text-align: left;
+font-size: 0.8em;
+`
+
+const Input = styled.input` 
+height:25px;
+`
 
 export const RegisterBox = () => {
 
@@ -27,52 +56,37 @@ export const RegisterBox = () => {
     }
 
     return(
-        <Box
-        sx={{
-            borderRadius: '5px',
-            padding: '10px',
-            width: 300,
-            height: 400,
-            backgroundColor: 'rgba(177,123,255,0.9)',
-        }}>
-            <Typography variant="subtitle1">
-                Create Account:
-            </Typography>
-            <form onSubmit={handleSubmit}>
-                <TextField 
+        <form onSubmit={handleSubmit}>
+            <Box bg={card}>
+            <Title>Create Account:</Title>
+                <Input
                     onChange={(e)=>setEmail(e.target.value)} 
                     value={email}
                     name="email"
-                    label="E-mail" 
+                    placeholder="E-mail" 
                     type="email" 
                     autoComplete="off"
-                    size="small" 
-                    variant="filled"
                 />
-                <TextField 
+                <Input
                     onChange={(e)=>setPassword(e.target.value)} 
                     value={password}
-                    label="Password" 
+                    placeholder="Password" 
                     type="password"
-                    size="small" 
-                    variant="filled"
                     autoComplete="new-password"
                 />
-                <TextField 
+                <Input
                     onChange={(e)=>setConfirmPassword(e.target.value)} 
                     value={confirmPassword}
-                    label="Confirm Password" 
+                    placeholder="Confirm Password" 
                     type="password" 
-                    size="small" 
-                    variant="filled" 
                 />
-                <div><Button sx={{ mt: 1 }} variant="contained" type="submit">Submit</Button></div>
+                <Button type="submit">Submit</Button>
 
                 {
                 error && 
-                    <Alert sx={{ mt: 1 }} severity="error">{error}</Alert>
+                    <Description sx={{ mt: 1 }} severity="error">{error}</Description>
                 }
-            </form>
-        </Box>
+            </Box>
+        </form>
     )
 }
