@@ -15,9 +15,11 @@ const Div = styled.div`
   background-image: url(${props=>props.bg});
   background-repeat: no-repeat;
   background-size: cover;
-  height: calc(100% - 4px);
-  width: calc(100% - 4px);
+  background-position: right;
+  min-height: calc(100% - 4px);
+  min-width: calc(100% - 4px);
   padding: 2px;
+  background-attachment: fixed;
   ${s};
 `
 

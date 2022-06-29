@@ -9,9 +9,11 @@ import { Button } from './Button'
 const Box = styled.div` 
 background-image: url(${props=>props.bg});
 background-size: cover;
-height: 426px; //fix this
+height: 380px;
+width: 265px;
 text-align: center;
-padding: 30px 60px;
+padding: 20px 45px;
+box-sizing: border-box;
 display:flex;
 flex-direction: column;
 `
@@ -19,7 +21,7 @@ flex-direction: column;
 const Title = styled.h3``
 const Description = styled.p`
 text-align: left;
-font-size: 0.9em;
+font-size: 0.8em;
 `
 
 const Detail = styled.div` 

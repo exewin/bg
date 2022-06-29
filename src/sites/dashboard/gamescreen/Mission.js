@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
 import { Bar } from '../../../components/Bar'
@@ -19,12 +20,20 @@ width:100%;
 height: 100%;
 `
 
-const Title = styled.h1``
+const Title = styled.h1`
+color:yellow;
+text-shadow: 1px 1px black;
+`
 
 const Grid = styled.div` 
-display:grid;
-grid-template-columns: 1fr 1fr 1fr;
-grid-template-rows: 1fr;
+display:flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: center;
+max-width: 1000px;
+min-width: 300px;
+max-height: 2000px;
+padding:20px;
 `
 
 
@@ -34,6 +43,12 @@ export const Mission = () => {
   const [endTime, setEndTime] = useState(0)
   const {startTask, character, endTask} = useCharacter()
   const time = useTime(1000) //force slow rerender
+
+  const navigate = useNavigate()
+
+  const goToTask = () => {
+    navigate("../work")
+  }
   
 
   if(character?.progress?.busy)
@@ -48,7 +63,7 @@ export const Mission = () => {
       {
         character?.progress?.busy === false ? 
         <Main>
-          <Title>Select mission that suits you the most</Title>
+          <Title>Select mission</Title>
           <Grid>
           {character.missions && Object.keys(character.missions).map((keyName, i) => (
             
@@ -88,7 +103,8 @@ export const Mission = () => {
               </Main>
           :
           <Main>
-            <Title>You are doing other task</Title>    
+            <Title>You are doing other task</Title>  
+            {goToTask()}  
           </Main>
         }
     </Background>

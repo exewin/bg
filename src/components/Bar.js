@@ -10,6 +10,7 @@ width: ${props=>`${props.length}px`};
 height: 22px;
 margin-bottom: 5px;
 ${props=>props.css};
+position: relative;
 `
 
 const Filled = styled.div` 

@@ -12,14 +12,12 @@ import { Footer } from '../components/Footer'
 import { MissionInjector } from '../adminTool/MissionInjector'
 
 const Container = styled.div`
-background-color: azure;
 height: 100vh;
 max-width: 1200px;
 margin: 0 auto;
 `
 
 const SubContainer = styled.div` 
-background-color: blue;
 height: 90vh;
 display: flex;
 justify-content: center;
@@ -27,7 +25,6 @@ align-items: center;
 `
 
 const Nav = styled.nav`
-background-color: antiquewhite;
 height: 5vh;
 display:flex;
 align-items: center;
