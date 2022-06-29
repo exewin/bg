@@ -21,11 +21,12 @@ const Div = styled.div`
   padding: 2px;
   background-attachment: fixed;
   ${s};
+  ${props=>props.css}
 `
 
 
-export const Background = ({children, img}) => {
+export const Background = ({children, img, css}) => {
   return (
-    <Div bg={img}>{children}</Div>
+    <Div bg={img} css={css}>{children}</Div>
   )
 }
