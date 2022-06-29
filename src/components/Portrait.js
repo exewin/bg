@@ -19,17 +19,21 @@ border-radius: 1em;
 
 const Text = styled.div` 
 position:absolute;
-bottom:0;
 color:white;
 font-weight: 700;
-text-shadow: 2px 2px #000;
+text-shadow: 2px 1px #000;
 width:200px;
 text-align: center;
-font-family: 'Joan', serif;
+font-family: 'Zen Kaku Gothic New', sans-serif;
 user-select: none;
 `
+const UpText = styled(Text)``
 
-export const Portrait = ({index, charClass, name}) => {
+const DownText = styled(Text)`
+bottom:5px;
+`
+
+export const Portrait = ({index, charClass, name, level}) => {
 
   const capitalizeWord = (str) => {
     return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
@@ -37,8 +41,9 @@ export const Portrait = ({index, charClass, name}) => {
     
   return (
     <Div>
+      <UpText>{name && capitalizeWord(name)}</UpText>
       <Img src={portraits[index]} border={charClass}/>
-      <Text>{charClass && capitalizeWord(charClass)} {name && capitalizeWord(name)}</Text>
+      <DownText>{level && `Level ${level}`} {charClass && capitalizeWord(charClass)}</DownText>
     </Div>
   )
 }
