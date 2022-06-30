@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from '@mui/material'
 import { useAuth } from "../contexts/AuthContext"
 import { useNavigate } from 'react-router-dom'
 
@@ -17,6 +16,6 @@ export const LogoutButton = ({children}) => {
     }
 
   return (
-    <Button variant="contained" onClick={handleClick}>{children}</Button>
+    <button  onClick={handleClick}>{children}</button>
   )
 }
