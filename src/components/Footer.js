@@ -8,14 +8,21 @@ align-items: center;
 justify-content: center;
 gap: 25px;
 color:gray;
+text-shadow: 1px 1px black;
 padding: 0px 5px;
+${props=>props.css};
+font-family: 'Joan', serif;
 `
 
-export const Footer = () => {
+const A = styled.a` 
+text-decoration:none;
+`
+
+export const Footer = ({css}) => {
   return (
-    <Div>
+    <Div css={css}>
         <span>Copyright © 2022 all rights reserved</span>
-        <a href="https://github.com/exewin">Author</a>
+        <A href="https://github.com/exewin">Author</A>
     </Div>
   )
 }
