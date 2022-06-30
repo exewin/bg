@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "../contexts/AuthContext"
-import {Button} from "@mui/material"
 import { LogoutButton } from '../components/LogoutButton'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { userExistsDB } from '../firebase/firestore'
 import styled from 'styled-components'
-import {Logout, Settings} from '@mui/icons-material'
 import { CenteredLoading } from '../components/CenteredLoading'
 import { Footer } from '../components/Footer'
 
@@ -64,8 +62,7 @@ export const Dashboard = () => {
                     <Nav>
                         Account: {user.email}
                         <MissionInjector/>
-                        <Button variant="contained"><Settings/></Button>
-                        <LogoutButton><Logout/></LogoutButton>
+                        <LogoutButton>s</LogoutButton>
                     </Nav>
                     <SubContainer>
                         <Outlet/>
