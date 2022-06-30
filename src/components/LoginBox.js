@@ -30,6 +30,7 @@ font-size: 0.8em;
 
 const Input = styled.input` 
 height:25px;
+width: 95%;
 `
 
 export const LoginBox = () => {
@@ -70,11 +71,8 @@ export const LoginBox = () => {
                         placeholder="Password" 
                         type="password"
                     />
-                    <Button onClick={handleSubmit} variant="contained">Submit</Button>
-                {
-                    error && 
-                    <Description>{error}</Description>
-                }
+                    <Button onClick={handleSubmit}>Submit</Button>
+                {error && <Description>{error}</Description>}
             </Box>
         </form>
     )

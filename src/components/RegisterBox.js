@@ -4,23 +4,7 @@ import { useAuth } from "../contexts/AuthContext"
 import styled from "styled-components"
 import { Button } from "./Button"
 import card from "../assets/ui/missionCard.png"
-
-const Box = styled.div` 
-background-image: url(${props=>props.bg});
-background-size: cover;
-height: 456px;
-width: 318px;
-text-align: center;
-padding: 24px 54px;
-box-sizing: border-box;
-display:flex;
-flex-direction: column;
-font-family: 'Joan', serif;
-color:white;
-text-shadow: 1px 1px black;
-gap: 5px;
-flex-wrap: wrap;
-`
+import { Box } from "./Box"
 
 const Title = styled.h3``
 const Description = styled.p`
@@ -81,11 +65,7 @@ export const RegisterBox = () => {
                     type="password" 
                 />
                 <Button type="submit">Submit</Button>
-
-                {
-                error && 
-                    <Description sx={{ mt: 1 }} severity="error">{error}</Description>
-                }
+                {error && <Description>{error}</Description>}
             </Box>
         </form>
     )
