@@ -20,8 +20,8 @@ export const CharacterProvider = ({children}) => {
             return setError(response)
     }
 
-    const startTask = async(taskId, type) => {
-        const response = await startTaskDB(user.uid, taskId, type)
+    const startTask = async(taskId, type, option) => {
+        const response = await startTaskDB(user.uid, taskId, type, option)
         if(typeof response === 'string')
             return setError(response)
     }

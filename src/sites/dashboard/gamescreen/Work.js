@@ -4,9 +4,16 @@ import { Background } from '../../../components/Background'
 import { Bar } from '../../../components/Bar'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { useTime } from '../../../hooks/useTime'
-import { CenteredLoading } from "../../../components/CenteredLoading"
 import { bgs } from '../../../utils/backgroundController'
 import { taskTimes } from '../../../logic/TaskLogic'
+import { Button } from '../../../components/Button'
+
+const Wrapper = styled.div` 
+color:white;
+`
+
+const Slider = styled.input` 
+`
 
 const Main = styled.main` 
 color:white;
@@ -29,6 +36,8 @@ export const Work = () => {
   const [endTime, setEndTime] = useState(0)
   const {startTask, character, endTask} = useCharacter()
   const time = useTime(1000) //force slow rerender
+
+  const [hours, setHours] = useState (1)
   
 
   if(character?.progress?.busy)
@@ -40,7 +49,20 @@ export const Work = () => {
   return (
     <Background img={bgs[1]}>
       {
-        character?.progress?.busy === false ? <button onClick={()=>startTask("0", "work")}>Start working in blacksmith</button> : 
+        character?.progress?.busy === false ? 
+          <Main>
+            <Slider
+              type="range"
+              id="slider"
+              min="1"
+              max="10"
+              onChange={(e)=>setHours(e.target.value)}
+              value={hours}
+            />
+            {hours}
+            <Button wide onClick={()=>startTask("0", "work", hours)}>Start working in blacksmith</Button> 
+          </Main>
+        : 
           character?.progress?.task?.type==="work" ?
             timeLeft > 0 ?
               <Main>
@@ -59,7 +81,7 @@ export const Work = () => {
               <Main>
                 <Title>You have finished your work.</Title>
                 {character?.progress?.task.name} 
-                <button onClick={endTask}>Claim reward</button>
+                <Button onClick={endTask}>Claim reward</Button>
               </Main>
           :
           <Main>
