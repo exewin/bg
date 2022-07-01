@@ -7,7 +7,7 @@ import {Creation} from "./sites/dashboard/Creation"
 import { Gamescreen } from "./sites/dashboard/Gamescreen"
 import { Character } from "./sites/dashboard/gamescreen/Character"
 import { Mission } from "./sites/dashboard/gamescreen/Mission"
-import { Chat } from "./sites/dashboard/gamescreen/Chat"
+import { Mail } from "./sites/dashboard/gamescreen/Mail"
 import { Work } from "./sites/dashboard/gamescreen/Work"
 import { CharacterProvider } from "./contexts/CharacterContext"
 
@@ -23,7 +23,7 @@ export const App = () => {
                 <Route path="gamescreen" element={<Gamescreen/>}>
                   <Route path="character" element={<Character/>}/>
                   <Route path="mission" element={<Mission/>}/>
-                  <Route path="chat" element={<Chat/>}/>
+                  <Route path="mail" element={<Mail/>}/>
                   <Route path="work" element={<Work/>}/>
                 </Route>
               </Route>
