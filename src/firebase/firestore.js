@@ -1,6 +1,7 @@
-import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc, Timestamp} from "firebase/firestore"
+import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, Timestamp, where} from "firebase/firestore"
 import { AddPoint } from "../logic/AddPoint"
 import { levelUp } from "../logic/CharacterLevelUp"
+import { getStartVariables } from "../logic/CharacterTemplate"
 import { taskTimes } from "../logic/TaskLogic"
 
 const firestore = getFirestore()
@@ -16,14 +17,17 @@ export const userExistsDB = async (uid) => {
 
 export const createCharacterDB = async (uid, character) => {
     console.log("create character")
-    const query = await getDocs(collection(firestore, `character_start_variables`))
-    let obj = {}
-    query.forEach((doc) => {
-        obj = {[doc.id]: doc.data(), ...obj}
-    })
+    const dbDoc = await getDoc(doc(firestore, `usernames/usernames`))
+    const data = dbDoc.data().names
+    if(data.includes(character.name)){
+        throw new Error("This name is already taken.")
+    } else {
+        data.push(character.name)
+    }
+    await setDoc(doc(firestore, `usernames/usernames`), {names:data}, {merge:true})
     const newCharacter = {
         information: character,
-        ...obj
+        ...getStartVariables
     }
     await setMissions(newCharacter)
     await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
@@ -38,6 +42,20 @@ export const getUserInfoDB = async (uid) => {
     }
     else return null
 }   
+
+export const findUserByNameDB = async(name, msg, author) => {
+    let response = false
+    const q = query(collection(firestore, "users"), where("information.name", "==", name))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((d) => {
+    console.log(d.id, " => ", d.data())
+    const data = d.data()
+    data.mails.push({msg: msg, author: author, read: false})
+    response = true
+    setDoc(doc(firestore, `users/${d.id}`), data, {merge:true})
+    })
+    return response;
+}
 
 export const currentTimeDB = async() => {
     let date = new Date()
