@@ -24,10 +24,6 @@ flex-direction:column;
 align-items: center;
 `
 
-const ButtonWrapper = styled.div` 
-display:flex;
-flex-direction:row;
-`
 
 const LetterBox = styled.div`
 display:flex;
@@ -47,6 +43,7 @@ flex-direction: column;
 font-size: 24px;
 color:black;
 text-shadow: none;
+margin-bottom: 5px;
 `
 
 const Title = styled.h3` 
@@ -73,7 +70,7 @@ border:none;
 resize: none;
 outline: none;
 font-size: 24px;
-height:100px;
+height:500px;
 max-width: 400px;
 min-width:400px;
 `
@@ -93,7 +90,7 @@ export const Mail = () => {
 
     const sendMessage = () => {
         if(!msg || !receiver){
-            return console.log("error")
+            return setRes("Message or Receiver can't be empty.")
         }
         else{
             findUserByNameDB(receiver, msg, character.information.name).then(response=>{
@@ -106,6 +103,14 @@ export const Mail = () => {
                 }
             })
         }
+    }
+
+    const setMessage = (str) => {
+        if(str.length > 480){
+            setRes("Reached maximum message length.")
+            str.length = 480
+        }
+        setMsg(str)
     }
 
     const selectLetter = (letter) => {
@@ -140,7 +145,7 @@ export const Mail = () => {
                         <Message><InputMessage
                             placeholder="message"
                             value={msg}
-                            onChange={(e)=>setMsg(e.target.value)}
+                            onChange={(e)=>setMessage(e.target.value)}
                         /></Message>
                         <Author>{character?.information?.name}</Author>
                     </Letter>
