@@ -4,6 +4,7 @@ import bag from "../assets/icons/bag.png"
 import plus from "../assets/ui/plus.png"
 import disabled from "../assets/ui/disabled_plus.png"
 import hovered from "../assets/ui/hovered_plus.png"
+import { capitalizeWord } from '../utils/capitalizeWord'
 
 
 const Button = styled.div` 
@@ -43,10 +44,6 @@ width:${props=>props.w}px;
 export const StatRow = ({name, stat, cost, money, hover, setHover, addPoint}) => {
 
     const [ownHover, setOwnHover] = useState(false)
-
-    const capitalizeWord = (str) => {
-        return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
-      }
 
   return (
     cost <= money ?

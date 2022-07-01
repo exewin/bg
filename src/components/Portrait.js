@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { capitalizeWord } from '../utils/capitalizeWord'
 import { portraits } from '../utils/portraitController'
 
 const Div = styled.div`
@@ -34,10 +35,6 @@ bottom:5px;
 `
 
 export const Portrait = ({index, charClass, name, level}) => {
-
-  const capitalizeWord = (str) => {
-    return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
-  }
     
   return (
     <Div>
