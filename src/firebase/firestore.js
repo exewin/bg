@@ -65,7 +65,7 @@ export const currentTimeDB = async() => {
     return date.valueOf()/1000
 }
 
-export const startTaskDB = async(uid, taskId, type) => {
+export const startTaskDB = async(uid, taskId, type, option = 1) => {
     console.log("start task")
     const character = await getDoc(doc(firestore, `users/${uid}`))
     const characterData = character.data() 
@@ -83,12 +83,13 @@ export const startTaskDB = async(uid, taskId, type) => {
     else return "type error"
 
     const addToTimestamp = Timestamp.now().toDate()
-    addToTimestamp.setSeconds(addToTimestamp.getSeconds() + taskData.time);
+    addToTimestamp.setSeconds(addToTimestamp.getSeconds() + taskData.time * option);
     characterData.progress.taskEnd = Timestamp.fromDate(addToTimestamp)
     characterData.progress.taskStart = Timestamp.now().toDate()
     characterData.progress.busy = true
     characterData.progress.task = taskData
     characterData.progress.task.type = type
+    characterData.progress.task.gold *= option
 
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
