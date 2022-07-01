@@ -12,6 +12,7 @@ display:flex;
 align-items: center;
 justify-content: center;
 align-self: center;
+text-align: center;
 cursor: pointer;
 user-select: none;
 ${props=>props.css};
