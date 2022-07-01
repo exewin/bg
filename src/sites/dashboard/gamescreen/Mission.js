@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
 import { Bar } from '../../../components/Bar'
+import { Button } from '../../../components/Button'
 import { MissionBox } from '../../../components/MissionBox'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { useTime } from '../../../hooks/useTime'
@@ -99,7 +100,7 @@ export const Mission = () => {
               <Main>
                 <Title>You have finished your mission.</Title>
                 {character?.progress?.task.name} 
-                <button onClick={endTask}>Claim reward</button>
+                <Button onClick={endTask}>Claim reward</Button>
               </Main>
           :
           <Main>
