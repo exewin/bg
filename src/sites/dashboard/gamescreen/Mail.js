@@ -9,6 +9,7 @@ import { useCharacter } from '../../../contexts/CharacterContext'
 import { sendMailDB } from '../../../firebase/firestore'
 import { capitalizeWord } from '../../../utils/capitalizeWord'
 import { ColorHighlight } from '../../../components/ColorHighlight'
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 
 const Wrapper = styled.div` 
 display:flex;
@@ -118,11 +119,21 @@ export const Mail = () => {
     const [write, setWrite] = useState(false)
     const [selectedLetter, setSelectedLetter] = useState(null)
     const {character, deleteMail} = useCharacter()
+    const { name } = useParams()
+    const navigate = useNavigate()
+
 
     useEffect(()=>{
         if(write)
             setSelectedLetter(null)
     },[write])
+
+    useEffect(()=>{
+        if(name){
+            setWrite(true)
+            setReceiver(name)
+        }
+    },[])
 
     const sendMessage = () => {
         if(!msg || !receiver){
@@ -162,6 +173,10 @@ export const Mail = () => {
     const respond = () => {
         setReceiver(selectedLetter?.author)
         setWrite(true)
+    }
+
+    const checkProfile = () => {
+        navigate(`../players/${selectedLetter?.author}`)
     }
     
     return (
@@ -217,6 +232,7 @@ export const Mail = () => {
                 <ButtonWrapper>
                     <Button onClick={deleteMessage}>Delete</Button>
                     <Button onClick={respond}>Respond</Button>
+                    <Button onClick={checkProfile}>Check Profile</Button>
                 </ButtonWrapper>
                 </LetterBox>
                 }           
