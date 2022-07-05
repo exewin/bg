@@ -6,8 +6,8 @@ import wbtn from "../assets/ui/high_button.png"
 const Div=styled.div` 
 background-image: url(${props=>props.bg});
 background-size: cover;
-width:${props=>props.w}px;
-height:${props=>props.h}px;
+min-width:${props=>props.w}px;
+min-height:${props=>props.h}px;
 display:flex;
 align-items: center;
 justify-content: center;
