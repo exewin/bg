@@ -178,7 +178,7 @@ export const Mail = () => {
                                 <SingleMail>
                                     <ColorHighlight light={selectedLetter?.i} match={i}>{`${character?.mails[keyName]?.author}`}</ColorHighlight>
                                     <ColorHighlight light={selectedLetter?.i} match={i}>
-                                        {new Date(character?.mails[keyName]?.date.toDate()).toLocaleTimeString('en-us', {})}
+                                        {new Date(character?.mails[keyName]?.date?.toDate()).toLocaleTimeString('en-us', {})}
                                     </ColorHighlight>
                                 </SingleMail>
                             </Button>
