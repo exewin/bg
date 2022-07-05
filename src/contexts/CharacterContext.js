@@ -38,8 +38,10 @@ export const CharacterProvider = ({children}) => {
             return setError(response)
     }
 
+    const clearError = () => setError("")
+
     return(
-        <CharacterContext.Provider value={{character, addPoint, error, startTask, setCharacter, endTask, deleteMail}}>
+        <CharacterContext.Provider value={{character, addPoint, error, clearError, startTask, setCharacter, endTask, deleteMail}}>
             {children}
         </CharacterContext.Provider>
     )
