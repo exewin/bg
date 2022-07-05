@@ -19,7 +19,5 @@ export const getStartVariables = {
         strength: 10,
         xp: 0,
     },
-    mails: [
-        {author: "King", msg: "Welcome", read: false}
-    ]
+    mails: []
 }
