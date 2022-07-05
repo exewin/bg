@@ -43,7 +43,7 @@ export const getUserInfoDB = async (uid) => {
     else return null
 }   
 
-const findUserByNameDB = async(name) => {
+export const findUserByNameDB = async(name) => {
     console.log("find user by name")
     let response = false
     const q = query(collection(firestore, "users"), where("information.name", "==", name))
