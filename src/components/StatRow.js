@@ -49,30 +49,30 @@ export const StatRow = ({name, stat, cost, money, hover, setHover, addPoint}) =>
     cost <= money ?
         <Detail>
             {name && capitalizeWord(name)}: <Number>{stat}</Number> 
-            <AddButton 
+            {addPoint && <AddButton 
                 onClick={()=>addPoint(name)} 
                 onMouseEnter={()=>{
-                    setHover(true)
+                    setHover && setHover(true)
                     setOwnHover(true)
                 }}
                 onMouseOut={()=>{
-                    setHover(false)
+                    setHover && setHover(false)
                     setOwnHover(false)
                 }}
             >
                 <Img src={ownHover ? hovered : plus} w={17}/>
-            </AddButton>
+            </AddButton>}
             {hover && <Number>{cost}<Img src={bag} w={17}/></Number>}
         </Detail>
         :
         <Detail>
             {name && capitalizeWord(name)}: <Number>{stat}</Number> 
-            <DisabledButton
-                onMouseEnter={()=>setHover(true)}
-                onMouseOut={()=>setHover(false)}
+            {addPoint && <DisabledButton
+                onMouseEnter={()=>setHover && setHover(true)}
+                onMouseOut={()=>setHover && setHover(false)}
             >
                 <Img src={disabled} w={17}/>
-            </DisabledButton>
+            </DisabledButton>}
             {hover && <Number>{cost}<Img src={bag} w={17}/></Number>}
         </Detail>
   )
