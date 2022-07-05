@@ -39,7 +39,7 @@ width:${props=>props.w}px;
 
 export const Character = () => {
 
-    const {character, addPoint, error} = useCharacter()
+    const {character, addPoint} = useCharacter()
     const [hover, setHover] = useState(false)
 
     return (
@@ -84,7 +84,6 @@ export const Character = () => {
 
                 </StatGrid>
                 <Detail><Img src={bag} w={32}/> <Number>{character?.stats?.money}</Number></Detail>
-                {error}
             </Background> : <CenteredLoading/> 
             }
         </>

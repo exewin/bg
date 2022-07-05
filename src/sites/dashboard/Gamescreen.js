@@ -8,6 +8,7 @@ import { playSound, stopAll } from '../../utils/soundController'
 import highButton from "../../assets/ui/high_button.png"
 import sideBg from "../../assets/ui/side_bg.png"
 import { ColorHighlight } from '../../components/ColorHighlight'
+import { ErrorFade } from '../../components/ErrorFade'
 
 
 const Container = styled.div` 
@@ -74,18 +75,20 @@ export const Gamescreen = () => {
 
 
   return (
-    <Container>
-        <SideMenu bg={sideBg}>
-          <Link to={"character"}><Button bg={highButton}><ColorHighlight light={location} match="character">Character</ColorHighlight></Button></Link>
-          <Link to={"mission"}><Button bg={highButton}><ColorHighlight light={location} match="mission">Mission</ColorHighlight></Button></Link>
-          <Link to={"work"}><Button bg={highButton}><ColorHighlight light={location} match="work">Work</ColorHighlight></Button></Link>
-          <Link to={"mail"}><Button bg={highButton}><ColorHighlight light={location} match="mail">Mail</ColorHighlight></Button></Link>
-          <Link to={"players"}><Button bg={highButton}><ColorHighlight light={location} match="players">Players</ColorHighlight></Button></Link>
-          {error}
-        </SideMenu>
-        <SelectedMenu>
-            <Outlet/>
-        </SelectedMenu>
-    </Container>
+    <>
+      <Container>
+          <SideMenu bg={sideBg}>
+            <Link to={"character"}><Button bg={highButton}><ColorHighlight light={location} match="character">Character</ColorHighlight></Button></Link>
+            <Link to={"mission"}><Button bg={highButton}><ColorHighlight light={location} match="mission">Mission</ColorHighlight></Button></Link>
+            <Link to={"work"}><Button bg={highButton}><ColorHighlight light={location} match="work">Work</ColorHighlight></Button></Link>
+            <Link to={"mail"}><Button bg={highButton}><ColorHighlight light={location} match="mail">Mail</ColorHighlight></Button></Link>
+            <Link to={"players"}><Button bg={highButton}><ColorHighlight light={location} match="players">Players</ColorHighlight></Button></Link>
+          </SideMenu>
+          <SelectedMenu>
+              <Outlet/>
+          </SelectedMenu>
+      </Container>
+      <ErrorFade/>
+    </>
   )
 }
