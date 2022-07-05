@@ -8,6 +8,7 @@ import paper from "../../../assets/ui/paper.png"
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { sendMailDB } from '../../../firebase/firestore'
 import { capitalizeWord } from '../../../utils/capitalizeWord'
+import { ColorHighlight } from '../../../components/ColorHighlight'
 
 const Wrapper = styled.div` 
 display:flex;
@@ -53,6 +54,9 @@ const Dear = styled.div`
 `
 
 const Message = styled.div` 
+height:500px;
+max-width: 400px;
+min-width:400px;
 `
 
 const InputReceiver = styled.input`
@@ -61,6 +65,8 @@ background: none;
 border:none;
 outline: none;
 font-size: 24px;
+padding: 0;
+margin: 0;
 `
 
 const InputMessage = styled.textarea` 
@@ -69,6 +75,8 @@ background: none;
 border:none;
 resize: none;
 outline: none;
+padding: 0;
+margin: 0;
 font-size: 24px;
 height:500px;
 max-width: 400px;
@@ -78,6 +86,8 @@ min-width:400px;
 const Author = styled.p` 
 text-align: right;
 `
+
+
 
 export const Mail = () => {
 
@@ -132,7 +142,9 @@ export const Mail = () => {
                     <Title>Mailbox:</Title>
                     {character.mails && Object.keys(character.mails).map((keyName, i) => (
                         <Button onClick={()=>selectLetter({...character?.mails[keyName], i})}>
-                            {`${character?.mails[keyName]?.author}` /*${!character?.mails[keyName]?.read ? "(new)" : "(old)"}*/}
+                            <ColorHighlight light={selectedLetter?.i} match={i}>
+                                {`${character?.mails[keyName]?.author}` /*${!character?.mails[keyName]?.read ? "(new)" : "(old)"}*/}
+                            </ColorHighlight>
                         </Button>
                     ))}
                     </Box>
@@ -147,11 +159,11 @@ export const Mail = () => {
                             value={receiver}
                             onChange={(e)=>setReceiver(capitalizeWord(e.target.value))}
                         /></Dear>
-                        <Message><InputMessage
+                        <InputMessage
                             placeholder="message"
                             value={msg}
                             onChange={(e)=>setMessage(e.target.value)}
-                        /></Message>
+                        />
                         <Author>{character?.information?.name}</Author>
                     </Letter>
                     <Button onClick={sendMessage}>Send</Button>
@@ -161,8 +173,8 @@ export const Mail = () => {
                 <Title>Read Letter:</Title>
                 <Letter bg={paper}>
                     <Dear> Dear {character?.information?.name}</Dear>
-                    <Message>{selectedLetter.msg}</Message>
-                    <Author>{selectedLetter.author}</Author>
+                    <Message>{selectedLetter?.msg}</Message>
+                    <Author>{selectedLetter?.author}</Author>
                 </Letter>
                 <Button onClick={deleteMessage}>Delete</Button>
                 </LetterBox>
