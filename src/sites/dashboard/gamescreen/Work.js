@@ -8,10 +8,6 @@ import { bgs } from '../../../utils/backgroundController'
 import { taskTimes } from '../../../logic/TaskLogic'
 import { Button } from '../../../components/Button'
 
-const Wrapper = styled.div` 
-color:white;
-`
-
 const Slider = styled.input` 
 `
 
@@ -59,7 +55,7 @@ export const Work = () => {
               onChange={(e)=>setHours(e.target.value)}
               value={hours}
             />
-            {hours}
+            minutes: {hours}
             <Button wide onClick={()=>startTask("0", "work", hours)}>Start working in blacksmith</Button> 
           </Main>
         : 
