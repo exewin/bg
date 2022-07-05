@@ -24,9 +24,13 @@ export const App = () => {
                 <Route path="gamescreen" element={<Gamescreen/>}>
                   <Route path="character" element={<Character/>}/>
                   <Route path="mission" element={<Mission/>}/>
-                  <Route path="mail" element={<Mail/>}/>
+                  <Route path="mail" element={<Mail/>}>
+                    <Route path=":name" element={<Mail/>}/>
+                  </Route>
                   <Route path="work" element={<Work/>}/>
-                  <Route path="players" element={<Players/>}/>
+                  <Route path="players" element={<Players/>}>
+                    <Route path=":name" element={<Players/>}/>
+                  </Route>
                 </Route>
               </Route>
             </Routes>
