@@ -65,6 +65,13 @@ export const sendMailDB = async(name, msg, author) => {
     return false
 }
 
+export const deleteMailDB = async(uid, id) => {
+    const character = await getDoc(doc(firestore, `users/${uid}`))
+    let characterData = character.data()
+    characterData = {...characterData, mails: characterData.mails.filter((_, i)=> i!==id)}
+    await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+}
+
 export const currentTimeDB = async() => {
     let date = new Date()
     await fetch("http://worldtimeapi.org/api/timezone/Europe/Warsaw")

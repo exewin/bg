@@ -6,7 +6,7 @@ import { Button } from '../../../components/Button'
 import { bgs } from '../../../utils/backgroundController'
 import paper from "../../../assets/ui/paper.png"
 import { useCharacter } from '../../../contexts/CharacterContext'
-import { findUserByNameDB, sendMailDB } from '../../../firebase/firestore'
+import { sendMailDB } from '../../../firebase/firestore'
 import { capitalizeWord } from '../../../utils/capitalizeWord'
 
 const Wrapper = styled.div` 
@@ -86,7 +86,7 @@ export const Mail = () => {
     const [res, setRes] = useState("")
     const [write, setWrite] = useState(false)
     const [selectedLetter, setSelectedLetter] = useState(null)
-    const {character} = useCharacter()
+    const {character, deleteMail} = useCharacter()
 
     const sendMessage = () => {
         if(!msg || !receiver){
@@ -113,6 +113,11 @@ export const Mail = () => {
         setMsg(str)
     }
 
+    const deleteMessage = () => {
+        deleteMail(selectedLetter.i)
+        setSelectedLetter(null)
+    }
+
     const selectLetter = (letter) => {
         setSelectedLetter(letter)
         setWrite(false)
@@ -126,7 +131,7 @@ export const Mail = () => {
                     <Box scale={1.2}>
                     <Title>Mailbox:</Title>
                     {character.mails && Object.keys(character.mails).map((keyName, i) => (
-                        <Button onClick={()=>selectLetter(character?.mails[keyName])}>
+                        <Button onClick={()=>selectLetter({...character?.mails[keyName], i})}>
                             {`${character?.mails[keyName]?.author}` /*${!character?.mails[keyName]?.read ? "(new)" : "(old)"}*/}
                         </Button>
                     ))}
@@ -159,7 +164,7 @@ export const Mail = () => {
                     <Message>{selectedLetter.msg}</Message>
                     <Author>{selectedLetter.author}</Author>
                 </Letter>
-                <Button>Delete</Button>
+                <Button onClick={deleteMessage}>Delete</Button>
                 </LetterBox>
                 }           
             </Wrapper>
