@@ -7,6 +7,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { playSound, stopAll } from '../../utils/soundController'
 import highButton from "../../assets/ui/high_button.png"
 import sideBg from "../../assets/ui/side_bg.png"
+import { ColorHighlight } from '../../components/ColorHighlight'
 
 
 const Container = styled.div` 
@@ -46,9 +47,6 @@ overflow-x: hidden;
 padding-left:2px;
 `
 
-const Color = styled.span`
-color: ${props=>props.light === props.match ? 'yellow' : 'white'};
-`
 
 export const Gamescreen = () => {
 
@@ -78,10 +76,10 @@ export const Gamescreen = () => {
   return (
     <Container>
         <SideMenu bg={sideBg}>
-          <Link to={"character"}><Button bg={highButton}><Color light={location} match="character">Character</Color></Button></Link>
-          <Link to={"mission"}><Button bg={highButton}><Color light={location} match="mission">Mission</Color></Button></Link>
-          <Link to={"work"}><Button bg={highButton}><Color light={location} match="work">Work</Color></Button></Link>
-          <Link to={"mail"}><Button bg={highButton}><Color light={location} match="mail">Mail</Color></Button></Link>
+          <Link to={"character"}><Button bg={highButton}><ColorHighlight light={location} match="character">Character</ColorHighlight></Button></Link>
+          <Link to={"mission"}><Button bg={highButton}><ColorHighlight light={location} match="mission">Mission</ColorHighlight></Button></Link>
+          <Link to={"work"}><Button bg={highButton}><ColorHighlight light={location} match="work">Work</ColorHighlight></Button></Link>
+          <Link to={"mail"}><Button bg={highButton}><ColorHighlight light={location} match="mail">Mail</ColorHighlight></Button></Link>
           {error}
         </SideMenu>
         <SelectedMenu>
