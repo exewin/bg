@@ -80,6 +80,7 @@ export const Gamescreen = () => {
           <Link to={"mission"}><Button bg={highButton}><ColorHighlight light={location} match="mission">Mission</ColorHighlight></Button></Link>
           <Link to={"work"}><Button bg={highButton}><ColorHighlight light={location} match="work">Work</ColorHighlight></Button></Link>
           <Link to={"mail"}><Button bg={highButton}><ColorHighlight light={location} match="mail">Mail</ColorHighlight></Button></Link>
+          <Link to={"players"}><Button bg={highButton}><ColorHighlight light={location} match="players">Players</ColorHighlight></Button></Link>
           {error}
         </SideMenu>
         <SelectedMenu>

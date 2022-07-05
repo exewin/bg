@@ -10,6 +10,7 @@ import { Mission } from "./sites/dashboard/gamescreen/Mission"
 import { Mail } from "./sites/dashboard/gamescreen/Mail"
 import { Work } from "./sites/dashboard/gamescreen/Work"
 import { CharacterProvider } from "./contexts/CharacterContext"
+import { Players } from "./sites/dashboard/gamescreen/Players"
 
 export const App = () => {
   return(
@@ -25,6 +26,7 @@ export const App = () => {
                   <Route path="mission" element={<Mission/>}/>
                   <Route path="mail" element={<Mail/>}/>
                   <Route path="work" element={<Work/>}/>
+                  <Route path="players" element={<Players/>}/>
                 </Route>
               </Route>
             </Routes>
