@@ -58,7 +58,8 @@ export const sendMailDB = async(name, msg, author) => {
     console.log("send mail db")
     const {data, id} = await findUserByNameDB(name)
     if(data){
-        data.mails.push({msg, author, read: false})
+        const date = Timestamp.now().toDate()
+        data.mails.push({msg, author, read: false, date})
         setDoc(doc(firestore, `users/${id}`), data, {merge:true})
         return true
     }
