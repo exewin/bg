@@ -43,18 +43,26 @@ export const getUserInfoDB = async (uid) => {
     else return null
 }   
 
-export const findUserByNameDB = async(name, msg, author) => {
+const findUserByNameDB = async(name) => {
+    console.log("find user by name")
     let response = false
     const q = query(collection(firestore, "users"), where("information.name", "==", name))
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((d) => {
-    console.log(d.id, " => ", d.data())
-    const data = d.data()
-    data.mails.push({msg: msg, author: author, read: false})
-    response = true
-    setDoc(doc(firestore, `users/${d.id}`), data, {merge:true})
+        response = {data: d.data(), id: d.id}
     })
-    return response;
+    return response
+}
+
+export const sendMailDB = async(name, msg, author) => {
+    console.log("send mail db")
+    const {data, id} = await findUserByNameDB(name)
+    if(data){
+        data.mails.push({msg, author, read: false})
+        setDoc(doc(firestore, `users/${id}`), data, {merge:true})
+        return true
+    }
+    return false
 }
 
 export const currentTimeDB = async() => {

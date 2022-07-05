@@ -6,7 +6,7 @@ import { Button } from '../../../components/Button'
 import { bgs } from '../../../utils/backgroundController'
 import paper from "../../../assets/ui/paper.png"
 import { useCharacter } from '../../../contexts/CharacterContext'
-import { findUserByNameDB } from '../../../firebase/firestore'
+import { findUserByNameDB, sendMailDB } from '../../../firebase/firestore'
 import { capitalizeWord } from '../../../utils/capitalizeWord'
 
 const Wrapper = styled.div` 
@@ -93,7 +93,7 @@ export const Mail = () => {
             return setRes("Message or Receiver can't be empty.")
         }
         else{
-            findUserByNameDB(receiver, msg, character.information.name).then(response=>{
+            sendMailDB(receiver, msg, character.information.name).then(response=>{
                 if(response){
                     setRes("Success.")
                     setReceiver("")
