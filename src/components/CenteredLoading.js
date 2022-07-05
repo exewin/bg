@@ -1,4 +1,3 @@
-import { CircularProgress } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -12,7 +11,7 @@ height: 100%;
 export const CenteredLoading = () => {
   return (
     <Div>
-        <CircularProgress/>
+        Loading...
     </Div>
   )
 }
