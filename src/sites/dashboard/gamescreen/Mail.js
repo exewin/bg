@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
 import { Box } from '../../../components/Box'
@@ -87,6 +87,27 @@ const Author = styled.p`
 text-align: right;
 `
 
+const ButtonWrapper = styled.div` 
+display:flex;
+flex-direction:row;
+align-self: center;
+`
+
+const SingleMail = styled.div` 
+width: 100%;
+display:grid;
+grid-template-columns: 1fr 1fr;
+`
+
+const Mails = styled.div` 
+max-height: 380px;
+overflow-y: auto;
+`
+
+const Reverse = styled.div`
+display:flex;
+flex-direction:column-reverse;
+`
 
 
 export const Mail = () => {
@@ -97,6 +118,11 @@ export const Mail = () => {
     const [write, setWrite] = useState(false)
     const [selectedLetter, setSelectedLetter] = useState(null)
     const {character, deleteMail} = useCharacter()
+
+    useEffect(()=>{
+        if(write)
+            setSelectedLetter(null)
+    },[write])
 
     const sendMessage = () => {
         if(!msg || !receiver){
@@ -132,21 +158,33 @@ export const Mail = () => {
         setSelectedLetter(letter)
         setWrite(false)
     }
+
+    const respond = () => {
+        setReceiver(selectedLetter?.author)
+        setWrite(true)
+    }
     
     return (
         <Background img={bgs[2]}>
             <Wrapper>
                 <MenuWrapper>
-                        <Button wide onClick={()=>setWrite(true)}>Write</Button>
+                    <Button wide onClick={()=>setWrite(true)}><ColorHighlight light={write} match={true}>Write</ColorHighlight></Button>
                     <Box scale={1.2}>
                     <Title>Mailbox:</Title>
-                    {character.mails && Object.keys(character.mails).map((keyName, i) => (
-                        <Button onClick={()=>selectLetter({...character?.mails[keyName], i})}>
-                            <ColorHighlight light={selectedLetter?.i} match={i}>
-                                {`${character?.mails[keyName]?.author}` /*${!character?.mails[keyName]?.read ? "(new)" : "(old)"}*/}
-                            </ColorHighlight>
-                        </Button>
-                    ))}
+                    <Mails>
+                        <Reverse>
+                        {character.mails && Object.keys(character.mails).map((keyName, i) => (
+                            <Button key={keyName} wide size={1.3} onClick={()=>selectLetter({...character?.mails[keyName], i})}>
+                                <SingleMail>
+                                    <ColorHighlight light={selectedLetter?.i} match={i}>{`${character?.mails[keyName]?.author}`}</ColorHighlight>
+                                    <ColorHighlight light={selectedLetter?.i} match={i}>
+                                        {new Date(character?.mails[keyName]?.date.toDate()).toLocaleTimeString('en-us', {})}
+                                    </ColorHighlight>
+                                </SingleMail>
+                            </Button>
+                        ))}
+                        </Reverse>
+                    </Mails>
                     </Box>
                 </MenuWrapper>
                 {write ? 
@@ -176,7 +214,10 @@ export const Mail = () => {
                     <Message>{selectedLetter?.msg}</Message>
                     <Author>{selectedLetter?.author}</Author>
                 </Letter>
-                <Button onClick={deleteMessage}>Delete</Button>
+                <ButtonWrapper>
+                    <Button onClick={deleteMessage}>Delete</Button>
+                    <Button onClick={respond}>Respond</Button>
+                </ButtonWrapper>
                 </LetterBox>
                 }           
             </Wrapper>
