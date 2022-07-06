@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import btn from "../assets/ui/button.png"
 import wbtn from "../assets/ui/high_button.png"
+import wbtnd from "../assets/ui/high_button_dot.png"
+import btnd from "../assets/ui/button_dot.png"
 
 const Div=styled.div` 
 background-image: url(${props=>props.bg});
@@ -18,10 +20,21 @@ user-select: none;
 ${props=>props.css};
 `
 
-export const Button = ({children, onClick, wide = false, css, size=1}) => {
-  const width = 164*size
+export const Button = ({children, onClick, wide = false, dot=false, css, size=1}) => {
+  const width = dot && wide ? 54*size : dot ? 27*size : 164*size
   const height = wide ? 54*size : 27*size;
+  const bg = () => {
+    if(wide && dot)
+      return wbtnd
+    else if(wide)
+      return wbtn
+    else if(dot)
+      return btnd
+    else
+      return btn
+
+  }
   return (
-    <Div bg={wide ? wbtn : btn} w={width} h={height} css={css} onClick={onClick}>{children}</Div>
+    <Div bg={bg} w={width} h={height} css={css} onClick={onClick}>{children}</Div>
   )
 }
