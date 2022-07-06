@@ -6,7 +6,7 @@ import { userExistsDB } from '../firebase/firestore'
 import styled from 'styled-components'
 import { CenteredLoading } from '../components/CenteredLoading'
 import { Footer } from '../components/Footer'
-
+import logoutIcon from "../assets/ui/logout.svg"
 import { MissionInjector } from '../adminTool/MissionInjector'
 
 const Container = styled.div`
@@ -20,6 +20,11 @@ height: 90vh;
 display: flex;
 justify-content: center;
 align-items: center;
+`
+
+const LogoutIcon = styled.img` 
+height: 16px;
+filter: invert(100%);
 `
 
 const Nav = styled.nav`
@@ -60,9 +65,8 @@ export const Dashboard = () => {
             :
                 <>
                     <Nav>
-                        Account: {user.email}
                         <MissionInjector/>
-                        <LogoutButton>s</LogoutButton>
+                        <LogoutButton><LogoutIcon src = {logoutIcon}/></LogoutButton>
                     </Nav>
                     <SubContainer>
                         <Outlet/>

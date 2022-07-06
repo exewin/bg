@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuth } from "../contexts/AuthContext"
 import { useNavigate } from 'react-router-dom'
+import { Button } from './Button'
 
 export const LogoutButton = ({children}) => {
     const {logout} = useAuth()
@@ -16,6 +17,6 @@ export const LogoutButton = ({children}) => {
     }
 
   return (
-    <button  onClick={handleClick}>{children}</button>
+    <Button dot size={1.2} onClick={handleClick}>{children}</Button>
   )
 }
