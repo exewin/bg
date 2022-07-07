@@ -79,8 +79,8 @@ export const Players = () => {
                         stat={character?.stats?.strength} 
                     />
                     <StatRow 
-                        name={"dexterity"}
-                        stat={character?.stats?.dexterity} 
+                        name={"wisdom"}
+                        stat={character?.stats?.wisdom} 
                     />
                     <StatRow 
                         name={"endurance"}

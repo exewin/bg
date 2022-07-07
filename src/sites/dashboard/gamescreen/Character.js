@@ -8,6 +8,7 @@ import { Bar } from '../../../components/Bar'
 import { bgs } from '../../../utils/backgroundController'
 import bag from "../../../assets/icons/bag.png"
 import { StatRow } from '../../../components/StatRow'
+import { Slot } from '../../../components/Slot'
 
 
 const StatGrid = styled.div` 
@@ -34,6 +35,10 @@ padding-right: 2px;
 
 const Img = styled.img` 
 width:${props=>props.w}px;
+`
+
+const Inventory = styled.div` 
+
 `
 
 
@@ -64,9 +69,9 @@ export const Character = () => {
                         addPoint={addPoint}
                     />
                     <StatRow 
-                        name={"dexterity"}
-                        stat={character?.stats?.dexterity} 
-                        cost={character?.stats?.dexCost} 
+                        name={"wisdom"}
+                        stat={character?.stats?.wisdom} 
+                        cost={character?.stats?.wisCost} 
                         money={character?.stats?.money} 
                         hover={hover} 
                         setHover={setHover} 
@@ -84,6 +89,12 @@ export const Character = () => {
 
                 </StatGrid>
                 <Detail><Img src={bag} w={32}/> <Number>{character?.stats?.money}</Number></Detail>
+                <Inventory>
+                    <Slot item={1}/>
+                    <Slot item={0}/>
+                    <Slot item={1}/>
+                    <Slot item={0}/>
+                </Inventory>
             </Background> : <CenteredLoading/> 
             }
         </>
