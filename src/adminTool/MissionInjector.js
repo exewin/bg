@@ -9,6 +9,6 @@ export const MissionInjector = () => {
     }
 
     return (
-        <button onClick={injectMission}>inject</button>
+        <button onClick={injectMission}>inject missions</button>
     )
 }
