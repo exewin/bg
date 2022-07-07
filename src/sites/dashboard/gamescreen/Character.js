@@ -90,10 +90,8 @@ export const Character = () => {
                 </StatGrid>
                 <Detail><Img src={bag} w={32}/> <Number>{character?.stats?.money}</Number></Detail>
                 <Inventory>
-                    <Slot item={1}/>
-                    <Slot item={0}/>
-                    <Slot item={1}/>
-                    <Slot item={0}/>
+                    <Slot item={character?.items[0]}/>
+                    <Slot item={character?.items[1]}/>
                 </Inventory>
             </Background> : <CenteredLoading/> 
             }
