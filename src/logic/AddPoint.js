@@ -8,15 +8,15 @@ export const AddPoint = (characterData, name) =>{
             characterData.stats.strCost+=1
             characterData.stats.strength+=1
             return characterData
-        break
-        case "dexterity":
-            if(characterData.stats.money < characterData.stats.dexCost)
+
+        case "wisdom":
+            if(characterData.stats.money < characterData.stats.wisCost)
                 return false
-            characterData.stats.money-=characterData.stats.dexCost
-            characterData.stats.dexCost+=1
-            characterData.stats.dexterity+=1
+            characterData.stats.money-=characterData.stats.wisCost
+            characterData.stats.wisCost+=1
+            characterData.stats.wisdom+=1
             return characterData
-        break
+
         case "endurance":
             if(characterData.stats.money < characterData.stats.endCost)
                 return false
@@ -24,9 +24,9 @@ export const AddPoint = (characterData, name) =>{
             characterData.stats.endCost+=1
             characterData.stats.endurance+=1
             return characterData
-        break
+
         default:
             return false
-        break
+
     }
 }

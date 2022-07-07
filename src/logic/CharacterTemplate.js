@@ -8,16 +8,18 @@ export const getStartVariables = {
         type: "",
     },
     stats: {
-        dexCost: 1,
-        dexterity: 10,
+        wisCost: 1,
+        wisdom: 1,
         endCost: 1,
-        endurance: 10,
+        endurance: 1,
         level: 1,
         maxXp: 1000,
         money: 10,
         strCost: 1,
-        strength: 10,
+        strength: 1,
         xp: 0,
     },
-    mails: []
+    mails: [],
+    items: [],
+    equipped: []
 }
