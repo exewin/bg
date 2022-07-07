@@ -124,6 +124,7 @@ export const endTaskDB = async(uid) => {
     characterData.stats.xp += characterData.progress.task.xp
     characterData.progress.busy = false
     characterData.progress.task = null
+    await dropRandomItem(characterData)
     levelUp(characterData)
     await setMissions(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
@@ -132,6 +133,11 @@ export const endTaskDB = async(uid) => {
 export const addMissionDB = (mission, id) => {
     console.log("add mission", id, mission)
     setDoc(doc(firestore, `missions`, id), mission, {merge:true})
+}
+
+export const addItemsDB = (items) => {
+    console.log("update items in database")
+    setDoc(doc(firestore, `items/items`,), {items}, {merge:true})
 }
 
 const setMissions = async(character) => {
@@ -156,6 +162,12 @@ const setMissions = async(character) => {
     }
 }
 
+const dropRandomItem = async (character) => {
+    const items = await getDoc(doc(firestore, `items/items`))
+    const itemsData = items.data()
+    const random = Math.floor(Math.random() * itemsData.items.length-1);
+    character.items.push(itemsData.items[random])
+}
 
 export const addStatDB = async (uid, name) => {
     console.log("add stat")
@@ -165,7 +177,7 @@ export const addStatDB = async (uid, name) => {
     if(characterData)
         await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
     else
-        return "error"
+        return "error, stat is not valid"
 }
 
 let subscription;
