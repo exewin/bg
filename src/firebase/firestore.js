@@ -115,6 +115,7 @@ export const endTaskDB = async(uid) => {
 
 export const cancelTaskDB = async(uid) => {
     const characterData = await getUserInfoDB(uid)
+    if(!characterData.progress.busy) return "You can't cancel this task."
     await cancelTask(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
