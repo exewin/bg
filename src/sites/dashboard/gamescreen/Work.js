@@ -30,7 +30,7 @@ export const Work = () => {
 
   const [timeLeft, setTimeLeft] = useState(0)
   const [endTime, setEndTime] = useState(0)
-  const {startTask, character, endTask} = useCharacter()
+  const {startTask, character, endTask, cancelTask} = useCharacter()
   const time = useTime(1000) //force slow rerender
 
   const [hours, setHours] = useState (1)
@@ -72,6 +72,7 @@ export const Work = () => {
                 >
                   {time ? `${timeLeft} (${endTime})` : "..."}
                 </Bar>
+                <Button onClick={cancelTask}>Cancel task</Button>
               </Main>
             :
               <Main>

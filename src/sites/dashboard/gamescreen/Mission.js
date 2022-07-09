@@ -42,7 +42,7 @@ export const Mission = () => {
   
   const [timeLeft, setTimeLeft] = useState(0)
   const [endTime, setEndTime] = useState(0)
-  const {startTask, character, endTask} = useCharacter()
+  const {startTask, character, endTask, cancelTask} = useCharacter()
   const time = useTime(1000) //force slow rerender
 
   const navigate = useNavigate()
@@ -95,6 +95,7 @@ export const Mission = () => {
                 >
                   {time ? `${timeLeft} (${endTime})` : "..."}
                 </Bar>
+                <Button onClick={cancelTask}>Cancel task</Button>
               </Main>
             :
               <Main>
