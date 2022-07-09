@@ -1,4 +1,5 @@
 const ITEM_TYPES = 6
+const INVENTORY_LENGTH = 9
 
 export const equipItem = async(characterData, itemIndex) => {
 
@@ -8,6 +9,9 @@ export const equipItem = async(characterData, itemIndex) => {
     const index = itemTypeToIndex(characterData.items[itemIndex].slot)
     if(!index)
         return false
+
+    if(characterData.equipped[index-1])
+        unequipItemWithNoLenghtLimit(characterData, index-1)
 
     characterData.equipped[index-1] = characterData.items[itemIndex]
     characterData.items = characterData.items.filter((_,idx)=>itemIndex !== idx)
@@ -34,8 +38,15 @@ const itemTypeToIndex = (type) => {
     }
 }
 
+const unequipItemWithNoLenghtLimit = (characterData, index) => characterData.items.push(characterData.equipped[index])
+
 
 export const unequipItem = async(characterData, itemIndex) => {
+
+    if(characterData.items.length >= INVENTORY_LENGTH){
+        return false
+    }
+    
     characterData.items.push(characterData.equipped[itemIndex])
 
     const index = itemTypeToIndex(characterData.equipped[itemIndex].slot)
