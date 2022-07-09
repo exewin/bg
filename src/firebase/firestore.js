@@ -1,6 +1,7 @@
 import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, Timestamp, where} from "firebase/firestore"
 import { AddPoint } from "../logic/AddPoint"
 import { getStartVariables } from "../logic/CharacterTemplate"
+import { equipItem, unequipItem } from "../logic/ItemEquipping"
 import { cancelTask, endTask, startTask, taskTimes } from "../logic/TaskLogic"
 
 const firestore = getFirestore()
@@ -167,6 +168,25 @@ export const addStatDB = async (uid, name) => {
         await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
     else
         return "error, stat is not valid"
+}
+
+
+export const equipItemDB = async(uid, itemIndex) => {
+    let characterData = await getUserInfoDB(uid)
+    characterData = await equipItem(characterData, itemIndex)
+    if(characterData)
+        await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+    else
+        return "item can't be equipped."
+}
+
+export const unequipItemDB = async(uid, itemIndex) => {
+    let characterData = await getUserInfoDB(uid)
+    characterData = await unequipItem(characterData, itemIndex)
+    if(characterData)
+        await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+    else
+        return "item can't be unequipped."
 }
 
 let subscription;

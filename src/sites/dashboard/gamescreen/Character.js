@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CenteredLoading } from '../../../components/CenteredLoading'
 import { Portrait } from '../../../components/Portrait'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import { Background } from '../../../components/Background'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { Bar } from '../../../components/Bar'
@@ -10,6 +10,8 @@ import bag from "../../../assets/icons/bag.png"
 import { StatRow } from '../../../components/StatRow'
 import { Slot } from '../../../components/Slot'
 
+const CharacterInfo = styled.div`
+`
 
 const StatGrid = styled.div` 
 display: grid;
@@ -38,61 +40,92 @@ width:${props=>props.w}px;
 `
 
 const Inventory = styled.div` 
+display:grid;
+grid-template-columns: 64px 64px 64px;
+grid-template-rows: 64px 64px 64px;
+`
 
+const Equipment = styled.div` 
+display: grid;
+grid-template-columns: 96px 96px 96px;
+grid-template-rows: 96px 96px 96px 96px;
+`
+
+const cssSnippet = css`
+display:flex;
+flex-wrap: wrap;
+gap: 10px;
 `
 
 
 export const Character = () => {
 
-    const {character, addPoint} = useCharacter()
+    const {character, addPoint, equipItem, unequipItem} = useCharacter()
     const [hover, setHover] = useState(false)
 
     return (
         <>
-            {character ? <Background img={bgs[2]}>
-                <Portrait 
-                    index={character?.information?.portrait} 
-                    charClass={character?.information?.charClass} 
-                    name={character?.information?.name}
-                    level={character?.stats?.level}
-                />
-                <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
-                <StatGrid>
+            {character ? <Background img={bgs[2]} css={cssSnippet}>
+                <CharacterInfo>
+                    <Portrait 
+                        index={character?.information?.portrait} 
+                        charClass={character?.information?.charClass} 
+                        name={character?.information?.name}
+                        level={character?.stats?.level}
+                    />
+                    <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
+                    <StatGrid>
 
-                    <StatRow 
-                        name={"strength"}
-                        stat={character?.stats?.strength} 
-                        cost={character?.stats?.strCost} 
-                        money={character?.stats?.money} 
-                        hover={hover} 
-                        setHover={setHover} 
-                        addPoint={addPoint}
-                    />
-                    <StatRow 
-                        name={"wisdom"}
-                        stat={character?.stats?.wisdom} 
-                        cost={character?.stats?.wisCost} 
-                        money={character?.stats?.money} 
-                        hover={hover} 
-                        setHover={setHover} 
-                        addPoint={addPoint}
-                    />
-                    <StatRow 
-                        name={"endurance"}
-                        stat={character?.stats?.endurance} 
-                        cost={character?.stats?.endCost} 
-                        money={character?.stats?.money} 
-                        hover={hover} 
-                        setHover={setHover} 
-                        addPoint={addPoint}
-                    />
+                        <StatRow 
+                            name={"strength"}
+                            stat={character?.stats?.strength} 
+                            cost={character?.stats?.strCost} 
+                            money={character?.stats?.money} 
+                            hover={hover} 
+                            setHover={setHover} 
+                            addPoint={addPoint}
+                        />
+                        <StatRow 
+                            name={"wisdom"}
+                            stat={character?.stats?.wisdom} 
+                            cost={character?.stats?.wisCost} 
+                            money={character?.stats?.money} 
+                            hover={hover} 
+                            setHover={setHover} 
+                            addPoint={addPoint}
+                        />
+                        <StatRow 
+                            name={"endurance"}
+                            stat={character?.stats?.endurance} 
+                            cost={character?.stats?.endCost} 
+                            money={character?.stats?.money} 
+                            hover={hover} 
+                            setHover={setHover} 
+                            addPoint={addPoint}
+                        />
 
-                </StatGrid>
-                <Detail><Img src={bag} w={32}/> <Number>{character?.stats?.money}</Number></Detail>
+                    </StatGrid>
+                    <Detail><Img src={bag} w={32}/> <Number>{character?.stats?.money}</Number></Detail>
+                </CharacterInfo>
+
+                <Equipment>
+                    <Slot type="Head" interactable={unequipItem} id={0} item={character?.equipped[0]}/>
+                    <Slot type="Weapon" interactable={unequipItem} id={1} item={character?.equipped[1]}/>
+                    <Slot type="Chest" interactable={unequipItem} id={2} item={character?.equipped[2]}/>
+                    <Slot type="Gloves" interactable={unequipItem} id={3} item={character?.equipped[3]}/>
+                    <Slot type="Legs" interactable={unequipItem} id={4} item={character?.equipped[4]}/>
+                    <Slot type="Boots" interactable={unequipItem} id={5} item={character?.equipped[5]}/>
+                </Equipment>
+
                 <Inventory>
-                    <Slot item={character?.items[0]}/>
-                    <Slot item={character?.items[1]}/>
+                    {
+                        [0,1,2,3,4,5,6,7,8].map((i,id) => {
+                            return <Slot interactable={equipItem} id={id} key={i} item={character?.items[id]}/>
+                        })
+                    }
+                    
                 </Inventory>
+
             </Background> : <CenteredLoading/> 
             }
         </>

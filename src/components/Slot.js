@@ -55,6 +55,7 @@ const Container = styled.div`
 display:flex;
 position: relative;
 flex-wrap: wrap;
+user-select: none;
 ${props=>props.gridPos && props.gridPos};
 `
 
@@ -100,9 +101,13 @@ const Number = styled.div`
 font-family: 'Zen Kaku Gothic New', sans-serif;
 `
 
-export const Slot = ({item, type}) => {
+export const Slot = ({item, type, id, interactable = null}) => {
 
   const [hover, setHover] = useState(false)
+
+  if(item && type && type !== item.slot){
+    console.error("something is wrong with item slot.", type)
+  }
 
   const display = () => {
     if(type){
@@ -134,8 +139,8 @@ export const Slot = ({item, type}) => {
 
   return (
     <Container gridPos={displayData.position}>
-      <Div onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot}>
-        {item ? <Img src={items[item?.imgId]}/> : type && <Img src={displayData.placeholder}/>}
+      <Div onClick={()=>interactable(id)} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot}>
+        {item ? <Img draggable="false" src={items[item?.imgId]}/> : type && <Img src={displayData.placeholder}/>}
       </Div>
       {hover && item && 
         <Hover>
