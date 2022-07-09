@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import slot from "../assets/ui/slot.png"
 import i0 from "../assets/icons/items/0.png"
@@ -39,10 +39,24 @@ import i34 from "../assets/icons/items/34.png"
 import i35 from "../assets/icons/items/35.png"
 import i36 from "../assets/icons/items/36.png"
 
+import helmPlaceholder from "../assets/icons/items/helmplaceholder.png"
+import chestPlaceholder from "../assets/icons/items/chestplaceholder.png"
+import glovesPlaceholder from "../assets/icons/items/glovesplaceholder.png"
+import bootsPlaceholder from "../assets/icons/items/bootsplaceholder.png"
+import weaponPlaceholder from "../assets/icons/items/weaponplaceholder.png"
+import legsPlaceholder from "../assets/icons/items/legsplaceholder.png"
+
 const items = [i0,i1,i2,i3,i4,i5,i6,i7,i8,i9,
   i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,
   i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,
   i30,i31,i32,i33,i34,i35,i36]
+
+const Container = styled.div` 
+display:flex;
+position: relative;
+flex-wrap: wrap;
+${props=>props.gridPos && props.gridPos};
+`
 
 const Div = styled.div` 
 background-image: url(${props=>props.bg});
@@ -60,8 +74,77 @@ border-radius: 10px;
 width:55px;
 `
 
-export const Slot = ({item}) => {
+const Hover = styled.div` 
+width: 200px;
+height: 100px;
+background-color: rgba(33,33,33,0.5);
+border-radius: 10px;
+position: absolute;
+left:66px;
+color:white;
+font-family: 'Joan', serif;
+padding: 5px 10px;
+z-index: 1;
+`
+const ItemDetailHeader = styled.div` 
+color: yellow;
+font-size: larger;
+`
+const ItemDetail = styled.div` 
+display: grid;
+grid-template-columns: 1fr 1fr;
+align-items: center;
+`
+
+const Number = styled.div` 
+font-family: 'Zen Kaku Gothic New', sans-serif;
+`
+
+export const Slot = ({item, type}) => {
+
+  const [hover, setHover] = useState(false)
+
+  const display = () => {
+    if(type){
+      switch(type){
+        case "Head":{
+          return {position: "grid-row: 1 / 2; grid-column: 2 / 3;", placeholder: helmPlaceholder}
+        }
+        case "Weapon":{
+          return {position: "grid-row: 2 / 3; grid-column: 1 / 2;", placeholder: weaponPlaceholder}
+        }
+        case "Chest":{
+          return {position: "grid-row: 2 / 3; grid-column: 2 / 3;", placeholder: chestPlaceholder}
+        }
+        case "Gloves":{
+          return {position: "grid-row: 2 / 3; grid-column: 3 / 4;", placeholder: glovesPlaceholder}
+        }
+        case "Legs":{
+          return {position: "grid-row: 3 / 4; grid-column: 2 / 3;", placeholder: legsPlaceholder}
+        }
+        case "Boots":{
+          return {position: "grid-row: 4 / 5; grid-column: 2 / 3;", placeholder: bootsPlaceholder}
+        }
+      }
+    }
+    return false
+  }
+
+  const displayData = display()
+
   return (
-    <Div bg={slot}>{item && <Img src={items[item?.imgId]}/>}</Div>
+    <Container gridPos={displayData.position}>
+      <Div onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot}>
+        {item ? <Img src={items[item?.imgId]}/> : type && <Img src={displayData.placeholder}/>}
+      </Div>
+      {hover && item && 
+        <Hover>
+          <ItemDetailHeader>{item?.name}</ItemDetailHeader>
+          {item?.strength > 0 && <ItemDetail>Strength: <Number>{item?.strength}</Number></ItemDetail>}
+          {item?.wisdom > 0 && <ItemDetail>Wisdom: <Number>{item?.wisdom}</Number></ItemDetail>}
+          {item?.endurance > 0 && <ItemDetail>Endurance: <Number>{item?.endurance}</Number></ItemDetail>}
+        </Hover>
+      }
+    </Container>
   )
 }
