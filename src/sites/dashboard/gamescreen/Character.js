@@ -9,6 +9,7 @@ import { bgs } from '../../../utils/backgroundController'
 import bag from "../../../assets/icons/bag.png"
 import { StatRow } from '../../../components/StatRow'
 import { Slot } from '../../../components/Slot'
+import { calculateStats } from '../../../logic/CalculateStats'
 
 const CharacterInfo = styled.div`
 `
@@ -62,6 +63,7 @@ export const Character = () => {
 
     const {character, addPoint, equipItem, unequipItem} = useCharacter()
     const [hover, setHover] = useState(false)
+    const {strength, endurance, wisdom} = calculateStats(character)
 
     return (
         <>
@@ -78,7 +80,8 @@ export const Character = () => {
 
                         <StatRow 
                             name={"strength"}
-                            stat={character?.stats?.strength} 
+                            buffed={strength !== character?.stats?.strength && [character?.stats?.strength, strength - character?.stats?.strength]}
+                            stat={strength} 
                             cost={character?.stats?.strCost} 
                             money={character?.stats?.money} 
                             hover={hover} 
@@ -87,7 +90,8 @@ export const Character = () => {
                         />
                         <StatRow 
                             name={"wisdom"}
-                            stat={character?.stats?.wisdom} 
+                            buffed={wisdom !== character?.stats?.wisdom && [character?.stats?.wisdom, wisdom - character?.stats?.wisdom]}
+                            stat={wisdom} 
                             cost={character?.stats?.wisCost} 
                             money={character?.stats?.money} 
                             hover={hover} 
@@ -96,7 +100,8 @@ export const Character = () => {
                         />
                         <StatRow 
                             name={"endurance"}
-                            stat={character?.stats?.endurance} 
+                            buffed={endurance !== character?.stats?.endurance && [character?.stats?.endurance, endurance - character?.stats?.endurance]}
+                            stat={endurance} 
                             cost={character?.stats?.endCost} 
                             money={character?.stats?.money} 
                             hover={hover} 
