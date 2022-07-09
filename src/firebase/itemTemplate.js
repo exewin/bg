@@ -175,8 +175,8 @@ export const items = [
         name: "Mystic Mitten",
         slot: "Gloves",
         imgId: 19,
-        wisdom: 3,
-        strength: 0,
+        wisdom: 4,
+        strength: 1,
         endurance: 0,
     },
     {
@@ -184,8 +184,8 @@ export const items = [
         name: "Mitten",
         slot: "Gloves",
         imgId: 20,
-        wisdom: 4,
-        strength: 1,
+        wisdom: 3,
+        strength: 0,
         endurance: 0,
     },
     {
@@ -212,8 +212,8 @@ export const items = [
         slot: "Gloves",
         imgId: 23,
         wisdom: 0,
-        strength: 3,
-        endurance: 0,
+        strength: 4,
+        endurance: 1,
     },
     {
         //24
@@ -221,8 +221,8 @@ export const items = [
         slot: "Gloves",
         imgId: 24,
         wisdom: 0,
-        strength: 4,
-        endurance: 1,
+        strength: 3,
+        endurance: 0,
     },
     {
         //25
