@@ -1,8 +1,7 @@
 import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, Timestamp, where} from "firebase/firestore"
 import { AddPoint } from "../logic/AddPoint"
-import { levelUp } from "../logic/CharacterLevelUp"
 import { getStartVariables } from "../logic/CharacterTemplate"
-import { taskTimes } from "../logic/TaskLogic"
+import { cancelTask, endTask, startTask, taskTimes } from "../logic/TaskLogic"
 
 const firestore = getFirestore()
 
@@ -29,7 +28,7 @@ export const createCharacterDB = async (uid, character) => {
         information: character,
         ...getStartVariables
     }
-    await setMissions(newCharacter)
+    await setMissionsDB(newCharacter)
     await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
 }
 
@@ -67,8 +66,7 @@ export const sendMailDB = async(name, msg, author) => {
 }
 
 export const deleteMailDB = async(uid, id) => {
-    const character = await getDoc(doc(firestore, `users/${uid}`))
-    let characterData = character.data()
+    let characterData = await getUserInfoDB(uid)
     characterData = {...characterData, mails: characterData.mails.filter((_, i)=> i!==id)}
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
@@ -83,15 +81,13 @@ export const currentTimeDB = async() => {
 
 export const startTaskDB = async(uid, taskId, type, option = 1) => {
     console.log("start task")
-    const character = await getDoc(doc(firestore, `users/${uid}`))
-    const characterData = character.data() 
+    const characterData = await getUserInfoDB(uid)
 
     if(characterData.progress.busy) return "You are already doing other task."
 
-    let task
     let taskData
     if(type === "work"){
-        task = await getDoc(doc(firestore, `works/${taskId}`))
+        const task = await getDoc(doc(firestore, `works/${taskId}`))
         taskData = task.data()
     }
     else if(type === "mission")
@@ -100,33 +96,26 @@ export const startTaskDB = async(uid, taskId, type, option = 1) => {
 
     const addToTimestamp = Timestamp.now().toDate()
     addToTimestamp.setSeconds(addToTimestamp.getSeconds() + taskData.time * option);
-    characterData.progress.taskEnd = Timestamp.fromDate(addToTimestamp)
-    characterData.progress.taskStart = Timestamp.now().toDate()
-    characterData.progress.busy = true
-    characterData.progress.task = taskData
-    characterData.progress.task.type = type
-    characterData.progress.task.gold *= option
-
+    
+    await startTask(characterData, taskData, type, option, Timestamp.now().toDate(), Timestamp.fromDate(addToTimestamp))
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
 
 export const endTaskDB = async(uid) => {
     console.log("end task")
-    const character = await getDoc(doc(firestore, `users/${uid}`))
-    const characterData = character.data()
-
+    const characterData = await getUserInfoDB(uid)
     const {timeLeft} = await taskTimes(characterData)
     if(timeLeft > 0) return "You haven't finished task yet."
 
-    characterData.progress.taskEnd = null
-    characterData.progress.taskStart = null
-    characterData.stats.money += characterData.progress.task.gold
-    characterData.stats.xp += characterData.progress.task.xp
-    characterData.progress.busy = false
-    characterData.progress.task = null
-    await dropRandomItem(characterData)
-    levelUp(characterData)
-    await setMissions(characterData)
+    await endTask(characterData)
+    await dropRandomItemDB(characterData)
+    await setMissionsDB(characterData)
+    await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+}
+
+export const cancelTaskDB = async(uid) => {
+    const characterData = await getUserInfoDB(uid)
+    await cancelTask(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
 
@@ -140,7 +129,7 @@ export const addItemsDB = (items) => {
     setDoc(doc(firestore, `items/items`,), {items}, {merge:true})
 }
 
-const setMissions = async(character) => {
+export const setMissionsDB = async(character) => {
     console.log("set Missions")
     let shuffledMissions
     const query = await getDocs(collection(firestore, `missions`))
@@ -162,7 +151,7 @@ const setMissions = async(character) => {
     }
 }
 
-const dropRandomItem = async (character) => {
+export const dropRandomItemDB = async (character) => {
     const items = await getDoc(doc(firestore, `items/items`))
     const itemsData = items.data()
     const random = Math.floor(Math.random() * itemsData.items.length-1);
@@ -171,8 +160,7 @@ const dropRandomItem = async (character) => {
 
 export const addStatDB = async (uid, name) => {
     console.log("add stat")
-    const character = await getDoc(doc(firestore, `users/${uid}`))
-    let characterData = character.data() 
+    let characterData = await getUserInfoDB(uid)
     characterData = AddPoint(characterData, name)
     if(characterData)
         await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
