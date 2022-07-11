@@ -117,7 +117,7 @@ export const Slot = ({item, type, id, interactable = null, tryEquip, character})
 
     const [{ isDragging }, dragRef] = useDrag({
         type: 'item',
-        item: { forceEquip, type, action },
+        item: { forceEquip, type, action, id },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
         })

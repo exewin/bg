@@ -1,7 +1,7 @@
 import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, Timestamp, where} from "firebase/firestore"
 import { AddPoint } from "../logic/AddPoint"
 import { getStartVariables } from "../logic/CharacterTemplate"
-import { equipItem, unequipItem } from "../logic/ItemEquipping"
+import { discardItem, equipItem, unequipItem } from "../logic/ItemEquipping"
 import { cancelTask, endTask, startTask, taskTimes } from "../logic/TaskLogic"
 
 const firestore = getFirestore()
@@ -172,6 +172,7 @@ export const addStatDB = async (uid, name) => {
 
 
 export const equipItemDB = async(uid, itemIndex, slotToPlaceIndex = null) => {
+    console.log("equip item")
     let characterData = await getUserInfoDB(uid)
     characterData = await equipItem(characterData, itemIndex, slotToPlaceIndex)
     if(characterData)
@@ -181,12 +182,23 @@ export const equipItemDB = async(uid, itemIndex, slotToPlaceIndex = null) => {
 }
 
 export const unequipItemDB = async(uid, itemIndex) => {
+    console.log("unequip item")
     let characterData = await getUserInfoDB(uid)
     characterData = await unequipItem(characterData, itemIndex)
     if(characterData)
         await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
     else
         return "item can't be unequipped."
+}
+
+export const discardItemDB = async(uid, itemIndex, itemType) => {
+    console.log("discard item")
+    let characterData = await getUserInfoDB(uid)
+    characterData = await discardItem(characterData, itemIndex, itemType)
+    if(characterData)
+        await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+    else
+        return "item can't be discarded."
 }
 
 let subscription;

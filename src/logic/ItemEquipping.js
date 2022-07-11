@@ -62,3 +62,13 @@ export const unequipItem = async(characterData, itemIndex) => {
     characterData.equipped[index-1] = null
     return characterData
 }
+
+
+export const discardItem = async(characterData, itemIndex, itemType=null) => {
+    if(!itemType) {
+        characterData.items = characterData.items.filter((_,idx)=>itemIndex !== idx)
+    } else {
+        characterData.equipped[itemIndex] = null
+    }
+    return characterData
+}

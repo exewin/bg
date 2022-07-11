@@ -11,6 +11,7 @@ import { StatRow } from '../../../components/StatRow'
 import { Slot } from '../../../components/Slot'
 import { calculateStats } from '../../../logic/CalculateStats'
 import { equipItem as tryEquip } from '../../../logic/ItemEquipping'
+import { DiscardArea } from '../../../components/DiscardArea'
 
 const CharacterInfo = styled.div`
 `
@@ -62,7 +63,7 @@ gap: 10px;
 
 export const Character = () => {
 
-    const {character, addPoint, equipItem, unequipItem} = useCharacter()
+    const {character, addPoint, equipItem, unequipItem, discardItem} = useCharacter()
     const [hover, setHover] = useState(false)
     const {strength, endurance, wisdom} = calculateStats(character)
 
@@ -115,12 +116,11 @@ export const Character = () => {
                 </CharacterInfo>
 
                 <Equipment>
-                    <Slot type="Head" interactable={unequipItem} id={0} item={character?.equipped[0]}/>
-                    <Slot type="Weapon" interactable={unequipItem} id={1} item={character?.equipped[1]}/>
-                    <Slot type="Chest" interactable={unequipItem} id={2} item={character?.equipped[2]}/>
-                    <Slot type="Gloves" interactable={unequipItem} id={3} item={character?.equipped[3]}/>
-                    <Slot type="Legs" interactable={unequipItem} id={4} item={character?.equipped[4]}/>
-                    <Slot type="Boots" interactable={unequipItem} id={5} item={character?.equipped[5]}/>
+                    {
+                        ["Head","Weapon","Chest","Gloves","Legs","Boots"].map((i,id) => {
+                            return <Slot type={i} key={id+34} interactable={unequipItem} id={id} item={character?.equipped[id]}/>
+                        })
+                    }
                 </Equipment>
 
                 <Inventory>
@@ -129,8 +129,9 @@ export const Character = () => {
                             return <Slot interactable={equipItem} id={id} key={i} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
                         })
                     }
-                    
                 </Inventory>
+
+                <DiscardArea discardItem={discardItem}/>
 
             </Background> : <CenteredLoading/> 
             }
