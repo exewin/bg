@@ -42,6 +42,12 @@ const Img = styled.img`
 width:${props=>props.w}px;
 `
 
+const InventoryAndDiscard = styled.div` 
+display:flex;
+flex-direction: column;
+gap: 20px;
+`
+
 const Inventory = styled.div` 
 display:grid;
 grid-template-columns: 64px 64px 64px;
@@ -123,15 +129,16 @@ export const Character = () => {
                     }
                 </Equipment>
 
-                <Inventory>
-                    {
-                        [0,1,2,3,4,5,6,7,8].map((i,id) => {
-                            return <Slot interactable={equipItem} id={id} key={i} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
-                        })
-                    }
-                </Inventory>
-
-                <DiscardArea discardItem={discardItem}/>
+                <InventoryAndDiscard>
+                    <Inventory>
+                        {
+                            [0,1,2,3,4,5,6,7,8].map((i,id) => {
+                                return <Slot interactable={equipItem} id={id} key={i} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
+                            })
+                        }
+                    </Inventory>
+                    <DiscardArea discardItem={discardItem}/>
+                </InventoryAndDiscard>
 
             </Background> : <CenteredLoading/> 
             }
