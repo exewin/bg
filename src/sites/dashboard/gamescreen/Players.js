@@ -11,6 +11,7 @@ import { StatRow } from '../../../components/StatRow'
 import {useNavigate, useParams} from 'react-router-dom'
 import { nanoid } from 'nanoid'
 import { Slot } from '../../../components/Slot'
+import { calculateStats } from '../../../logic/CalculateStats'
 
 const Input = styled.input` 
 height:23px;
@@ -63,6 +64,8 @@ export const Players = () => {
     const { name } = useParams()
     const [error, setError] = useState()
 
+    const {strength, endurance, wisdom} = character ? calculateStats(character) : {strength:1, endurance:1, wisdom:1}
+
     useEffect(()=>{
         if(name){
             findPlayer(null, name)
@@ -100,15 +103,18 @@ export const Players = () => {
                     <StatGrid>
                         <StatRow 
                             name={"strength"}
-                            stat={character?.stats?.strength} 
+                            buffed={strength && strength !== character?.stats?.strength && [character?.stats?.strength, strength - character?.stats?.strength]}
+                            stat={strength && strength} 
                         />
                         <StatRow 
                             name={"wisdom"}
-                            stat={character?.stats?.wisdom} 
+                            buffed={wisdom && wisdom !== character?.stats?.wisdom && [character?.stats?.wisdom, wisdom - character?.stats?.wisdom]}
+                            stat={wisdom && wisdom} 
                         />
                         <StatRow 
                             name={"endurance"}
-                            stat={character?.stats?.endurance} 
+                            buffed={endurance && endurance !== character?.stats?.endurance && [character?.stats?.endurance, endurance - character?.stats?.endurance]}
+                            stat={endurance && endurance} 
                         />
                     </StatGrid>
 

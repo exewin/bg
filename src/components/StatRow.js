@@ -89,7 +89,7 @@ export const StatRow = ({name, stat, cost, money, hover, setHover, addPoint, buf
         </Detail>
         :
         <Detail>
-            {name && capitalizeWord(name)}: <Number>{stat}</Number> 
+            {name && capitalizeWord(name)}: <Number buffed={buffed}>{stat}</Number> 
             {addPoint && <DisabledButton
                 onMouseEnter={()=>setHover && setHover(true)}
                 onMouseOut={()=>setHover && setHover(false)}
