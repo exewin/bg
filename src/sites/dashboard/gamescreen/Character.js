@@ -12,6 +12,7 @@ import { Slot } from '../../../components/Slot'
 import { calculateStats } from '../../../logic/CalculateStats'
 import { equipItem as tryEquip } from '../../../logic/ItemEquipping'
 import { DiscardArea } from '../../../components/DiscardArea'
+import { nanoid } from 'nanoid'
 
 const CharacterInfo = styled.div`
 `
@@ -124,7 +125,7 @@ export const Character = () => {
                 <Equipment>
                     {
                         ["Head","Weapon","Chest","Gloves","Legs","Boots"].map((i,id) => {
-                            return <Slot type={i} key={id+34} interactable={unequipItem} id={id} item={character?.equipped[id]}/>
+                            return <Slot type={i} key={nanoid()} interactable={unequipItem} id={id} item={character?.equipped[id]}/>
                         })
                     }
                 </Equipment>
@@ -133,7 +134,7 @@ export const Character = () => {
                     <Inventory>
                         {
                             [0,1,2,3,4,5,6,7,8].map((i,id) => {
-                                return <Slot interactable={equipItem} id={id} key={i} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
+                                return <Slot interactable={equipItem} id={id} key={nanoid()} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
                             })
                         }
                     </Inventory>
