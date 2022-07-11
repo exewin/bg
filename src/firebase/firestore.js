@@ -2,6 +2,7 @@ import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDo
 import { AddPoint } from "../logic/AddPoint"
 import { getStartVariables } from "../logic/CharacterTemplate"
 import { discardItem, equipItem, unequipItem } from "../logic/ItemEquipping"
+import { itemModifier } from "../logic/ItemModifier"
 import { cancelTask, endTask, startTask, taskTimes } from "../logic/TaskLogic"
 
 const firestore = getFirestore()
@@ -156,8 +157,9 @@ export const setMissionsDB = async(character) => {
 export const dropRandomItemDB = async (character) => {
     const items = await getDoc(doc(firestore, `items/items`))
     const itemsData = items.data()
-    const random = Math.floor(Math.random() * itemsData.items.length-1);
-    character.items.push(itemsData.items[random])
+    const random = Math.floor(Math.random() * itemsData.items.length-1)
+    const item = itemModifier(itemsData.items[random], character)
+    character.items.push(item)
 }
 
 export const addStatDB = async (uid, name) => {
