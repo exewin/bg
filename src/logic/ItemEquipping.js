@@ -72,3 +72,9 @@ export const discardItem = async(characterData, itemIndex, itemType=null) => {
     }
     return characterData
 }
+
+export const inventoryFull = (characterData) => {
+    if(characterData.items.length >= INVENTORY_LENGTH){
+        return true
+    } else return false
+}

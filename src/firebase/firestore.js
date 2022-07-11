@@ -1,7 +1,7 @@
 import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, Timestamp, where} from "firebase/firestore"
 import { AddPoint } from "../logic/AddPoint"
 import { getStartVariables } from "../logic/CharacterTemplate"
-import { discardItem, equipItem, unequipItem } from "../logic/ItemEquipping"
+import { discardItem, equipItem, inventoryFull, unequipItem } from "../logic/ItemEquipping"
 import { itemModifier } from "../logic/ItemModifier"
 import { cancelTask, endTask, startTask, taskTimes } from "../logic/TaskLogic"
 
@@ -110,7 +110,7 @@ export const endTaskDB = async(uid) => {
     if(timeLeft > 0) return "You haven't finished task yet."
 
     await endTask(characterData)
-    await dropRandomItemDB(characterData)
+    inventoryFull(characterData) ? console.log("inventory was full") : await dropRandomItemDB(characterData)
     await setMissionsDB(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
