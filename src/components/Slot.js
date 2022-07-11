@@ -135,11 +135,17 @@ export const Slot = ({item, type, id, interactable = null}) => {
     return false
   }
 
+  const doubleClick = event => {
+    if(event.detail == 2){
+      interactable(id)
+    }
+}
+
   const displayData = display()
 
   return (
     <Container gridPos={displayData.position}>
-      <Div onClick={()=>interactable(id)} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot}>
+      <Div onClick={doubleClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot}>
         {item ? <Img draggable="false" src={items[item?.imgId]}/> : type && <Img src={displayData.placeholder}/>}
       </Div>
       {hover && item && 
