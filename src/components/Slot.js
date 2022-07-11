@@ -174,8 +174,9 @@ export const Slot = ({item, type, id, interactable = null, tryEquip, character})
 
   return (
     <Container gridPos={displayData.position}>
-      <Div onClick={doubleClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot} ref={dropRef}>
-        {item ? !isDragging && <ImgScaler ref={dragRef}><Img src={items[item?.imgId]} /></ImgScaler> : type && <Img src={displayData.placeholder}/>}
+      <Div onClick={doubleClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot} ref={interactable && dropRef}>
+        {item ? !isDragging && <ImgScaler draggable={false} ref={interactable && dragRef}><Img draggable={interactable ? true : false} src={items[item?.imgId]} /></ImgScaler>
+         : type && <Img draggable={false} src={displayData.placeholder}/>}
       </Div>
 
       
