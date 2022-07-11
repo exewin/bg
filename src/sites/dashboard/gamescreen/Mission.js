@@ -7,6 +7,7 @@ import { Button } from '../../../components/Button'
 import { MissionBox } from '../../../components/MissionBox'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { useTime } from '../../../hooks/useTime'
+import { inventoryFull } from '../../../logic/ItemEquipping'
 import { taskTimes } from '../../../logic/TaskLogic'
 import { bgs } from '../../../utils/backgroundController'
 import { specialParse } from '../../../utils/descriptionParse'
@@ -37,6 +38,12 @@ max-height: 2000px;
 padding:20px;
 `
 
+const InvWarning = styled.div` 
+color: orange;
+text-shadow: 1px 1px black;
+`
+
+
 
 export const Mission = () => {
   
@@ -58,13 +65,17 @@ export const Mission = () => {
       setEndTime(response.endTime)
   })
 
+  const invWarning = "Any item found on mission will be lost."
+  const titleDesc = "Missions are easy way to gain experience, gold and items. They only require some time to finish."
+
 
   return (
     <Background img={character?.progress?.task?.type==="mission" ? bgs[0] : bgs[4]}>
       {
         character?.progress?.busy === false ? 
         <Main>
-          <Title>Select mission</Title>
+          <Title title={titleDesc}>Select mission</Title>
+          {inventoryFull(character) && <InvWarning title={invWarning}>Warning! Your inventory is full.</InvWarning>}
           <Grid>
           {character.missions && Object.keys(character.missions).map((keyName, i) => (
             
