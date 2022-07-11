@@ -11,11 +11,14 @@ import { Mail } from "./sites/dashboard/gamescreen/Mail"
 import { Work } from "./sites/dashboard/gamescreen/Work"
 import { CharacterProvider } from "./contexts/CharacterContext"
 import { Players } from "./sites/dashboard/gamescreen/Players"
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 export const App = () => {
   return(
       <AuthProvider>
         <CharacterProvider>
+            <DndProvider backend={HTML5Backend}>
           <BrowserRouter>
             <Routes>
               <Route index element={<Login/>}/>
@@ -35,6 +38,7 @@ export const App = () => {
               </Route>
             </Routes>
           </BrowserRouter>
+          </DndProvider>
         </CharacterProvider>
       </AuthProvider>
   )

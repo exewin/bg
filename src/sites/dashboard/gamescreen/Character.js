@@ -10,6 +10,7 @@ import bag from "../../../assets/icons/bag.png"
 import { StatRow } from '../../../components/StatRow'
 import { Slot } from '../../../components/Slot'
 import { calculateStats } from '../../../logic/CalculateStats'
+import { equipItem as tryEquip } from '../../../logic/ItemEquipping'
 
 const CharacterInfo = styled.div`
 `
@@ -125,7 +126,7 @@ export const Character = () => {
                 <Inventory>
                     {
                         [0,1,2,3,4,5,6,7,8].map((i,id) => {
-                            return <Slot interactable={equipItem} id={id} key={i} item={character?.items[id]}/>
+                            return <Slot interactable={equipItem} id={id} key={i} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
                         })
                     }
                     

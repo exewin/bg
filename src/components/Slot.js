@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import slot from "../assets/ui/slot.png"
+import { useDrag } from 'react-dnd'
+import { useDrop } from 'react-dnd';
 import i0 from "../assets/icons/items/0.png"
 import i1 from "../assets/icons/items/1.png"
 import i2 from "../assets/icons/items/2.png"
@@ -101,9 +103,42 @@ const Number = styled.div`
 font-family: 'Zen Kaku Gothic New', sans-serif;
 `
 
-export const Slot = ({item, type, id, interactable = null}) => {
+const ImgScaler = styled.div` 
+width:55px;
+height:55px;
+`
+
+export const Slot = ({item, type, id, interactable = null, tryEquip, character}) => {
 
   const [hover, setHover] = useState(false)
+  const forceEquip = async (slotToPlaceId) => await tryEquip(character, id, slotToPlaceId) ? interactable(id, slotToPlaceId) : console.log("wrong slot")
+  const action = () => interactable(id)
+  const doubleClick = event => event.detail === 2 && action()
+
+    const [{ isDragging }, dragRef] = useDrag({
+        type: 'item',
+        item: { forceEquip, type, action },
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging()
+        })
+    })
+
+    const [{ isOver }, dropRef] = useDrop({
+      accept: 'item',
+      drop: (item) => {
+        if(type && !item.type){
+          item.forceEquip(id)
+        }
+        else if(!type && item.type){
+          item.action()
+        }
+      }
+  })
+
+
+  useEffect(()=>{
+    setHover(false)
+  },[isDragging])
 
   if(item && type && type !== item.slot){
     console.error("something is wrong with item slot.", type)
@@ -135,20 +170,18 @@ export const Slot = ({item, type, id, interactable = null}) => {
     return false
   }
 
-  const doubleClick = event => {
-    if(event.detail == 2){
-      interactable(id)
-    }
-}
-
   const displayData = display()
 
   return (
     <Container gridPos={displayData.position}>
-      <Div onClick={doubleClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot}>
-        {item ? <Img draggable="false" src={items[item?.imgId]}/> : type && <Img src={displayData.placeholder}/>}
+      <Div onClick={doubleClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)} bg={slot} ref={dropRef}>
+        {item ? !isDragging && <ImgScaler ref={dragRef}><Img src={items[item?.imgId]} /></ImgScaler> : type && <Img src={displayData.placeholder}/>}
       </Div>
-      {hover && item && 
+
+      
+
+
+      {hover && item && !isDragging &&
         <Hover>
           <ItemDetailHeader>{item?.name}</ItemDetailHeader>
           {item?.strength > 0 && <ItemDetail>Strength: <Number>{item?.strength}</Number></ItemDetail>}
@@ -159,3 +192,4 @@ export const Slot = ({item, type, id, interactable = null}) => {
     </Container>
   )
 }
+

@@ -1,7 +1,8 @@
 const ITEM_TYPES = 6
 const INVENTORY_LENGTH = 9
 
-export const equipItem = async(characterData, itemIndex) => {
+export const equipItem = async(characterData, itemIndex, slotToPlaceIndex = null) => {
+
 
     if(characterData.equipped.length < ITEM_TYPES)
         fillEquipmentWillNulls(characterData)
@@ -9,6 +10,11 @@ export const equipItem = async(characterData, itemIndex) => {
     const index = itemTypeToIndex(characterData.items[itemIndex].slot)
     if(!index)
         return false
+
+
+    if(slotToPlaceIndex && slotToPlaceIndex + 1 !== index){
+        return false
+    }
 
     if(characterData.equipped[index-1])
         unequipItemWithNoLenghtLimit(characterData, index-1)

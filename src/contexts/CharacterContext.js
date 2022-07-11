@@ -44,8 +44,8 @@ export const CharacterProvider = ({children}) => {
             return setError(response)
     }
 
-    const equipItem = async(itemIndex) => {
-        const response = await equipItemDB(user.uid, itemIndex)
+    const equipItem = async(itemIndex, slotToPlaceIndex = null) => {
+        const response = await equipItemDB(user.uid, itemIndex, slotToPlaceIndex)
         if(typeof response === 'string')
             return setError(response)
     }

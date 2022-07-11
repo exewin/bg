@@ -171,9 +171,9 @@ export const addStatDB = async (uid, name) => {
 }
 
 
-export const equipItemDB = async(uid, itemIndex) => {
+export const equipItemDB = async(uid, itemIndex, slotToPlaceIndex = null) => {
     let characterData = await getUserInfoDB(uid)
-    characterData = await equipItem(characterData, itemIndex)
+    characterData = await equipItem(characterData, itemIndex, slotToPlaceIndex)
     if(characterData)
         await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
     else
