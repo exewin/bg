@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Background } from '../../../components/Background'
 import { Button } from '../../../components/Button'
 import { bgs } from '../../../utils/backgroundController'
@@ -9,14 +9,19 @@ import { Portrait } from '../../../components/Portrait'
 import { Bar } from '../../../components/Bar'
 import { StatRow } from '../../../components/StatRow'
 import {useNavigate, useParams} from 'react-router-dom'
+import { nanoid } from 'nanoid'
+import { Slot } from '../../../components/Slot'
 
 const Input = styled.input` 
 height:23px;
 `
 
 const Container = styled.div` 
-height:80vh;
 `
+
+const CharacterInfo = styled.div`
+`
+
 const Wrapper = styled.div` 
 display:flex;
 gap: 3px;
@@ -29,6 +34,25 @@ font-family: 'Joan', serif;
 color: white;
 gap:5px;
 text-shadow: 1px 1px black;
+`
+
+const Inventory = styled.div` 
+display:grid;
+grid-template-columns: 64px 64px 64px;
+grid-template-rows: 64px 64px 64px;
+`
+
+const Equipment = styled.div` 
+display: grid;
+grid-template-columns: 96px 96px 96px;
+grid-template-rows: 96px 96px 96px 96px;
+`
+
+const cssSnippet = css`
+display:flex;
+flex-wrap: wrap;
+gap: 10px;
+background-color: red;
 `
 
 export const Players = () => {
@@ -63,35 +87,52 @@ export const Players = () => {
 
 
     return (
-        <Background img={bgs[2]}>
-            <Container>
+        <Background img={bgs[2]} css={cssSnippet}>
                 {character && <>
-                <Portrait 
-                        index={character?.information?.portrait} 
-                        charClass={character?.information?.charClass} 
-                        name={character?.information?.name}
-                        level={character?.stats?.level}
-                    />
-                <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
-                <StatGrid>
-                    <StatRow 
-                        name={"strength"}
-                        stat={character?.stats?.strength} 
-                    />
-                    <StatRow 
-                        name={"wisdom"}
-                        stat={character?.stats?.wisdom} 
-                    />
-                    <StatRow 
-                        name={"endurance"}
-                        stat={character?.stats?.endurance} 
-                    />
-                </StatGrid>
+                <CharacterInfo>
+                    <Portrait 
+                            index={character?.information?.portrait} 
+                            charClass={character?.information?.charClass} 
+                            name={character?.information?.name}
+                            level={character?.stats?.level}
+                        />
+                    <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
+                    <StatGrid>
+                        <StatRow 
+                            name={"strength"}
+                            stat={character?.stats?.strength} 
+                        />
+                        <StatRow 
+                            name={"wisdom"}
+                            stat={character?.stats?.wisdom} 
+                        />
+                        <StatRow 
+                            name={"endurance"}
+                            stat={character?.stats?.endurance} 
+                        />
+                    </StatGrid>
 
-                <Button onClick={redirectToMail}>Send letter</Button>
+                    <Button css={{color:'white', fontFamily: 'Joan, serif'}} onClick={redirectToMail}>Send letter</Button>
+
+                </CharacterInfo>
+
+                <Equipment>
+                    {
+                        ["Head","Weapon","Chest","Gloves","Legs","Boots"].map((i,id) => {
+                            return <Slot type={i} key={nanoid()} id={id} item={character?.equipped[id]}/>
+                        })
+                    }
+                </Equipment>
+
+                <Inventory>
+                    {
+                        [0,1,2,3,4,5,6,7,8].map((i,id) => {
+                            return <Slot id={id} key={nanoid()} item={character?.items[id]}/>
+                        })
+                    }
+                </Inventory>
 
                 </>}
-            </Container>
                 <form onSubmit={findPlayer}>
                     <Wrapper>
                         <Input
@@ -100,11 +141,10 @@ export const Players = () => {
                             placeholder="find player..." 
                             type="input"
                         />
-                        <Button type="submit" onClick={findPlayer}>Find</Button>
+                        <Button css={{color:'white', fontFamily: 'Joan, serif'}} type="submit" onClick={findPlayer}>Find</Button>
                     </Wrapper>
                     {error && error}
                 </form>
-            
         </Background>
     )
 }
