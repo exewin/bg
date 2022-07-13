@@ -11,6 +11,6 @@ export const Injector = () => {
     const injectItems = () =>addItemsDB(items)
     const injectQuests = () =>addQuestsDB(quests)
     return (
-        <button onClick={injectMission}>inject</button>
+        <button onClick={injectQuests}>inject</button>
     )
 }
