@@ -81,6 +81,10 @@ export const Gamescreen = () => {
             <Link to={"character"}><Button bg={highButton}><ColorHighlight light={location} match="character">Character</ColorHighlight></Button></Link>
             <Link to={"mission"}><Button bg={highButton}><ColorHighlight light={location} match="mission">Mission</ColorHighlight></Button></Link>
             <Link to={"work"}><Button bg={highButton}><ColorHighlight light={location} match="work">Work</ColorHighlight></Button></Link>
+            {character?.stats?.level >= 3
+              ? <Link to={"quest"}><Button bg={highButton}><ColorHighlight light={location} match="quest">Quest</ColorHighlight></Button></Link> 
+              : <Button title="You need level 3" bg={highButton} css={{color:"gray"}}>Quest</Button>
+            }
             <Link to={"mail"}><Button bg={highButton}><ColorHighlight light={location} match="mail">Mail</ColorHighlight></Button></Link>
             <Link to={"players"}><Button bg={highButton}><ColorHighlight light={location} match="players">Players</ColorHighlight></Button></Link>
           </SideMenu>
