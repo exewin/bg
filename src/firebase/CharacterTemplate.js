@@ -6,6 +6,7 @@ export const getStartVariables = {
         taskStart: null,
         taskTime: 0,
         type: "",
+        quest: 0,
     },
     stats: {
         wisCost: 1,
