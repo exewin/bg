@@ -7,8 +7,7 @@ import styled from 'styled-components'
 import { CenteredLoading } from '../components/CenteredLoading'
 import { Footer } from '../components/Footer'
 import logoutIcon from "../assets/ui/logout.svg"
-import { MissionInjector } from '../adminTool/MissionInjector'
-import { ItemInjector } from '../adminTool/ItemInjector'
+import { Injector } from '../adminTool/Injector'
 
 const Container = styled.div`
 height: 100vh;
@@ -66,8 +65,7 @@ export const Dashboard = () => {
             :
                 <>
                     <Nav>
-                        <MissionInjector/>
-                        <ItemInjector/>
+                        <Injector/>
                         <LogoutButton><LogoutIcon src = {logoutIcon}/></LogoutButton>
                     </Nav>
                     <SubContainer>
