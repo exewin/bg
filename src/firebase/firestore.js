@@ -1,6 +1,6 @@
 import {collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, setDoc, Timestamp, where} from "firebase/firestore"
 import { AddPoint } from "../logic/AddPoint"
-import { getStartVariables } from "../logic/CharacterTemplate"
+import { getStartVariables } from "./CharacterTemplate"
 import { discardItem, equipItem, inventoryFull, unequipItem } from "../logic/ItemEquipping"
 import { itemModifier } from "../logic/ItemModifier"
 import { cancelTask, endTask, startTask, taskTimes } from "../logic/TaskLogic"
@@ -92,8 +92,12 @@ export const startTaskDB = async(uid, taskId, type, option = 1) => {
         const task = await getDoc(doc(firestore, `works/${taskId}`))
         taskData = task.data()
     }
-    else if(type === "mission")
+    else if(type === "mission"){
         taskData = Object.values(characterData.missions)[taskId]
+    }
+    else if(type === "quest"){
+
+    }
     else return "type error"
 
     const addToTimestamp = Timestamp.now().toDate()
@@ -130,6 +134,11 @@ export const addMissionDB = (mission, id) => {
 export const addItemsDB = (items) => {
     console.log("update items in database")
     setDoc(doc(firestore, `items/items`,), {items}, {merge:true})
+}
+
+export const addQuestsDB = (quests) => {
+    console.log("update quests in database")
+    setDoc(doc(firestore, `quests/quests`,), {quests}, {merge:true})
 }
 
 export const setMissionsDB = async(character) => {

@@ -4,7 +4,7 @@ export const calculateStats = (characterData) => {
         endurance: characterData.stats.endurance,
         wisdom: characterData.stats.wisdom,
     }
-    total = sumObjectsByKey(...characterData.equipped, total)
+    total = characterData?.equipped ? sumObjectsByKey(...characterData.equipped, total) : total
     return total
 }
 
