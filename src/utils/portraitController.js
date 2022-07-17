@@ -20,10 +20,10 @@ import p17 from "../assets/portraits/17.jpeg"
 
 export const availablePortraits = 14
 export const selectPortrait = (int) => {
-    if(int >= portraits.length)
+    if(int > availablePortraits)
         return 0
     else if(int < 0)
-        return portraits.length-1
+        return availablePortraits-1
     else
         return int
 }
