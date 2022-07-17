@@ -19,27 +19,27 @@ export const App = () => {
   return(
       <AuthProvider>
         <CharacterProvider>
-            <DndProvider backend={HTML5Backend}>
-          <BrowserRouter>
-            <Routes>
-              <Route index element={<Login/>}/>
-              <Route path="dashboard" element={<Dashboard/>}>
-                <Route path="creation" element={<Creation/>}/>
-                <Route path="gamescreen" element={<Gamescreen/>}>
-                  <Route path="character" element={<Character/>}/>
-                  <Route path="mission" element={<Mission/>}/>
-                  <Route path="quest" element={<Quest/>}/>
-                  <Route path="mail" element={<Mail/>}>
-                    <Route path=":name" element={<Mail/>}/>
-                  </Route>
-                  <Route path="work" element={<Work/>}/>
-                  <Route path="players" element={<Players/>}>
-                    <Route path=":name" element={<Players/>}/>
+          <DndProvider backend={HTML5Backend}>
+            <BrowserRouter>
+              <Routes>
+                <Route index element={<Login/>}/>
+                <Route path="dashboard" element={<Dashboard/>}>
+                  <Route path="creation" element={<Creation/>}/>
+                  <Route path="gamescreen" element={<Gamescreen/>}>
+                    <Route path="character" element={<Character/>}/>
+                    <Route path="mission" element={<Mission/>}/>
+                    <Route path="quest" element={<Quest/>}/>
+                    <Route path="mail" element={<Mail/>}>
+                      <Route path=":name" element={<Mail/>}/>
+                    </Route>
+                    <Route path="work" element={<Work/>}/>
+                    <Route path="players" element={<Players/>}>
+                      <Route path=":name" element={<Players/>}/>
+                    </Route>
                   </Route>
                 </Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
+              </Routes>
+            </BrowserRouter>
           </DndProvider>
         </CharacterProvider>
       </AuthProvider>
