@@ -1,5 +1,4 @@
 export const itemModifier = (item, character) => {
-
     const levelModifier = 1+((character.stats.level-1)/9)
 
     const boostStats = (multiply = 1, add = 0) => {
@@ -10,7 +9,7 @@ export const itemModifier = (item, character) => {
 
     boostStats(levelModifier)
 
-    const random = Math.floor(Math.random() * 100)
+    const random = character.progress.task.type === "quest" ? 99 : Math.floor(Math.random() * 100)
     if(random>=99){
         item.name = `${item.name} +5`
         boostStats(3, 4)

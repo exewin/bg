@@ -8,7 +8,8 @@ import { nanoid } from 'nanoid'
 import { Cooldown } from './Cooldown'
 import { Icon } from './Icon'
 import { useSelector, useDispatch } from 'react-redux'
-import { resetState, createCharacter, triggerSkill } from '../logic/redux/slice'
+import { createCharacter, triggerSkill } from '../logic/redux/slice'
+import { useCharacter } from '../contexts/CharacterContext'
 
 
 const Container = styled.div` 
@@ -17,25 +18,18 @@ grid-template-columns: 1fr 1fr;
 gap: 5px;
 `
 
-const Character = styled.div` 
-
-`
-
+const Character = styled.div``
 const KeyHolder = styled.span``
 
-const Image = styled.img` 
-width: 90%;
-border-radius: 5px;
-`
-
 export const FightScreen = ({character}) => {
+
+    const {endTask, cancelTask} = useCharacter()
 
     const AI_TICK = 1000
     const state = useSelector((state) => state.characters.value)
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        dispatch(resetState())
         const p = fightCharacter(character, character?.information?.charClass, 1)
         const e = fightCharacter(character?.quest?.enemy, character?.quest?.enemy?.charClass, 0)
         dispatch(createCharacter(p))
@@ -61,6 +55,11 @@ export const FightScreen = ({character}) => {
         }
     },[aiTick, enemy])
 
+    if(enemy?.dead){
+        endTask()
+    } else if(player?.dead){
+        cancelTask()
+    }
 
     return (
         dataLoaded ? 
@@ -102,7 +101,7 @@ export const FightScreen = ({character}) => {
             </Character>
         </Container>
         :
-        <div>dead</div>
+        <div>Battle end</div>
         :
         <CenteredLoading/>
     )

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
@@ -9,9 +9,8 @@ import { bgs } from '../../../utils/backgroundController'
 import { specialParse } from '../../../utils/descriptionParse'
 import { MissionBox } from '../../../components/MissionBox'
 import { FightScreen } from '../../../components/FightScreen'
-import store from '../../../logic/redux/store'
-import { Provider } from 'react-redux'
-
+import { resetState } from '../../../logic/redux/slice'
+import { useDispatch } from 'react-redux'
 
 const Main = styled.main` 
 color:white;
@@ -32,10 +31,7 @@ text-shadow: 1px 1px black;
 
 export const Quest = () => {
 
-    const {startTask, character, endTask, cancelTask} = useCharacter()
-
-    const [questStarted, setQuestStarted] = useState(false)
-
+    const {startTask, character} = useCharacter()
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -43,22 +39,21 @@ export const Quest = () => {
             navigate("..")
         }
     },[character])
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+      if(character?.progress?.busy === false){
+        dispatch(resetState())
+      }
+    },[character])
 
   return (
     <Background img={character?.progress?.task?.type==="quest" ? bgs[0] : bgs[6]}>
       {
         character?.progress?.busy === false ? 
-        questStarted ?
-          <Main>
-            <Provider store={store}>
-              <FightScreen character={character}/>
-            </Provider>
-          </Main>
-        :
         <Main>
           <Title>Lord has quest for you</Title>
           {inventoryFull(character) && <InventoryWarning/>}
-
           <MissionBox
             scale={1.2} 
             epic
@@ -66,9 +61,13 @@ export const Quest = () => {
             description={specialParse(character?.quest?.desc, character)}
             xp={character?.quest?.xp} 
             gold={character?.quest?.gold} 
-            click={()=>setQuestStarted(true)}
+            click={()=>startTask(null, "quest")}
           >Embark</MissionBox>
         </Main>
+        : character?.progress?.task?.type==="quest" ?
+          <Main>
+              <FightScreen character={character}/>
+          </Main>
         : 
         <Main>
           <Title>You are doing other task</Title>  

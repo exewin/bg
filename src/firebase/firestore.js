@@ -102,21 +102,32 @@ export const startTaskDB = async(uid, taskId, type, option = 1) => {
     else return "type error"
 
     const addToTimestamp = Timestamp.now().toDate()
-    addToTimestamp.setSeconds(addToTimestamp.getSeconds() + taskData.time * option);
+    addToTimestamp.setSeconds(addToTimestamp.getSeconds() + (taskData?.time ? taskData.time : 0) * option);
     
     await startTask(characterData, taskData, type, option, Timestamp.now().toDate(), Timestamp.fromDate(addToTimestamp))
+    console.log(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
 
 export const endTaskDB = async(uid) => {
     console.log("end task")
     const characterData = await getUserInfoDB(uid)
+
+    const wasMission = characterData.progress.task.type === "mission"
+    const wasQuest = characterData.progress.task.type === "quest"
+    const wasWork = characterData.progress.task.type === "work"
     const {timeLeft} = await taskTimes(characterData)
     if(timeLeft > 0) return "You haven't finished task yet."
-
+    if(!wasWork){
+        if(inventoryFull(characterData)){
+            console.log("inventory was full")
+        } else {
+            await dropRandomItemDB(characterData)
+        }
+    }
     await endTask(characterData)
-    inventoryFull(characterData) ? console.log("inventory was full") : await dropRandomItemDB(characterData)
-    await setMissionsDB(characterData)
+    wasMission && await setMissionsDB(characterData)
+    wasQuest && await setQuestDB(characterData)
     await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
 }
 
@@ -145,7 +156,8 @@ export const addQuestsDB = (quests) => {
 export const setQuestDB = async(character) => {
     const tasks = await getDoc(doc(firestore, `quests/quests`))
     const tasksData = tasks.data()
-    character.quest = tasksData.quests[character.progress.quest || 0]
+    const toSet = character.progress.quest > tasksData.quests.length - 1 ? tasksData.quests.length - 1 : character.progress.quest
+    character.quest = tasksData.quests[toSet]
 }
 
 export const setMissionsDB = async(character) => {
@@ -176,7 +188,6 @@ export const dropRandomItemDB = async (character) => {
     const itemsData = items.data()
     const random = Math.floor(Math.random() * (itemsData.items.length-1))
     const item = itemModifier(itemsData.items[random], character)
-    console.log("drop item", random, item)
     character.items.push(item)
 }
 

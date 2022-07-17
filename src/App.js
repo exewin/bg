@@ -14,6 +14,8 @@ import { CharacterProvider } from "./contexts/CharacterContext"
 import { Players } from "./sites/dashboard/gamescreen/Players"
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import store from "./logic/redux/store"
+import { Provider } from 'react-redux'
 
 export const App = () => {
   return(
@@ -28,7 +30,7 @@ export const App = () => {
                   <Route path="gamescreen" element={<Gamescreen/>}>
                     <Route path="character" element={<Character/>}/>
                     <Route path="mission" element={<Mission/>}/>
-                    <Route path="quest" element={<Quest/>}/>
+                    <Route path="quest" element={<Provider store={store}><Quest/></Provider>}/>
                     <Route path="mail" element={<Mail/>}>
                       <Route path=":name" element={<Mail/>}/>
                     </Route>
