@@ -31,6 +31,7 @@ export const createCharacterDB = async (uid, character) => {
         ...getStartVariables
     }
     await setMissionsDB(newCharacter)
+    await setQuestDB(newCharacter)
     await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
 }
 
@@ -96,7 +97,7 @@ export const startTaskDB = async(uid, taskId, type, option = 1) => {
         taskData = Object.values(characterData.missions)[taskId]
     }
     else if(type === "quest"){
-
+        taskData = characterData.quest
     }
     else return "type error"
 
@@ -141,6 +142,12 @@ export const addQuestsDB = (quests) => {
     setDoc(doc(firestore, `quests/quests`,), {quests}, {merge:true})
 }
 
+export const setQuestDB = async(character) => {
+    const tasks = await getDoc(doc(firestore, `quests/quests`))
+    const tasksData = tasks.data()
+    character.quest = tasksData.quests[character.progress.quest || 0]
+}
+
 export const setMissionsDB = async(character) => {
     console.log("set Missions")
     let shuffledMissions
@@ -168,6 +175,7 @@ export const dropRandomItemDB = async (character) => {
     const itemsData = items.data()
     const random = Math.floor(Math.random() * itemsData.items.length-1)
     const item = itemModifier(itemsData.items[random], character)
+    console.log("drop item", random, item)
     character.items.push(item)
 }
 
