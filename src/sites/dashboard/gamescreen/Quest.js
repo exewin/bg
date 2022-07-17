@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
-import { Button } from '../../../components/Button'
-import { Box } from '../../../components/Box'
 import { InventoryWarning } from '../../../components/InventoryWarning'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { inventoryFull } from '../../../logic/ItemEquipping'
@@ -11,6 +9,8 @@ import { bgs } from '../../../utils/backgroundController'
 import { specialParse } from '../../../utils/descriptionParse'
 import { MissionBox } from '../../../components/MissionBox'
 import { FightScreen } from '../../../components/FightScreen'
+import store from '../../../logic/redux/store'
+import { Provider } from 'react-redux'
 
 
 const Main = styled.main` 
@@ -53,7 +53,9 @@ export const Quest = () => {
         character?.progress?.busy === false ? 
         questStarted ?
           <Main>
-            <FightScreen character={character}/>
+            <Provider store={store}>
+              <FightScreen character={character}/>
+            </Provider>
           </Main>
         :
         <Main>
