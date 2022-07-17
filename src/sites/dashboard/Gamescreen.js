@@ -4,7 +4,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useCharacter } from '../../contexts/CharacterContext'
 import { cancelListenToCharacterChange, listenToCharacterChange } from '../../firebase/firestore'
 import { useAuth } from '../../contexts/AuthContext'
-import { playSound, stopAll } from '../../utils/soundController'
+import { playMusic, stopAll } from '../../utils/soundController'
 import highButton from "../../assets/ui/high_button.png"
 import sideBg from "../../assets/ui/side_bg.png"
 import { ColorHighlight } from '../../components/ColorHighlight'
@@ -65,10 +65,12 @@ export const Gamescreen = () => {
 
   useEffect(()=> {
     switch(location){
-      case "character":{ playSound(0); break }
-      case "mission":{ character?.progress?.task?.type!=="mission" ? playSound(1) : stopAll(); break }
-      case "work":{ playSound(2); break }
-      case "chat":{ playSound(3); break }
+      case "character":{ playMusic(0); break }
+      case "mission":{ character?.progress?.task?.type!=="mission" ? playMusic(1) : stopAll(); break }
+      case "work":{ playMusic(2); break }
+      case "players":{ stopAll(); break }
+      case "quest":{ stopAll(); break }
+      case "mail":{ playMusic(0); break }
       default:{}
     }
   },[location, character])
