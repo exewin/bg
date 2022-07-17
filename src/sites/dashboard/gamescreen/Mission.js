@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
 import { Bar } from '../../../components/Bar'
 import { Button } from '../../../components/Button'
+import { InventoryWarning } from '../../../components/InventoryWarning'
 import { MissionBox } from '../../../components/MissionBox'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { useTime } from '../../../hooks/useTime'
@@ -38,11 +38,6 @@ max-height: 2000px;
 padding:20px;
 `
 
-const InvWarning = styled.div` 
-color: orange;
-text-shadow: 1px 1px black;
-`
-
 
 
 export const Mission = () => {
@@ -52,22 +47,13 @@ export const Mission = () => {
   const {startTask, character, endTask, cancelTask} = useCharacter()
   const time = useTime(1000) //force slow rerender
 
-  const navigate = useNavigate()
-
-  const goToTask = () => {
-    navigate("../work")
-  }
-  
-
   if(character?.progress?.busy)
     taskTimes(character).then(response=>{
       setTimeLeft(response.timeLeft)
       setEndTime(response.endTime)
   })
 
-  const invWarning = "Any item found on mission will be lost."
   const titleDesc = "Missions are easy way to gain experience, gold and items. They only require some time to finish."
-
 
   return (
     <Background img={character?.progress?.task?.type==="mission" ? bgs[0] : bgs[4]}>
@@ -75,7 +61,7 @@ export const Mission = () => {
         character?.progress?.busy === false ? 
         <Main>
           <Title title={titleDesc}>Select mission</Title>
-          {inventoryFull(character) && <InvWarning title={invWarning}>Warning! Your inventory is full.</InvWarning>}
+          {inventoryFull(character) && <InventoryWarning/>}
           <Grid>
           {character.missions && Object.keys(character.missions).map((keyName, i) => (
             
@@ -117,7 +103,6 @@ export const Mission = () => {
           :
           <Main>
             <Title>You are doing other task</Title>  
-            {goToTask()}  
           </Main>
         }
     </Background>

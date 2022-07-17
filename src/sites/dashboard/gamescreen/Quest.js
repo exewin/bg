@@ -36,10 +36,7 @@ export const Quest = () => {
 
     const [questStarted, setQuestStarted] = useState(false)
 
-    //startTask(null, "quest")
-
     const navigate = useNavigate()
-    const goToTask = () => navigate(`../${character?.progress?.task?.type}`)
 
     useEffect(()=>{
         if(character.stats.level < 3){
@@ -75,7 +72,6 @@ export const Quest = () => {
         : 
         <Main>
           <Title>You are doing other task</Title>  
-          {goToTask()}
         </Main>
         }
     </Background>
