@@ -22,5 +22,6 @@ export const getStartVariables = {
     },
     mails: [],
     items: [],
-    equipped: []
+    equipped: [],
+    quest: null
 }
