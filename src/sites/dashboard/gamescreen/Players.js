@@ -90,7 +90,7 @@ export const Players = () => {
 
 
     return (
-        <Background img={bgs[2]} css={cssSnippet}>
+        <Background img={bgs[7]} css={cssSnippet}>
                 {character && <>
                 <CharacterInfo>
                     <Portrait 
