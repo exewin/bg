@@ -1,22 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import missionCard from "../assets/ui/missionCard.png"
 import bag from "../assets/icons/bag.png"
 import book from "../assets/icons/book.png"
 import clock from "../assets/icons/clock.png"
+import item from "../assets/icons/epic.png"
 import { Button } from './Button'
+import { Box } from './Box'
 
-const Box = styled.div` 
-background-image: url(${props=>props.bg});
-background-size: cover;
-height: 380px;
-width: 265px;
-text-align: center;
-padding: 20px 45px;
-box-sizing: border-box;
-display:flex;
-flex-direction: column;
-`
+
 
 const Title = styled.h3``
 const Description = styled.p`
@@ -37,15 +28,16 @@ max-width:32px;
 max-height: 32px;
 `
 
-export const MissionBox = ({description, name, gold, xp, click, time}) => {
+export const MissionBox = ({description, name, gold, xp, click, time, epic, children="Start Mission", scale}) => {
   return (
-    <Box bg={missionCard}>
+    <Box scale={scale}>
         <Title>{name}</Title>
         <Description>{description}</Description>
-        <Detail><Img src={clock}/> {time}</Detail>
+        {time && <Detail><Img src={clock}/> {time}</Detail>}
+        {epic && <Detail><Img src={item}/> Epic Item</Detail>}
         <Detail><Img src={bag}/> {gold}</Detail>
         <Detail><Img src={book}/> {xp}</Detail>
-        <Button onClick={click}>Start Mission</Button>
+        <Button onClick={click}>{children}</Button>
     </Box>
   )
 }
