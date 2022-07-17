@@ -171,9 +171,10 @@ export const setMissionsDB = async(character) => {
 }
 
 export const dropRandomItemDB = async (character) => {
+    console.log("drop item")
     const items = await getDoc(doc(firestore, `items/items`))
     const itemsData = items.data()
-    const random = Math.floor(Math.random() * itemsData.items.length-1)
+    const random = Math.floor(Math.random() * (itemsData.items.length-1))
     const item = itemModifier(itemsData.items[random], character)
     console.log("drop item", random, item)
     character.items.push(item)
