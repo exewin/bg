@@ -39,7 +39,7 @@ export const Portrait = ({index, charClass, name, level}) => {
   return (
     <Div>
       <UpText>{name && capitalizeWord(name)}</UpText>
-      <Img src={portraits[index]} border={charClass}/>
+      <Img src={portraits[index]} border={charClass} draggable={false}/>
       <DownText>{level && `Level ${level}`} {charClass && capitalizeWord(charClass)}</DownText>
     </Div>
   )
