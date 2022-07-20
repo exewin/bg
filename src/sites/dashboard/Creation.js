@@ -12,6 +12,8 @@ import card from "../../assets/ui/missionCard.png"
 import { Box } from '../../components/Box'
 import { Button } from '../../components/Button'
 import { Icon } from '../../components/Icon'
+import arrowLeft from "../../assets/ui/arrowleft.svg"
+import arrowRight from "../../assets/ui/arrowright.svg"
 import { classDescs } from '../../utils/classDescription'
 import { capitalizeWord } from '../../utils/capitalizeWord'
 import { nameRegex } from '../../utils/regExps'
@@ -25,6 +27,11 @@ const Title = styled.h3``
 const Description = styled.p`
 text-align: left;
 font-size: 0.8em;
+color:white;
+font-family: 'Joan', serif;
+text-shadow: 1px 1px black;
+font-size: large;
+width: 50%;
 `
 
 const Container = styled.div` 
@@ -55,6 +62,21 @@ gap:2px;
 const Warning = styled.div` 
 color:#f99;
 font-size: 12px;
+`
+
+const DivWrapper = styled.div` 
+display: flex;
+`
+const Division = styled.div`
+display:flex;
+flex-wrap: wrap;
+flex-direction: column;
+align-items: center;
+`
+
+const ArrowIcon = styled.img` 
+height: 16px;
+filter: invert(100%);
 `
 
 export const Creation = () => {
@@ -92,11 +114,15 @@ export const Creation = () => {
         setLoading(false)
     },[user])
 
+    const descString = "Not much is known about your past. Unexpected events forced you to leave your homeland. Luckily you came across captain of the ship, who needs pair of hands for his next journey. Without even asking where he sails, you accept his offer. After many days, you finally arrive at mysterious lands of Algos. It's time for new beginning..."
+
     return (
         <Container>
-            <Background img={bgs[3]} css={{position:'relative'}}>
+            
+            <Background img={bgs[3]}>
             {loading ? <CenteredLoading/> : 
-                    <>
+                <DivWrapper>
+                    <Division>
                         <Box bg={card} scale={1}>
                             <Title>
                                 Create Character:
@@ -114,8 +140,12 @@ export const Creation = () => {
                                 <PortraitBox>
                                     <Portrait index={portrait}/>
                                         <Wrapper>
-                                            <Button wide size={0.5} onClick={()=>setPortrait(prev=>selectPortrait(prev+1))}>(---</Button>
-                                            <Button wide size={0.5} onClick={()=>setPortrait(prev=>selectPortrait(prev-1))}>---)</Button>
+                                            <Button wide size={0.5} onClick={()=>setPortrait(prev=>selectPortrait(prev+1))}>
+                                                <ArrowIcon src={arrowLeft}/>
+                                            </Button>
+                                            <Button wide size={0.5} onClick={()=>setPortrait(prev=>selectPortrait(prev-1))}>
+                                            <ArrowIcon src={arrowRight}/>
+                                            </Button>
                                         </Wrapper>
                                 </PortraitBox>
                                     
@@ -132,7 +162,11 @@ export const Creation = () => {
                             {classDescs(charClass)}
                             <Button onClick={handleSubmit}>Ready</Button>
                         </Box>
-                    </>
+                    </Division>
+                    <Division>
+                        <Description>{descString}</Description>
+                    </Division>
+                </DivWrapper>
             }
             </Background>
         </Container>
