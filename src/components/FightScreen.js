@@ -44,7 +44,7 @@ export const FightScreen = ({character}) => {
 
     const [aiTick, setAiTick] = useState(0)
     useEffect(()=>{
-        if(enemy){
+        if(enemy && !enemy.dead){
             const t = setTimeout(()=>{
                 if(!enemy.dead){
                     dispatch(triggerSkill({target: 1, id: 0}))
