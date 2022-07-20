@@ -22,6 +22,7 @@ export const startTask = async(characterData, taskData, type, option, start, end
 }
 
 export const endTask = async(characterData) => {
+    characterData.progress.task.type === "quest" && characterData.progress.quest++
     characterData.progress.taskEnd = null
     characterData.progress.taskStart = null
     characterData.stats.money += characterData.progress.task.gold

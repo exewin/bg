@@ -7,6 +7,7 @@ import styled from 'styled-components'
 const Img = styled.img` 
 width:48px;
 border-radius: 4px;
+user-select: none;
 border: ${props=>props.selected ? '2px solid green' : '2px solid black'};
 &:hover{
     border: ${props=>props.selected ? '2px solid lime' : '2px solid yellow'};
@@ -19,9 +20,10 @@ const icons = [warIcon, palIcon, magIcon]
 export const Icon = ({onClick, icon, selected}) => {
   return (
     <Img 
-        src={icons[icon]} 
+        src={typeof icon === 'number' ? icons[icon] : icon} 
         onClick={onClick} 
         selected={selected}
+        draggable={false}
     />
   )
 }

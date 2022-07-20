@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import {LoginBox} from "./../components/LoginBox"
 import {RegisterBox} from "./../components/RegisterBox"
 import {Background} from "./../components/Background"
-import bg from "../assets/backgrounds/5.jpg"
 import {Footer} from "./../components/Footer"
+import { bgs } from "../utils/backgroundController"
+import { stopAll } from "../utils/soundController"
 
 const Container = styled.div`
 height: 100vh;
@@ -24,9 +25,12 @@ text-align: center;
 `
 
 export const Login = () => {
+    useEffect(()=>{
+        stopAll()
+    },[])
     return(
         <Container>
-            <Background img={bg} css={{position:'relative'}}>
+            <Background img={bgs[5]}css={{position:'relative'}}>
                 <Title>Enter the game</Title>
                 <Wrapper>
                     <LoginBox/>

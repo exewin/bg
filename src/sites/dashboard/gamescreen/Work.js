@@ -34,7 +34,7 @@ export const Work = () => {
   const time = useTime(1000) //force slow rerender
 
   const [hours, setHours] = useState (1)
-  
+
 
   if(character?.progress?.busy)
     taskTimes(character).then(response=>{
@@ -82,7 +82,7 @@ export const Work = () => {
               </Main>
           :
           <Main>
-            <Title>You are doing other task</Title>    
+            <Title>You are doing other task</Title>  
           </Main> 
         }
     </Background>

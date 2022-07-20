@@ -33,7 +33,7 @@ user-select: none;
 
 export const Bar = ({value, maxValue, lengthPx=200, css, children}) => {
 
-    const bar = value/maxValue*lengthPx
+    const bar = value/maxValue*lengthPx > 0 ? value/maxValue*lengthPx : 0
 
   return (
     <Div length={lengthPx} css={css}>
