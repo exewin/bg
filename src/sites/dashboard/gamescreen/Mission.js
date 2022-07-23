@@ -4,6 +4,7 @@ import { Background } from '../../../components/Background'
 import { Bar } from '../../../components/Bar'
 import { Button } from '../../../components/Button'
 import { InventoryWarning } from '../../../components/InventoryWarning'
+import { MiniTooltip } from '../../../components/MiniTooltip'
 import { MissionBox } from '../../../components/MissionBox'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { useTime } from '../../../hooks/useTime'
@@ -25,6 +26,7 @@ height: 100%;
 const Title = styled.h1`
 color:yellow;
 text-shadow: 1px 1px black;
+display: flex;
 `
 
 const Grid = styled.div` 
@@ -53,14 +55,14 @@ export const Mission = () => {
       setEndTime(response.endTime)
   })
 
-  const titleDesc = "Missions are easy way to gain experience, gold and items. They only require some time to finish."
+  const titleDesc = "Complete missions to gain experience, gold and items. These tasks are easy for you and only require some time to finish."
 
   return (
     <Background img={character?.progress?.task?.type==="mission" ? bgs[0] : bgs[4]}>
       {
         character?.progress?.busy === false ? 
         <Main>
-          <Title title={titleDesc}>Select mission</Title>
+          <Title>Select mission <MiniTooltip text={titleDesc}/></Title>
           {inventoryFull(character) && <InventoryWarning/>}
           <Grid>
           {character.missions && Object.keys(character.missions).map((keyName, i) => (

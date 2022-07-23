@@ -32,6 +32,7 @@ export const createCharacterDB = async (uid, character) => {
     }
     await setMissionsDB(newCharacter)
     await setQuestDB(newCharacter)
+    await setDoc(doc(firestore, `mails/${uid}`), {mails:[]}, {merge:true})
     await setDoc(doc(firestore, `users/${uid}`), newCharacter, {merge:true})
 }
 
@@ -58,20 +59,32 @@ export const findUserByNameDB = async(name) => {
 
 export const sendMailDB = async(name, msg, author) => {
     console.log("send mail db")
-    const {data, id} = await findUserByNameDB(name)
-    if(data){
+    const {id} = await findUserByNameDB(name)
+    const mailsData = await getMailDB(id)
+    if(mailsData){
         const date = Timestamp.now().toDate()
-        data.mails.push({msg, author, read: false, date})
-        setDoc(doc(firestore, `users/${id}`), data, {merge:true})
+        mailsData.mails.push({msg, author, read: false, date})
+        setDoc(doc(firestore, `mails/${id}`), mailsData, {merge:true})
         return true
     }
     return false
 }
 
+export const getMailDB = async(uid) => {
+    console.log("get mails info")
+    const dbDoc = await getDoc(doc(firestore, `mails/${uid}`))
+    if(dbDoc.exists()){
+        const docData = dbDoc.data()
+        return docData
+    }
+    else return null
+}
+
 export const deleteMailDB = async(uid, id) => {
-    let characterData = await getUserInfoDB(uid)
-    characterData = {...characterData, mails: characterData.mails.filter((_, i)=> i!==id)}
-    await setDoc(doc(firestore, `users/${uid}`), characterData, {merge:true})
+    console.log("delete mail", id)
+    const characterData = await getMailDB(uid)
+    characterData = {mails: characterData.mails.filter((_, i)=> i!==id)}
+    await setDoc(doc(firestore, `mails/${uid}`), characterData, {merge:true})
 }
 
 export const currentTimeDB = async() => {

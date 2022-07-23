@@ -20,7 +20,6 @@ export const getStartVariables = {
         strength: 1,
         xp: 0,
     },
-    mails: [],
     items: [],
     equipped: [],
     quest: null

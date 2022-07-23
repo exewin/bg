@@ -6,6 +6,7 @@ import {Background} from "./../components/Background"
 import {Footer} from "./../components/Footer"
 import { bgs } from "../utils/backgroundController"
 import { stopAll } from "../utils/soundController"
+import logo from "../assets/ui/logo.png"
 
 const Container = styled.div`
 height: 100vh;
@@ -24,6 +25,9 @@ const Title = styled.h1`
 text-align: center;
 `
 
+const Img = styled.img` 
+`
+
 export const Login = () => {
     useEffect(()=>{
         stopAll()
@@ -31,7 +35,7 @@ export const Login = () => {
     return(
         <Container>
             <Background img={bgs[5]}css={{position:'relative'}}>
-                <Title>Enter the game</Title>
+                <Title><Img src={logo}/></Title>
                 <Wrapper>
                     <LoginBox/>
                     <RegisterBox/> 

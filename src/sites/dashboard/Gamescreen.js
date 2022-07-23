@@ -71,7 +71,7 @@ export const Gamescreen = () => {
       case "players":{ stopAll(); break }
       case "quest":{ stopAll(); break }
       case "mail":{ playMusic(0); break }
-      default:{}
+      default:{ stopAll(); break }
     }
   },[location, character])
 

@@ -7,6 +7,7 @@ import { useTime } from '../../../hooks/useTime'
 import { bgs } from '../../../utils/backgroundController'
 import { taskTimes } from '../../../logic/TaskLogic'
 import { Button } from '../../../components/Button'
+import { MiniTooltip } from '../../../components/MiniTooltip'
 
 const Slider = styled.input` 
 `
@@ -24,6 +25,7 @@ height: 100%;
 const Title = styled.h1`
 color:yellow;
 text-shadow: 1px 1px black;
+display: flex;
 `
 
 export const Work = () => {
@@ -42,11 +44,14 @@ export const Work = () => {
       setEndTime(response.endTime)
   })
 
+  const titleDesc="Set how much time do you want to work. Working is best option if you want to get gold, however it doesn't reward you with items or experience."
+
   return (
     <Background img={bgs[1]}>
       {
         character?.progress?.busy === false ? 
           <Main>
+            <Title>Set your shift <MiniTooltip text={titleDesc}/></Title>
             <Slider
               type="range"
               id="slider"
