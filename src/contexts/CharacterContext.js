@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react"
-import { addStatDB, cancelTaskDB, deleteMailDB, discardItemDB, endTaskDB, equipItemDB, startTaskDB, unequipItemDB } from "../firebase/firestore"
+import { addStatDB, cancelTaskDB, deleteMailDB, discardItemDB, endTaskDB, equipItemDB, getMailDB, startTaskDB, unequipItemDB } from "../firebase/firestore"
 import { useAuth } from "./AuthContext"
 
 const CharacterContext = React.createContext()
@@ -30,6 +30,13 @@ export const CharacterProvider = ({children}) => {
         const response = await deleteMailDB(user.uid, id)
         if(typeof response === 'string')
             return setError(response)
+    }
+
+    const getMail = async() => {
+        const response = await getMailDB(user.uid)
+        if(typeof response === 'string')
+            return setError(response)
+        else return response
     }
 
     const cancelTask = async() => {
@@ -77,7 +84,8 @@ export const CharacterProvider = ({children}) => {
             deleteMail, 
             equipItem, 
             unequipItem,
-            discardItem
+            discardItem,
+            getMail
         }}>
             {children}
         </CharacterContext.Provider>

@@ -10,6 +10,7 @@ import { sendMailDB } from '../../../firebase/firestore'
 import { capitalizeWord } from '../../../utils/capitalizeWord'
 import { ColorHighlight } from '../../../components/ColorHighlight'
 import {Navigate, useNavigate, useParams} from "react-router-dom";
+import { nanoid } from 'nanoid'
 
 const Wrapper = styled.div` 
 display:flex;
@@ -116,9 +117,10 @@ export const Mail = () => {
     const [msg, setMsg] = useState("")
     const [receiver, setReceiver] = useState("")
     const [res, setRes] = useState("")
+    const [mailData, setMailData] = useState(null)
     const [write, setWrite] = useState(false)
     const [selectedLetter, setSelectedLetter] = useState(null)
-    const {character, deleteMail} = useCharacter()
+    const {character, deleteMail, getMail} = useCharacter()
     const { name } = useParams()
     const navigate = useNavigate()
 
@@ -133,6 +135,10 @@ export const Mail = () => {
             setWrite(true)
             setReceiver(name)
         }
+    },[])
+
+    useEffect(()=>{
+        getMail().then(res=>setMailData(res.mails))
     },[])
 
     const sendMessage = () => {
@@ -188,16 +194,19 @@ export const Mail = () => {
                     <Title>Mailbox:</Title>
                     <Mails>
                         <Reverse>
-                        {character.mails && Object.keys(character.mails).map((keyName, i) => (
-                            <Button key={keyName} wide size={1.3} onClick={()=>selectLetter({...character?.mails[keyName], i})}>
-                                <SingleMail>
-                                    <ColorHighlight light={selectedLetter?.i} match={i}>{`${character?.mails[keyName]?.author}`}</ColorHighlight>
-                                    <ColorHighlight light={selectedLetter?.i} match={i}>
-                                        {new Date(character?.mails[keyName]?.date?.toDate()).toLocaleTimeString('en-us', {})}
-                                    </ColorHighlight>
-                                </SingleMail>
-                            </Button>
-                        ))}
+                            {
+                                mailData &&
+                                mailData.map((item, i)=>(
+                                    <Button key={nanoid()} wide size={1.3} onClick={()=>selectLetter({...item, i})}>
+                                        <SingleMail>
+                                            <ColorHighlight light={selectedLetter?.i} match={i}>{`${item.author}`}</ColorHighlight>
+                                            <ColorHighlight light={selectedLetter?.i} match={i}>
+                                                {new Date(item.date?.toDate()).toLocaleTimeString('en-us', {})}
+                                            </ColorHighlight>
+                                        </SingleMail>
+                                    </Button>
+                                ))
+                            }
                         </Reverse>
                     </Mails>
                     </Box>
@@ -240,3 +249,15 @@ export const Mail = () => {
         </Background>
     )
 }
+
+
+// {character.mails && Object.keys(character.mails).map((keyName, i) => (
+    // <Button key={keyName} wide size={1.3} onClick={()=>selectLetter({...character?.mails[keyName], i})}>
+    //     <SingleMail>
+    //         <ColorHighlight light={selectedLetter?.i} match={i}>{`${character?.mails[keyName]?.author}`}</ColorHighlight>
+    //         <ColorHighlight light={selectedLetter?.i} match={i}>
+    //             {new Date(character?.mails[keyName]?.date?.toDate()).toLocaleTimeString('en-us', {})}
+    //         </ColorHighlight>
+    //     </SingleMail>
+    // </Button>
+// ))}
