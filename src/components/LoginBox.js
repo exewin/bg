@@ -52,7 +52,6 @@ export const LoginBox = () => {
     }
 
     return(
-        <form onSubmit={handleSubmit} noValidate>
             <Box bg={card}>
                 <Title>
                     Login:
@@ -74,6 +73,5 @@ export const LoginBox = () => {
                     <Button onClick={handleSubmit}>Submit</Button>
                 {error && <Description>{error}</Description>}
             </Box>
-        </form>
     )
 }
