@@ -82,9 +82,9 @@ export const getMailDB = async(uid) => {
 
 export const deleteMailDB = async(uid, id) => {
     console.log("delete mail", id)
-    const characterData = await getMailDB(uid)
-    characterData = {mails: characterData.mails.filter((_, i)=> i!==id)}
-    await setDoc(doc(firestore, `mails/${uid}`), characterData, {merge:true})
+    const mailsData = await getMailDB(uid)
+    const newData = mailsData.mails.filter((_, i)=> i!==id)
+    await setDoc(doc(firestore, `mails/${uid}`), {mails:newData}, {merge:true})
 }
 
 export const currentTimeDB = async() => {

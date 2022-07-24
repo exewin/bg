@@ -166,9 +166,11 @@ export const Mail = () => {
         setMsg(str)
     }
 
-    const deleteMessage = () => {
-        deleteMail(selectedLetter.i)
+    const deleteMessage = async() => {
+        await deleteMail(selectedLetter.i)
+        await getMail().then(res=>setMailData(res.mails))
         setSelectedLetter(null)
+        
     }
 
     const selectLetter = (letter) => {
