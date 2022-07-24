@@ -53,7 +53,6 @@ const cssSnippet = css`
 display:flex;
 flex-wrap: wrap;
 gap: 10px;
-background-color: red;
 `
 
 export const Players = () => {
