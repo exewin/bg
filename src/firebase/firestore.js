@@ -89,7 +89,7 @@ export const deleteMailDB = async(uid, id) => {
 
 export const currentTimeDB = async() => {
     let date = new Date()
-    await fetch("http://worldtimeapi.org/api/timezone/Europe/Warsaw")
+    await fetch("https://worldtimeapi.org/api/timezone/Europe/Warsaw")
     .then(response=>response.json())
     .then(data=>date=new Date(data.utc_datetime))
     return date.valueOf()/1000
