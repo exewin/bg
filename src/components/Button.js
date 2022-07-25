@@ -5,7 +5,11 @@ import wbtn from "../assets/ui/high_button.png"
 import wbtnd from "../assets/ui/high_button_dot.png"
 import btnd from "../assets/ui/button_dot.png"
 
-const Div=styled.div` 
+const Div=styled.button` 
+border:none;
+color:white;
+font-size: large;
+font-family: 'Joan', serif;
 background-image: url(${props=>props.bg});
 background-size: cover;
 width:${props=>props.w}px;

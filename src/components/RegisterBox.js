@@ -26,7 +26,6 @@ export const RegisterBox = () => {
     const navigate = useNavigate()
 
     const handleSubmit = async(e) => {
-        console.log("asd")
         e.preventDefault()
         setError("")
         try{
@@ -41,6 +40,7 @@ export const RegisterBox = () => {
     }
 
     return(
+        <form onSumbit={handleSubmit}>
             <Box bg={card}>
             <Title>Create Account:</Title>
                 <Input
@@ -67,5 +67,6 @@ export const RegisterBox = () => {
                 <Button onClick={handleSubmit}>Submit</Button>
                 {error && <Description>{error}</Description>}
             </Box>
+        </form>
     )
 }

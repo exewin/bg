@@ -41,7 +41,8 @@ export const LoginBox = () => {
     const {login} = useAuth()
     const navigate = useNavigate()
 
-    const handleSubmit = async() => {
+    const handleSubmit = async(e) => {
+        e.preventDefault()
         setError("")
         try{
             await login(email, password)
@@ -52,11 +53,11 @@ export const LoginBox = () => {
     }
 
     return(
+        <form onSumbit={handleSubmit}>
             <Box bg={card}>
                 <Title>
                     Login:
                 </Title>
-                
                     <Input 
                         onChange={(e)=>setEmail(e.target.value)} 
                         value={email}
@@ -70,8 +71,10 @@ export const LoginBox = () => {
                         placeholder="Password" 
                         type="password"
                     />
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button type="submit" onClick={handleSubmit}>Submit</Button>
                 {error && <Description>{error}</Description>}
             </Box>
+        </form>
+        
     )
 }
