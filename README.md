@@ -22,9 +22,9 @@ https://www.youtube.com/watch?v=kqmUIguFIdg
 
 
 Preview images:
-![Preview Image one](./preview/1.png)
-![Preview Image two](./preview/2.png)
-![Preview Image three](./preview/3.png)
+![Preview Image one](./preview/1.PNG)
+![Preview Image two](./preview/2.PNG)
+![Preview Image three](./preview/3.PNG)
 
 Project made in React
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png" width="18">
