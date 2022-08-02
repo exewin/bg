@@ -1,12 +1,12 @@
-import React, { useEffect } from "react"
-import styled from "styled-components"
-import {LoginBox} from "./../components/LoginBox"
-import {RegisterBox} from "./../components/RegisterBox"
-import {Background} from "./../components/Background"
-import {Footer} from "./../components/Footer"
-import { bgs } from "../utils/backgroundController"
-import { stopAll } from "../utils/soundController"
-import logo from "../assets/ui/logo.png"
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
+import { LoginBox } from './../components/LoginBox'
+import { RegisterBox } from './../components/RegisterBox'
+import { Background } from './../components/Background'
+import { Footer } from './../components/Footer'
+import { bgs } from '../utils/backgroundController'
+import { stopAll } from '../utils/soundController'
+import logo from '../assets/ui/logo.png'
 
 const Container = styled.div`
 height: 100vh;
@@ -29,19 +29,19 @@ const Img = styled.img`
 `
 
 export const Login = () => {
-    useEffect(()=>{
-        stopAll()
-    },[])
-    return(
+  useEffect(() => {
+    stopAll()
+  }, [])
+  return (
         <Container>
-            <Background img={bgs[5]}css={{position:'relative'}}>
+            <Background img={bgs[5]}css={{ position: 'relative' }}>
                 <Title><Img src={logo}/></Title>
                 <Wrapper>
                     <LoginBox/>
-                    <RegisterBox/> 
+                    <RegisterBox/>
                 </Wrapper>
-                <Footer css={{position:'absolute', bottom:'0px', marginTop:"20px", width:'90%', textAlign:'center'}}/>
+                <Footer css={{ position: 'absolute', bottom: '0px', marginTop: '20px', width: '90%', textAlign: 'center' }}/>
             </Background>
         </Container>
-    )
+  )
 }

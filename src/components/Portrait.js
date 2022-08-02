@@ -10,11 +10,14 @@ width: fit-content;
 
 const Img = styled.img`
 width:200px;
-border: 3px solid ${props=>
-props.border==="warrior"?'#910':
-props.border==="paladin"?'#019':
-props.border==="mage"?'#2a1':
-'#333'};
+border: 3px solid ${props =>
+props.border === 'warrior'
+? '#910'
+: props.border === 'paladin'
+? '#019'
+: props.border === 'mage'
+? '#2a1'
+: '#333'};
 border-radius: 1em;
 `
 
@@ -34,8 +37,7 @@ const DownText = styled(Text)`
 bottom:5px;
 `
 
-export const Portrait = ({index, charClass, name, level}) => {
-    
+export const Portrait = ({ index, charClass, name, level }) => {
   return (
     <Div>
       <UpText>{name && capitalizeWord(name)}</UpText>

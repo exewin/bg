@@ -18,18 +18,18 @@ const Title = styled.h1`
 text-shadow: 1px 1px black;
 `
 
-
 export const ErrorFade = () => {
-
-    const {error, clearError} = useCharacter()
+  const { error, clearError } = useCharacter()
 
   return (
-    error ? <Bg>
+    error
+      ? <Bg>
         <Box>
             <Title>server error</Title>
             {error}
             <Button onClick={clearError}>Ok</Button>
         </Box>
-    </Bg> : <></>
+    </Bg>
+      : <></>
   )
 }

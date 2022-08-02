@@ -1,13 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import bag from "../assets/icons/bag.png"
-import book from "../assets/icons/book.png"
-import clock from "../assets/icons/clock.png"
-import item from "../assets/icons/epic.png"
+import bag from '../assets/icons/bag.png'
+import book from '../assets/icons/book.png'
+import clock from '../assets/icons/clock.png'
+import item from '../assets/icons/epic.png'
 import { Button } from './Button'
 import { Box } from './Box'
-
-
 
 const Title = styled.h3``
 const Description = styled.p`
@@ -28,7 +26,7 @@ max-width:32px;
 max-height: 32px;
 `
 
-export const MissionBox = ({description, name, gold, xp, click, time, epic, children="Start Mission", scale}) => {
+export const MissionBox = ({ description, name, gold, xp, click, time, epic, children = 'Start Mission', scale }) => {
   return (
     <Box scale={scale}>
         <Title>{name}</Title>

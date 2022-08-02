@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useAuth } from "../contexts/AuthContext"
+import { useAuth } from '../contexts/AuthContext'
 import { LogoutButton } from '../components/LogoutButton'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { userExistsDB } from '../firebase/firestore'
 import styled from 'styled-components'
 import { CenteredLoading } from '../components/CenteredLoading'
 import { Footer } from '../components/Footer'
-import logoutIcon from "../assets/ui/logout.svg"
+import logoutIcon from '../assets/ui/logout.svg'
 
 const Container = styled.div`
 height: 100vh;
@@ -36,33 +36,29 @@ padding: 0px 5px;
 `
 
 export const Dashboard = () => {
+  const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
+  const navigate = useNavigate()
 
-    const [loading, setLoading] = useState(true)
-    const {user} = useAuth()
-    const navigate = useNavigate()
+  useEffect(() => {
+    if (user?.uid) {
+      userExistsDB(user.uid).then(response => {
+        if (response) { navigate('gamescreen') } else { navigate('creation') }
 
-    useEffect(()=>{
-        if(user?.uid)
-            userExistsDB(user.uid).then(response =>{
-                if(response)
-                    navigate("gamescreen")
-                else
-                    navigate("creation")
-                
-                setLoading(false)
-            })
-    },[user])
-
-    if(!user){
-        navigate("/")
+        setLoading(false)
+      })
     }
+  }, [user])
 
-    return (
+  if (!user) {
+    navigate('/')
+  }
+
+  return (
         <Container>
-            {loading ? 
-                <CenteredLoading/>
-            :
-                <>
+            {loading
+              ? <CenteredLoading/>
+              : <>
                     <Nav>
                         <LogoutButton><LogoutIcon src = {logoutIcon}/></LogoutButton>
                     </Nav>
@@ -73,5 +69,5 @@ export const Dashboard = () => {
                 </>
             }
         </Container>
-    )
+  )
 }

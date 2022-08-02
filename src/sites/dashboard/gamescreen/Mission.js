@@ -40,71 +40,66 @@ max-height: 2000px;
 padding:20px;
 `
 
-
-
 export const Mission = () => {
-  
   const [timeLeft, setTimeLeft] = useState(0)
   const [endTime, setEndTime] = useState(0)
-  const {startTask, character, endTask, cancelTask} = useCharacter()
-  const time = useTime(1000) //force slow rerender
+  const { startTask, character, endTask, cancelTask } = useCharacter()
+  const time = useTime(1000) // force slow rerender
 
-  if(character?.progress?.busy)
-    taskTimes(character).then(response=>{
+  if (character?.progress?.busy) {
+    taskTimes(character).then(response => {
       setTimeLeft(response.timeLeft)
       setEndTime(response.endTime)
-  })
+    })
+  }
 
-  const titleDesc = "Complete missions to gain experience, gold and items. These tasks are easy for you and only require some time to finish."
+  const titleDesc = 'Complete missions to gain experience, gold and items. These tasks are easy for you and only require some time to finish.'
 
   return (
-    <Background img={character?.progress?.task?.type==="mission" ? bgs[0] : bgs[4]}>
+    <Background img={character?.progress?.task?.type === 'mission' ? bgs[0] : bgs[4]}>
       {
-        character?.progress?.busy === false ? 
-        <Main>
+        character?.progress?.busy === false
+          ? <Main>
           <Title>Select mission <MiniTooltip text={titleDesc}/></Title>
           {inventoryFull(character) && <InventoryWarning/>}
           <Grid>
           {character.missions && Object.keys(character.missions).map((keyName, i) => (
-            
-              <MissionBox 
-                key={i} 
-                name={character?.missions[keyName].name} 
-                description={specialParse(character?.missions[keyName].description, character)} 
-                xp={character?.missions[keyName].xp} 
-                gold={character?.missions[keyName].gold} 
+
+              <MissionBox
+                key={i}
+                name={character?.missions[keyName].name}
+                description={specialParse(character?.missions[keyName].description, character)}
+                xp={character?.missions[keyName].xp}
+                gold={character?.missions[keyName].gold}
                 time={character?.missions[keyName].time}
-                click={()=>startTask(`${keyName}`, "mission")}
+                click={() => startTask(`${keyName}`, 'mission')}
               />
-            
+
           ))}
           </Grid>
         </Main>
-        : 
-          character?.progress?.task?.type==="mission" ?
-            timeLeft > 0 ?
-              <Main>
+          : character?.progress?.task?.type === 'mission'
+            ? timeLeft > 0
+              ? <Main>
                 <Title>You are currently on mission...</Title>
-                {character?.progress?.task.name} 
-                <Bar 
-                  value={time ? character?.progress?.taskEnd?.seconds - time : 0} 
+                {character?.progress?.task.name}
+                <Bar
+                  value={time ? character?.progress?.taskEnd?.seconds - time : 0}
                   maxValue={time ? character?.progress?.taskEnd?.seconds - character?.progress?.taskStart?.seconds : 1}
                   lengthPx={800}
-                  css={{marginTop: 'auto'}}
+                  css={{ marginTop: 'auto' }}
                 >
-                  {time ? `${timeLeft} (${endTime})` : "..."}
+                  {time ? `${timeLeft} (${endTime})` : '...'}
                 </Bar>
                 <Button onClick={cancelTask}>Cancel task</Button>
               </Main>
-            :
-              <Main>
+              : <Main>
                 <Title>You have finished your mission.</Title>
-                {character?.progress?.task.name} 
+                {character?.progress?.task.name}
                 <Button onClick={endTask}>Claim reward</Button>
               </Main>
-          :
-          <Main>
-            <Title>You are doing other task</Title>  
+            : <Main>
+            <Title>You are doing other task</Title>
           </Main>
         }
     </Background>

@@ -1,24 +1,24 @@
-import React from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { AuthProvider } from "./contexts/AuthContext"
-import {Login} from "./sites/Login"
-import {Dashboard} from "./sites/Dashboard"
-import {Creation} from "./sites/dashboard/Creation"
-import { Gamescreen } from "./sites/dashboard/Gamescreen"
-import { Character } from "./sites/dashboard/gamescreen/Character"
-import { Mission } from "./sites/dashboard/gamescreen/Mission"
-import { Quest } from "./sites/dashboard/gamescreen/Quest"
-import { Mail } from "./sites/dashboard/gamescreen/Mail"
-import { Work } from "./sites/dashboard/gamescreen/Work"
-import { CharacterProvider } from "./contexts/CharacterContext"
-import { Players } from "./sites/dashboard/gamescreen/Players"
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
+import { Login } from './sites/Login'
+import { Dashboard } from './sites/Dashboard'
+import { Creation } from './sites/dashboard/Creation'
+import { Gamescreen } from './sites/dashboard/Gamescreen'
+import { Character } from './sites/dashboard/gamescreen/Character'
+import { Mission } from './sites/dashboard/gamescreen/Mission'
+import { Quest } from './sites/dashboard/gamescreen/Quest'
+import { Mail } from './sites/dashboard/gamescreen/Mail'
+import { Work } from './sites/dashboard/gamescreen/Work'
+import { CharacterProvider } from './contexts/CharacterContext'
+import { Players } from './sites/dashboard/gamescreen/Players'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import store from "./logic/redux/store"
+import store from './logic/redux/store'
 import { Provider } from 'react-redux'
 
 export const App = () => {
-  return(
+  return (
       <AuthProvider>
         <CharacterProvider>
           <DndProvider backend={HTML5Backend}>

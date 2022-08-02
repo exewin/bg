@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
 import styled from 'styled-components'
-import destroy from "../assets/ui/destroy.svg"
+import destroy from '../assets/ui/destroy.svg'
 
 const Area = styled.div` 
 width: 100%;
@@ -18,14 +18,13 @@ const Img = styled.img`
 width: 44px;
 `
 
-export const DiscardArea = ({discardItem}) => {
-
-    const [{ isOver }, dropRef] = useDrop({
-        accept: 'item',
-        drop: (item) => {
-          discardItem(item.id, item.type)
-        }
-    })
+export const DiscardArea = ({ discardItem }) => {
+  const [{ isOver }, dropRef] = useDrop({ // eslint-disable-line
+    accept: 'item',
+    drop: (item) => {
+      discardItem(item.id, item.type)
+    }
+  })
 
   return (
     <Area title="destroy item" ref={dropRef}><Img src={destroy}/></Area>

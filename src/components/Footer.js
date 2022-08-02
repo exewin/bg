@@ -10,7 +10,7 @@ gap: 25px;
 color:gray;
 text-shadow: 1px 1px black;
 padding: 0px 5px;
-${props=>props.css};
+${props => props.css};
 font-family: 'Joan', serif;
 `
 
@@ -18,7 +18,7 @@ const A = styled.a`
 text-decoration:none;
 `
 
-export const Footer = ({css}) => {
+export const Footer = ({ css }) => {
   return (
     <Div css={css}>
         <span>Copyright © 2022 all rights reserved</span>

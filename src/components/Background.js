@@ -1,7 +1,6 @@
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-
 const a = keyframes`
   from {opacity: 0;}
   to {opacity: 1;}
@@ -12,7 +11,7 @@ animation: ${a} 0.8s;
 `
 
 const Div = styled.div` 
-  background-image: url(${props=>props.bg});
+  background-image: url(${props => props.bg});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: right;
@@ -21,11 +20,10 @@ const Div = styled.div`
   padding: 2px;
   background-attachment: fixed;
   ${s};
-  ${props=>props.css}
+  ${props => props.css}
 `
 
-
-export const Background = ({children, img, css}) => {
+export const Background = ({ children, img, css }) => {
   return (
     <Div bg={img} css={css}>{children}</Div>
   )

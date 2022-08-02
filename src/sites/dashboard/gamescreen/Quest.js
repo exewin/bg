@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Background } from '../../../components/Background'
@@ -30,51 +30,47 @@ display: flex;
 `
 
 export const Quest = () => {
-
-  
-  const {startTask, character} = useCharacter()
+  const { startTask, character } = useCharacter()
   const navigate = useNavigate()
-  
-  useEffect(()=>{
-    if(character.stats.level < 3){
-      navigate("..")
+
+  useEffect(() => {
+    if (character.stats.level < 3) {
+      navigate('..')
     }
-  },[character])
+  }, [character])
   const dispatch = useDispatch()
-  
-  useEffect(()=>{
-    if(character?.progress?.busy === false){
+
+  useEffect(() => {
+    if (character?.progress?.busy === false) {
       dispatch(resetState())
     }
-  },[character])
-  
+  }, [character])
+
   const titleDesc = "Quests are special tasks, harder than regular missions. As soon as you click 'embark' button you will be put against opponent who will instantly start attacking you."
 
-
   return (
-    <Background img={character?.progress?.task?.type==="quest" ? bgs[0] : bgs[6]}>
+    <Background img={character?.progress?.task?.type === 'quest' ? bgs[0] : bgs[6]}>
       {
-        character?.progress?.busy === false ? 
-        <Main>
+        character?.progress?.busy === false
+          ? <Main>
           <Title>Lord has quest for you<MiniTooltip text={titleDesc}/></Title>
           {inventoryFull(character) && <InventoryWarning/>}
           <MissionBox
-            scale={1.2} 
+            scale={1.2}
             epic
             name={character?.quest?.name}
             description={specialParse(character?.quest?.desc, character)}
-            xp={character?.quest?.xp} 
-            gold={character?.quest?.gold} 
-            click={()=>startTask(null, "quest")}
+            xp={character?.quest?.xp}
+            gold={character?.quest?.gold}
+            click={() => startTask(null, 'quest')}
           >Embark</MissionBox>
         </Main>
-        : character?.progress?.task?.type==="quest" ?
-          <Main>
+          : character?.progress?.task?.type === 'quest'
+            ? <Main>
               <FightScreen character={character}/>
           </Main>
-        : 
-        <Main>
-          <Title>You are doing other task</Title>  
+            : <Main>
+          <Title>You are doing other task</Title>
         </Main>
         }
     </Background>

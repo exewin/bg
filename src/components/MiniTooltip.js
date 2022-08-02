@@ -34,13 +34,13 @@ padding: 5px 10px;
 z-index: 1;
 `
 
-export const MiniTooltip = ({text}) => {
-    const [hover, setHover] = useState(false)
+export const MiniTooltip = ({ text }) => {
+  const [hover, setHover] = useState(false)
   return (
     <Container>
     <Circle
-        onMouseEnter={()=>setHover(true)}
-        onMouseLeave={()=>setHover(false)}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
     >i</Circle>
     {
         hover &&

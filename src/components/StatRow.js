@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import bag from "../assets/icons/bag.png"
-import plus from "../assets/ui/plus.png"
-import disabled from "../assets/ui/disabled_plus.png"
-import hovered from "../assets/ui/hovered_plus.png"
+import bag from '../assets/icons/bag.png'
+import plus from '../assets/ui/plus.png'
+import disabled from '../assets/ui/disabled_plus.png'
+import hovered from '../assets/ui/hovered_plus.png'
 import { capitalizeWord } from '../utils/capitalizeWord'
 
 const Button = styled.div` 
@@ -31,14 +31,14 @@ user-select: none;
 `
 
 const Number = styled.span` 
-color:${props=>props.buffed ? "lime" : "white"};
+color:${props => props.buffed ? 'lime' : 'white'};
 font-family: 'Zen Kaku Gothic New', sans-serif;
 padding-right: 2px;
 text-align:right;
 `
 
 const Img = styled.img` 
-width:${props=>props.w}px;
+width:${props => props.w}px;
 `
 
 const BuffedTooltip = styled.div` 
@@ -55,31 +55,29 @@ overflow-y: hidden;
 height: 10px;
 `
 
-
-export const StatRow = ({name, stat, cost, money, hover, setHover, addPoint, buffed}) => {
-
-    const [ownHover, setOwnHover] = useState(false)
-    const [buffedHover, setBuffedHover] = useState(false)
+export const StatRow = ({ name, stat, cost, money, hover, setHover, addPoint, buffed }) => {
+  const [ownHover, setOwnHover] = useState(false)
+  const [buffedHover, setBuffedHover] = useState(false)
 
   return (
-    cost <= money ?
-        <Detail>
-            {name && capitalizeWord(name)}: 
-            <Number 
+    cost <= money
+      ? <Detail>
+            {name && capitalizeWord(name)}:
+            <Number
                 buffed={buffed}
-                onMouseEnter={()=>buffed && setBuffedHover(true)}
-                onMouseOut={()=>buffed && setBuffedHover(false)}
+                onMouseEnter={() => buffed && setBuffedHover(true)}
+                onMouseOut={() => buffed && setBuffedHover(false)}
             >
-                {stat}</Number> 
-                {addPoint && <AddButton 
-                    onClick={()=>addPoint(name)} 
-                    onMouseEnter={()=>{
-                        setHover && setHover(true)
-                        setOwnHover(true)
+                {stat}</Number>
+                {addPoint && <AddButton
+                    onClick={() => addPoint(name)}
+                    onMouseEnter={() => {
+                      setHover && setHover(true)
+                      setOwnHover(true)
                     }}
-                    onMouseOut={()=>{
-                        setHover && setHover(false)
-                        setOwnHover(false)
+                    onMouseOut={() => {
+                      setHover && setHover(false)
+                      setOwnHover(false)
                     }}
                 >
                 <Img src={ownHover ? hovered : plus} w={17}/>
@@ -87,12 +85,11 @@ export const StatRow = ({name, stat, cost, money, hover, setHover, addPoint, buf
             {hover && <Number>{cost}<Img src={bag} w={17}/></Number>}
             {buffedHover && <BuffedTooltip>{`Base: ${buffed[0]}, Equipment: ${buffed[1]}`}</BuffedTooltip>}
         </Detail>
-        :
-        <Detail>
-            {name && capitalizeWord(name)}: <Number buffed={buffed}>{stat}</Number> 
+      : <Detail>
+            {name && capitalizeWord(name)}: <Number buffed={buffed}>{stat}</Number>
             {addPoint && <DisabledButton
-                onMouseEnter={()=>setHover && setHover(true)}
-                onMouseOut={()=>setHover && setHover(false)}
+                onMouseEnter={() => setHover && setHover(true)}
+                onMouseOut={() => setHover && setHover(false)}
             >
                 <Img src={disabled} w={17}/>
             </DisabledButton>}

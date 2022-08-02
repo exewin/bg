@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import {useNavigate} from "react-router-dom"
-import styled from "styled-components"
-import { useAuth } from "../contexts/AuthContext"
-import card from "../assets/ui/missionCard.png"
-import { Button } from "./Button"
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { useAuth } from '../contexts/AuthContext'
+import card from '../assets/ui/missionCard.png'
+import { Button } from './Button'
 
 const Box = styled.div` 
-background-image: url(${props=>props.bg});
+background-image: url(${props => props.bg});
 background-size: cover;
 height: 456px;
 width: 318px;
@@ -34,47 +34,46 @@ width: 95%;
 `
 
 export const LoginBox = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [error, setError] = useState("")
-    const {login} = useAuth()
-    const navigate = useNavigate()
-
-    const handleSubmit = async(e) => {
-        e.preventDefault()
-        setError("")
-        try{
-            await login(email, password)
-            navigate("/dashboard")
-        } catch (err) {
-            setError(err.message)
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    try {
+      await login(email, password)
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.message)
     }
+  }
 
-    return(
+  return (
         <form onSumbit={handleSubmit}>
             <Box bg={card}>
                 <Title>
                     Login:
                 </Title>
-                    <Input 
-                        onChange={(e)=>setEmail(e.target.value)} 
+                    <Input
+                        onChange={(e) => setEmail(e.target.value)}
                         value={email}
                         name="email"
-                        placeholder="E-mail" 
-                        type="email" 
+                        placeholder="E-mail"
+                        type="email"
                     />
                     <Input
-                        onChange={(e)=>setPassword(e.target.value)} 
+                        onChange={(e) => setPassword(e.target.value)}
                         value={password}
-                        placeholder="Password" 
+                        placeholder="Password"
                         type="password"
                     />
                     <Button type="submit" onClick={handleSubmit}>Submit</Button>
                 {error && <Description>{error}</Description>}
             </Box>
         </form>
-        
-    )
+
+  )
 }

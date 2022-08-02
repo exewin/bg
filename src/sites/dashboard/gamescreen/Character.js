@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { CenteredLoading } from '../../../components/CenteredLoading'
 import { Portrait } from '../../../components/Portrait'
-import styled, {css} from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Background } from '../../../components/Background'
 import { useCharacter } from '../../../contexts/CharacterContext'
 import { Bar } from '../../../components/Bar'
 import { bgs } from '../../../utils/backgroundController'
-import bag from "../../../assets/icons/bag.png"
+import bag from '../../../assets/icons/bag.png'
 import { StatRow } from '../../../components/StatRow'
 import { Slot } from '../../../components/Slot'
 import { calculateStats } from '../../../logic/CalculateStats'
@@ -40,7 +40,7 @@ padding-right: 2px;
 `
 
 const Img = styled.img` 
-width:${props=>props.w}px;
+width:${props => props.w}px;
 `
 
 const InventoryAndDiscard = styled.div` 
@@ -67,54 +67,53 @@ flex-wrap: wrap;
 gap: 10px;
 `
 
-
 export const Character = () => {
+  const { character, addPoint, equipItem, unequipItem, discardItem } = useCharacter()
+  const [hover, setHover] = useState(false)
+  const { strength, endurance, wisdom } = calculateStats(character)
 
-    const {character, addPoint, equipItem, unequipItem, discardItem} = useCharacter()
-    const [hover, setHover] = useState(false)
-    const {strength, endurance, wisdom} = calculateStats(character)
-
-    return (
+  return (
         <>
-            {character ? <Background img={bgs[2]} css={cssSnippet}>
+            {character
+              ? <Background img={bgs[2]} css={cssSnippet}>
                 <CharacterInfo>
-                    <Portrait 
-                        index={character?.information?.portrait} 
-                        charClass={character?.information?.charClass} 
+                    <Portrait
+                        index={character?.information?.portrait}
+                        charClass={character?.information?.charClass}
                         name={character?.information?.name}
                         level={character?.stats?.level}
                     />
                     <Bar value={character?.stats?.xp} maxValue={character?.stats?.maxXp}> {`${character?.stats?.xp}/${character?.stats?.maxXp}`}</Bar>
                     <StatGrid>
 
-                        <StatRow 
-                            name={"strength"}
+                        <StatRow
+                            name={'strength'}
                             buffed={strength !== character?.stats?.strength && [character?.stats?.strength, strength - character?.stats?.strength]}
-                            stat={strength} 
-                            cost={character?.stats?.strCost} 
-                            money={character?.stats?.money} 
-                            hover={hover} 
-                            setHover={setHover} 
+                            stat={strength}
+                            cost={character?.stats?.strCost}
+                            money={character?.stats?.money}
+                            hover={hover}
+                            setHover={setHover}
                             addPoint={addPoint}
                         />
-                        <StatRow 
-                            name={"wisdom"}
+                        <StatRow
+                            name={'wisdom'}
                             buffed={wisdom !== character?.stats?.wisdom && [character?.stats?.wisdom, wisdom - character?.stats?.wisdom]}
-                            stat={wisdom} 
-                            cost={character?.stats?.wisCost} 
-                            money={character?.stats?.money} 
-                            hover={hover} 
-                            setHover={setHover} 
+                            stat={wisdom}
+                            cost={character?.stats?.wisCost}
+                            money={character?.stats?.money}
+                            hover={hover}
+                            setHover={setHover}
                             addPoint={addPoint}
                         />
-                        <StatRow 
-                            name={"endurance"}
+                        <StatRow
+                            name={'endurance'}
                             buffed={endurance !== character?.stats?.endurance && [character?.stats?.endurance, endurance - character?.stats?.endurance]}
-                            stat={endurance} 
-                            cost={character?.stats?.endCost} 
-                            money={character?.stats?.money} 
-                            hover={hover} 
-                            setHover={setHover} 
+                            stat={endurance}
+                            cost={character?.stats?.endCost}
+                            money={character?.stats?.money}
+                            hover={hover}
+                            setHover={setHover}
                             addPoint={addPoint}
                         />
 
@@ -124,8 +123,8 @@ export const Character = () => {
 
                 <Equipment>
                     {
-                        ["Head","Weapon","Chest","Gloves","Legs","Boots"].map((i,id) => {
-                            return <Slot type={i} key={nanoid()} interactable={unequipItem} id={id} item={character?.equipped[id]}/>
+                        ['Head', 'Weapon', 'Chest', 'Gloves', 'Legs', 'Boots'].map((i, id) => {
+                          return <Slot type={i} key={nanoid()} interactable={unequipItem} id={id} item={character?.equipped[id]}/>
                         })
                     }
                 </Equipment>
@@ -133,16 +132,17 @@ export const Character = () => {
                 <InventoryAndDiscard>
                     <Inventory>
                         {
-                            [0,1,2,3,4,5,6,7,8].map((i,id) => {
-                                return <Slot interactable={equipItem} id={id} key={nanoid()} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
+                            [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i, id) => {
+                              return <Slot interactable={equipItem} id={id} key={nanoid()} item={character?.items[id]} tryEquip={tryEquip} character={character}/>
                             })
                         }
                     </Inventory>
                     <DiscardArea discardItem={discardItem}/>
                 </InventoryAndDiscard>
 
-            </Background> : <CenteredLoading/> 
+            </Background>
+              : <CenteredLoading/>
             }
         </>
-    )
+  )
 }
